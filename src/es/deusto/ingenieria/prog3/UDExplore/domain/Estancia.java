@@ -8,17 +8,19 @@ public class Estancia  {
     private Ciudad ciudad;
     private int numeroHabitaciones;
     private double tarifaNoche;
+    private String foto;
    
 
     
 
 
-    public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche) {
+    public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
 		super();
 		this.nombre = nombre;
 		this.ciudad = ciudad;
 		this.numeroHabitaciones = numeroHabitaciones;
 		this.tarifaNoche = tarifaNoche;
+		this.setFoto(foto);
 	}
 
 
@@ -76,6 +78,18 @@ public class Estancia  {
 
 	public void setCiudad(Ciudad ciudad) {
 		this.ciudad = ciudad;
+	}
+
+
+
+	public String getFoto() {
+		return foto;
+	}
+
+
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 

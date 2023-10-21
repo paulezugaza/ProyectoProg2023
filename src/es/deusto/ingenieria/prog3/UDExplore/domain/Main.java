@@ -10,9 +10,9 @@ public class Main {
 	private static ArrayList<Object> listaEstancias;
 
 	public static void main(String[] args) {
-	
+	/**
 		// Crear hoteles
-		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0, 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>());
+		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0, 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()), ;
 		Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
 		Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
 
@@ -31,7 +31,7 @@ public class Main {
 		Apartamento apartamentoMalaga = new Apartamento("Apartamento Málaga Playa", Ciudad.Málaga, 3, 75.0, 4.1);
 		Apartamento apartamentoLisboa = new Apartamento("Apartamento Lisboa Histórico", Ciudad.Córdoba, 4, 95.0, 4.3);
 
-		
+	
 		ArrayList<Object> listaEstancias = new ArrayList<>();
 		listaEstancias.add(apartamentoLisboa);
 		listaEstancias.add(apartamentoBilbao);
@@ -45,7 +45,8 @@ public class Main {
 		
 
 	}
-
+**/
+	}
 	public static ArrayList<Object> getList() {
 		return listaEstancias; 
 		

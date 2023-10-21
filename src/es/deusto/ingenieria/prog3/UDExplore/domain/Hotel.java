@@ -6,9 +6,9 @@ import java.util.List;
 public class Hotel extends Estancia {
 	
 	
-    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, int categoria,
+    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, int categoria, 
 			CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super(nombre, ciudad, numeroHabitaciones, tarifaNoche);
+		super(nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
 		this.categoria = categoria;
 		this.cadenaHotelera = cadenaHotelera;
 		this.habitaciones = habitaciones;

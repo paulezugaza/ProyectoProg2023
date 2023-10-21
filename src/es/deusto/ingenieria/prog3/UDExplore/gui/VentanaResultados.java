@@ -1,181 +1,142 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
-
-import java.util.Arrays;
+import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
+
+public class VentanaResultados extends JFrame {
+    private DefaultTableModel modeloDatosResultados;
+    private JTextField txtFiltro;
+    private JTable tablaResultados;
+    private JScrollPane scrollPaneEstancias;
+
+    private List<Estancia> estancias;
+
+    public VentanaResultados() {
+        estancias = new ArrayList<>();
+
+        // Agregar ejemplos de hoteles y apartamentos a la lista de estancias
+        estancias.add(new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"resources/images/madrid.jpg", 4, CadenaHotelera.HOTELCO, new ArrayList<>()));
+        estancias.add(new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0,"resources/images/madrid.jpg" , 4.5));
+
+        setTitle("Página de Estancias");
+        setSize(800, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Crear y configurar la tabla
+        initTables();
+
+        // Crear y configurar el campo de filtro
+        txtFiltro = new JTextField(20);
+        txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                loadEstancias();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                loadEstancias();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+        });
+
+        // Crear y configurar el botón "Volver al Inicio"
+        JButton btnVolverInicio = new JButton("Volver al Inicio");
+
+        btnVolverInicio.addActionListener(e -> {
+            // Implementa aquí la lógica para volver al inicio de la aplicación
+            // Por ejemplo, puedes abrir una nueva ventana de inicio o cerrar esta ventana.
+        });
+
+        // Agregar componentes a la ventana
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnVolverInicio);
+
+        JPanel panelBuscador = new JPanel();
+        panelBuscador.add(new JLabel("Buscar: "));
+        panelBuscador.add(txtFiltro);
+
+        scrollPaneEstancias = new JScrollPane(tablaResultados);
+        scrollPaneEstancias.setBorder(new TitledBorder("Resultados de Estancias"));
+
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.add(panelBotones);
+        panelPrincipal.add(panelBuscador);
+        panelPrincipal.add(scrollPaneEstancias);
+
+        add(panelPrincipal);
+        loadEstancias();
+
+        // Configurar el cierre de la ventana
+        setVisible(true);
+    }
+
+    private void initTables() {
+        Vector<String> cabeceraResultados = new Vector<>();
+        cabeceraResultados.add("Nombre");
+        cabeceraResultados.add("Tipo de Estancia");
+        cabeceraResultados.add("Ciudad");
+        cabeceraResultados.add("Número de Habitaciones");
+        cabeceraResultados.add("Tarifa por Noche");
+        cabeceraResultados.add("Imagen");
+
+        modeloDatosResultados = new DefaultTableModel(new Vector<>(), cabeceraResultados);
+        tablaResultados = new JTable(modeloDatosResultados);
+
+        tablaResultados.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tablaResultados.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tablaResultados.getColumnModel().getColumn(3).setPreferredWidth(100);
+    }
 
 
-public class VentanaResultados {
-	
-	public class VentanaInicio  extends JFrame{
-		private static final long serialVersionUID = 1L;
-		
-		private JTable tablaResultados;
-		private DefaultTableModel modeloDatosResultados;
-		private JScrollPane scrollPanePersonajes;
-		private JTextField txtFiltro;
+ 
 
-		private List<Estancia> estancias;
-		
-	
-		
-		public void JFramePrincipal(List<Estancia> estancias) {
-			//Asignamos la lista de comics a la varaible local
-			this.estancias = estancias;
 
-			//Se inicializan las tablas y sus modelos de datos
-			this.initTables();
-			//Se cargan los comics en la tabla de comics
-			this.loadEstancias();
-			
-			//La tabla de comics se inserta en un panel con scroll
-			JScrollPane scrollPaneComics = new JScrollPane(this.tablaResultados);
-			scrollPaneComics.setBorder(new TitledBorder("Resultados:"));
-			this.tablaResultados.setFillsViewportHeight(true);
-			
-		
-			//Se define el comportamiento del campo de texto del filtro
-			this.txtFiltro = new JTextField(20);	
-			this.txtFiltro.getDocument().addDocumentListener((DocumentListener) new DocumentListener() {
+    private void loadEstancias() {
+        modeloDatosResultados.setRowCount(0);
 
-				@Override
-				public void insertUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					loadEstancias();
-					
-					
-				}
+        String filtro = txtFiltro.getText().toLowerCase();
 
-				@Override
-				public void removeUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					loadEstancias();
-				}
-
-				@Override
-				public void changedUpdate(DocumentEvent e) {
-					// TODO Auto-generated method stub
-					
-					
-				}
-				
-			});;
-		}
-		private void initTables() {
-			Vector<String> cabeceraResultados = new Vector<String>(Arrays.asList( "NOMBRE", "TPO de ESTANCIA","CIUDAD", "TARIFA/NOCHE", "CATEGORIA"));
-			this.modeloDatosResultados = new DefaultTableModel(new Vector<Vector<Object>>(), cabeceraResultados);
-			//Se crea la tabla de comics con el modelo de datos
-			this.tablaResultados = new JTable(this.modeloDatosResultados) {
-				private static final long serialVersionUID = 1L;
-			
-			
-				
-				public boolean isCellEditable(int row, int column) {
-					if (column == 0 || column == 3) {
-						return false;
-					}else {
-						return true;
-					}
-				}
-			};
-			TableCellRenderer cellRenderer = (table, value, isSelected, hasFocus, row, column) -> {
-				JLabel result = new JLabel(value.toString());
-							
-				//Si el valor es de tipo Editorial: se renderiza con la imagen centrada
-				if (value instanceof Hotel) {
-					result.setText("Hotel");	
-					result.setHorizontalAlignment(JLabel.CENTER);
-				}else if (value instanceof Apartamento){
-					result.setText("Hotel");
-	
-				//Si el valor es numérico se renderiza centrado
-				} else if (value instanceof Number) {
-					result.setHorizontalAlignment(JLabel.CENTER);
-				} else {
-					try {
-						Integer.parseInt(value.toString());
-						result.setHorizontalAlignment(JLabel.CENTER);				
-					} catch(Exception ex) {
-						result.setText(value.toString());
-					}		
-				}
-			
-				result.setOpaque(true);
-				
-				return result;
-			};
-			//Se crea un CellEditor a partir de un JComboBox()
-			JComboBox<Ciudad> jComboEditorial = new JComboBox<>(Ciudad.values());		
-			DefaultCellEditor editorialEditor = new DefaultCellEditor(jComboEditorial);
-			
-			//Se define la altura de las filas de la tabla de comics
-			this.tablaResultados.setRowHeight(26);
-			
-			//Se deshabilita la reordenación de columnas
-			this.tablaResultados.getTableHeader().setReorderingAllowed(false);
-			//Se deshabilita el redimensionado de las columna
-			this.tablaResultados.getTableHeader().setResizingAllowed(false);
-			//Se definen criterios de ordenación por defecto para cada columna
-			this.tablaResultados.setAutoCreateRowSorter(true);
-			
-			
-			//Se establece el editor específico para la Editorial		
-			this.tablaResultados.getColumnModel().getColumn(1).setCellEditor(editorialEditor);
-			
-			//Se define la anchura de la columna Título
-			this.tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(400);
-			
-			//Se modifica el modelo de selección de la tabla para que se pueda selecciona únicamente una fila
-			this.tablaResultados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			//Se define el comportamiento el evento de selección de una fila de la tabla
-			
-			
-			}
-	
-		
-	
-
-		private void loadEstancias() {
-			//Se borran los datos del modelo de datos
-			this.modeloDatosResultados.setRowCount(0);
-			//Se añaden los comics uno a uno al modelo de datos
-			this.estancias.forEach(c -> {
-				if (c.getNombre().contains(txtFiltro.getText())|| txtFiltro.getText().isBlank()) {
-					this.modeloDatosResultados.addRow(new Object[] {c.getNombre(), c.getClass().toString(),c.getCiudad(), c.getTarifaNoche()});
-				}
-			}
-				
-			
-			);
-			
-		}}
-	 public static void main(String[] args) {
-	        VentanaResultados ventana = new VentanaResultados();
-	  
-	        
-	    }
-	
-
+        estancias.forEach(e -> {
+            if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
+                modeloDatosResultados.addRow(new Object[]{
+                        e.getNombre(),
+                        e.getClass().getSimpleName(),
+                        e.getCiudad(),
+                        e.getNumeroHabitaciones(),
+                        e.getTarifaNoche(),
+                        e.getFoto()
+                });
+            }
+        });
+    }
+    
+    public static void main(String[] args) {
+            new VentanaResultados();
+        
+    }
 }
+
+
