@@ -43,9 +43,7 @@ public class Main {
 		listaEstancias.add(hotelBarcelona);
 		listaEstancias.add(hotelSevilla );
 		
-		System.out.println("hola");
-		
-		
+
 	}
 
 	public static ArrayList<Object> getList() {
