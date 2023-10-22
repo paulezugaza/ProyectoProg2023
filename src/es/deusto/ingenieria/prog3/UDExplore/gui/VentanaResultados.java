@@ -25,6 +25,7 @@ public class VentanaResultados extends JFrame {
     private JTextField txtFiltro;
     private JTable tablaResultados;
     private JScrollPane scrollPaneEstancias;
+    private JButton filtros;
 
     private List<Estancia> estancias;
 
@@ -64,13 +65,22 @@ public class VentanaResultados extends JFrame {
         JButton btnVolverInicio = new JButton("Volver al Inicio");
 
         btnVolverInicio.addActionListener(e -> {
-            // Implementa aquí la lógica para volver al inicio de la aplicación
-            // Por ejemplo, puedes abrir una nueva ventana de inicio o cerrar esta ventana.
+        	VentanaInicio ventana= new VentanaInicio(); 
+			dispose();
+		
+        });
+        
+        JButton bFiltros = new JButton("Filtros");
+        bFiltros.addActionListener(e -> {
+        	VentanaFiltros ventana = new VentanaFiltros(this);
+        	dispose();
+        	ventana.setVisible(true);
         });
 
         // Agregar componentes a la ventana
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnVolverInicio);
+        panelBotones.add(bFiltros);
 
         JPanel panelBuscador = new JPanel();
         panelBuscador.add(new JLabel("Buscar: "));
@@ -134,7 +144,8 @@ public class VentanaResultados extends JFrame {
     }
     
     public static void main(String[] args) {
-            new VentanaResultados();
+    	VentanaResultados ventana = new VentanaResultados();
+       
         
     }
 }
