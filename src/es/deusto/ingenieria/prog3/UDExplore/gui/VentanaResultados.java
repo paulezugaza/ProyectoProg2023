@@ -29,7 +29,7 @@ public class VentanaResultados extends JFrame {
 
     private List<Estancia> estancias;
 
-    public VentanaResultados() {
+    public VentanaResultados(List<Estancia> estancias) {
         estancias = new ArrayList<>();
 
         // Agregar ejemplos de hoteles y apartamentos a la lista de estancias
@@ -144,7 +144,7 @@ public class VentanaResultados extends JFrame {
     }
     
     public static void main(String[] args) {
-    	VentanaResultados ventana = new VentanaResultados();
+    	
        
         
     }

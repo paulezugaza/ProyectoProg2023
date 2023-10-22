@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,8 +36,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 
 public class VentanaInicio  extends JFrame{
@@ -140,28 +143,37 @@ public class VentanaInicio  extends JFrame{
 		        pFechasS.add(jComboDiaSalida);
 		        pFechasS.add(jComboMesSalida);
 		        pFechasS.add(jComboAnioSalida);
-
+		        
+		        
+		        JButton bBuscar = new JButton("Buscar");
+		        
+		        
 		        JPanel pSearch = new JPanel();
+		        pSearch.setPreferredSize(new Dimension(400,200));
 		        
 		        pSearch.add(pDestino);
 		        pSearch.add(pFechasE);
 		        pSearch.add(pFechasS);
+		        pSearch.add(bBuscar);
 		        pSearch.setLayout(new GridBagLayout());
+		        
 		        
 		        JPanel pPorTipoAloj = new JPanel();
 				pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
+				pPorTipoAloj.setPreferredSize(new Dimension(200,200));
 				
 				JPanel pHotel = new JPanel();
 				pHotel.setLayout(new FlowLayout());
 				JLabel lHotel = new JLabel("Hotel");
-				JLabel iHotel = new JLabelAjustado(new ImageIcon("Resources/images/hotel.jpeg"));
+				JLabel iHotel = new JLabel(scaleImage("resources/images/hotel.jpeg",200,100));
 				pHotel.add(lHotel);
 				pHotel.add(iHotel);
+				
 				
 				JPanel pApartamento= new JPanel();
 				pApartamento.setLayout(new FlowLayout());
 				JLabel lApartamento = new JLabel("Apartamento");
-				JLabel iApartamento = new JLabelAjustado(new ImageIcon("Resources/images/hotel.jpeg"));
+				JLabel iApartamento = new JLabel(scaleImage("resources/images/apartamento.jpeg",200,100));
 				pApartamento.add(lApartamento);
 				pApartamento.add(iApartamento);
 				
@@ -178,41 +190,49 @@ public class VentanaInicio  extends JFrame{
 				add(pPorTipoAloj, BorderLayout.CENTER);
 				
 				
+				
+				
 		    
 		}
 		
-	
-
 		//IA generated
 				
-		private static class JLabelAjustado extends JLabel {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			private ImageIcon imagen; 
-			private int tamX;
-			private int tamY;
-			/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaño (a la que ajuste más de las dos escalas, horizontal o vertical)
-			* @param imagen Imagen a visualizar en el label
-			*/
-			public JLabelAjustado( ImageIcon imagen ) {
-				setImagen( imagen );
-			}
-			/** Modifica la imagen
-			* @param imagen Nueva imagen a visualizar en el label
-			*/
-			public void setImagen( ImageIcon imagen ) {
-				this.imagen = imagen;
-				if (imagen==null) {
-					tamX = 0;
-					tamY = 0;
-				} else {
-					this.tamX = imagen.getIconWidth();
-					this.tamY = imagen.getIconHeight();
-				}
-			}	
+		private ImageIcon scaleImage(String imagePath, int width, int height) {
+	        try {
+	            BufferedImage img = ImageIO.read(new File(imagePath));
+	            Image scaledImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+	            return new ImageIcon(scaledImg);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return null;
+	    }
+				
 		
+		public  ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias ) {
+			ArrayList<Hotel> hoteles = new ArrayList<>();
+			for (Estancia e: Estancias) {
+				if (e.getClass().getSimpleName() == "Hotel") {
+					hoteles.add((Hotel) e);
+				}
+			}
+		
+			return hoteles;
+			
+		}
+		public  ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias ) {
+			ArrayList<Apartamento> apartamentos = new ArrayList<>();
+			for (Estancia e: Estancias) {
+				if (e.getClass().getSimpleName() == "Apartamento") {
+					apartamentos.add((Apartamento)e);
+					
+				}
+				
+				
+			}
+			return apartamentos;
+			
+		}
 
 
 	    public static void main(String[] args) {
@@ -225,6 +245,5 @@ public class VentanaInicio  extends JFrame{
 	  
 	
 		
-		}
 	}
 

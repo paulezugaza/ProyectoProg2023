@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
+import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaInicio;
 
 public class Main {
 	
 	private static ArrayList<Object> listaEstancias;
 
 	public static void main(String[] args) {
+		
+		 javax.swing.SwingUtilities.invokeLater(() -> {
+	            VentanaInicio ventana = new VentanaInicio();
+	            ventana.setVisible(true);
+	        });
 	/**
 		// Crear hoteles
 		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0, 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()), ;
@@ -52,6 +58,10 @@ public class Main {
 		
 		
 	}
+	
+
+       
+    
 	
 
 
