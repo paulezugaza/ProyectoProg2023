@@ -26,15 +26,15 @@ public class VentanaResultados extends JFrame {
     private JTable tablaResultados;
     private JScrollPane scrollPaneEstancias;
     private JButton filtros;
-
     private List<Estancia> estancias;
+    
 
     public VentanaResultados(List<Estancia> estancias) {
-        estancias = new ArrayList<>();
-
-        // Agregar ejemplos de hoteles y apartamentos a la lista de estancias
-        estancias.add(new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"resources/images/madrid.jpg", 4, CadenaHotelera.HOTELCO, new ArrayList<>()));
-        estancias.add(new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0,"resources/images/madrid.jpg" , 4.5));
+    	
+    	this.estancias = estancias;
+    	
+        
+    
 
         setTitle("Página de Estancias");
         setSize(800, 600);
@@ -118,6 +118,7 @@ public class VentanaResultados extends JFrame {
         tablaResultados.getColumnModel().getColumn(1).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaResultados.getColumnModel().getColumn(3).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(4).setCellRenderer(new imageRenderer());
     }
 
 
@@ -129,7 +130,8 @@ public class VentanaResultados extends JFrame {
 
         String filtro = txtFiltro.getText().toLowerCase();
 
-        estancias.forEach(e -> {
+
+		estancias.forEach(e -> {
             if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
                 modeloDatosResultados.addRow(new Object[]{
                         e.getNombre(),

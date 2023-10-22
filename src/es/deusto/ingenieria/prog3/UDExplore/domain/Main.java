@@ -5,6 +5,7 @@ import java.util.List;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaInicio;
+import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaResultados;
 
 public class Main {
 	
@@ -12,16 +13,19 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		 javax.swing.SwingUtilities.invokeLater(() -> {
+		 		List<Estancia> estancias = new ArrayList<>();
+		 		estancias.add(hotelMadrid);
+		 		estancias.add(hotelBarcelona);
 	            VentanaInicio ventana = new VentanaInicio();
 	            ventana.setVisible(true);
-	        });
-	/**
-		// Crear hoteles
-		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0, 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()), ;
-		Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-		Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
-
+	            
+	        };
+	
+	
+		static Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+		static Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+		Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+/**
 		// Crear apartamentos
 		Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0, 4.5);
 		Apartamento apartamentoGranada = new Apartamento("Apartamento Granada Centro", Ciudad.Granada, 3, 70.0, 4.0);
@@ -52,7 +56,7 @@ public class Main {
 
 	}
 **/
-	}
+	
 	public static ArrayList<Object> getList() {
 		return listaEstancias; 
 		

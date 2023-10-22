@@ -5,18 +5,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -29,19 +24,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 
-public class VentanaInicio  extends JFrame{
+public class VentanaInicio extends JFrame{
 		private static final long serialVersionUID = 1L;
 		
 		//JTable de tipos estancia
@@ -72,11 +66,6 @@ public class VentanaInicio  extends JFrame{
 		ArrayList<Object> lista = this.getEstancias();
 		
 		public VentanaInicio() {
-				
-		  	setTitle("UDExplore");
-	        setSize(400, 300);
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        setLocationRelativeTo(null);
 
 			
 			  	setTitle("UDExplore");
@@ -108,15 +97,30 @@ public class VentanaInicio  extends JFrame{
 		        }
 		        
 		        
-		    	//Inicialización de la tabla de  estancias
+		    
 		        jTableEstancias.setRowHeight(30);
 				jTableEstancias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);		
 				((DefaultTableCellRenderer) jTableEstancias.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 		        
 
-				
-				//Inicialización del label de información
+		
 				jLabelInfo.setHorizontalAlignment(JLabel.RIGHT);
+				
+				JPanel contenedorPrincipal = new JPanel(new BorderLayout());
+
+				JPanel pBotones = new JPanel();
+				JButton bRegistro = new JButton("Registrarse");
+				JButton bInicioS= new JButton("Iniciar sesión");
+				pBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
+				pBotones.add(bRegistro);
+				pBotones.add(bInicioS);
+				
+				
+				
+				JPanel pfoto = new JPanel();
+				JLabel iIcono = new JLabel(scaleImage("resources/images/imagenHotel.png",150,150));
+				pfoto.add(iIcono);
+				
 		     
 		        JPanel pDestino = new JPanel();
 		        pDestino.setLayout(new BoxLayout(pDestino, BoxLayout.Y_AXIS));
@@ -151,6 +155,7 @@ public class VentanaInicio  extends JFrame{
 		        JPanel pSearch = new JPanel();
 		        pSearch.setPreferredSize(new Dimension(400,200));
 		        
+		        pSearch.add(pfoto);
 		        pSearch.add(pDestino);
 		        pSearch.add(pFechasE);
 		        pSearch.add(pFechasS);
@@ -162,12 +167,44 @@ public class VentanaInicio  extends JFrame{
 				pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
 				pPorTipoAloj.setPreferredSize(new Dimension(200,200));
 				
+				JPanel ptitulo = new JPanel();
+				JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
+				ptitulo.add(ltitulo);
+				
 				JPanel pHotel = new JPanel();
 				pHotel.setLayout(new FlowLayout());
 				JLabel lHotel = new JLabel("Hotel");
 				JLabel iHotel = new JLabel(scaleImage("resources/images/hotel.jpeg",200,100));
 				pHotel.add(lHotel);
 				pHotel.add(iHotel);
+				pHotel.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						List<Hotel> hoteles= filtrarHoteles(Estancias);
+						
+				 		
+						
+						
+						
+						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+						Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+						Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+						hoteles.add(hotelMadrid);
+				 		hoteles.add(hotelBarcelona);
+						ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+						for (Hotel h : hoteles) {
+							estanciasFiltradas.add(h);
+							
+						}
+						if (e.getClickCount() == 2) {
+							VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+							ventana.setVisible(true);
+						}
+					}
+				});
+				
+			
+					
+					
 				
 				
 				JPanel pApartamento= new JPanel();
@@ -176,15 +213,47 @@ public class VentanaInicio  extends JFrame{
 				JLabel iApartamento = new JLabel(scaleImage("resources/images/apartamento.jpeg",200,100));
 				pApartamento.add(lApartamento);
 				pApartamento.add(iApartamento);
+				pApartamento.addMouseListener(new MouseAdapter() {
+		
+						public void mouseClicked(MouseEvent e) {
+							List<Apartamento> apartamentos= filtrarApartamentos(Estancias);
+							ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+							for (Apartamento a:  apartamentos) {
+								estanciasFiltradas.add(a);	
+							}
+							if (e.getClickCount() == 2) {
+								VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+								ventana.setVisible(true);
+							}
+						
+					
+						
+						
+						
+						
+					}
+				});
 				
-				pPorTipoAloj.add(pHotel);
-				pPorTipoAloj.add(pApartamento);
+				
+				
+				
+				
+				pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
+				pPorTipoAloj.add(pHotel, BorderLayout.CENTER);
+				pPorTipoAloj.add(pApartamento, BorderLayout.CENTER);
+				
+			
+			
+				
+
+				contenedorPrincipal.add(pBotones, BorderLayout.NORTH);
+			    contenedorPrincipal.add(pSearch, BorderLayout.CENTER);
 				
 				
 				
 		    
-		        setIconImage(new ImageIcon("resources/images/imagenHotel.png").getImage());	
-		    	add(pSearch, BorderLayout.NORTH);
+				
+		    	add(contenedorPrincipal, BorderLayout.NORTH);
 				add(new JScrollPane(jTableEstancias), BorderLayout.CENTER);
 				add(jLabelInfo, BorderLayout.SOUTH);
 				add(pPorTipoAloj, BorderLayout.CENTER);
@@ -209,29 +278,23 @@ public class VentanaInicio  extends JFrame{
 	    }
 				
 		
-		public  ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias ) {
-			ArrayList<Hotel> hoteles = new ArrayList<>();
-			for (Estancia e: Estancias) {
-				if (e.getClass().getSimpleName() == "Hotel") {
-					hoteles.add((Hotel) e);
-				}
-			}
-		
-			return hoteles;
-			
+		public ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias) {
+		    ArrayList<Hotel> hoteles = new ArrayList<>();
+		    for (Estancia e : Estancias) {
+		        if (e instanceof Hotel) {
+		            hoteles.add((Hotel) e);
+		        }
+		    }
+		    return hoteles;
 		}
-		public  ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias ) {
-			ArrayList<Apartamento> apartamentos = new ArrayList<>();
-			for (Estancia e: Estancias) {
-				if (e.getClass().getSimpleName() == "Apartamento") {
-					apartamentos.add((Apartamento)e);
-					
-				}
-				
-				
-			}
-			return apartamentos;
-			
+		public ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias) {
+		    ArrayList<Apartamento> apartamentos = new ArrayList<>();
+		    for (Estancia e : Estancias) {
+		        if (e instanceof Apartamento) {
+		            apartamentos.add((Apartamento) e);
+		        }
+		    }
+		    return apartamentos;
 		}
 
 
