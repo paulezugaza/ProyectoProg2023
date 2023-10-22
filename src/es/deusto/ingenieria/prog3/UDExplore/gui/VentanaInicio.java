@@ -2,9 +2,13 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -21,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -141,26 +147,84 @@ public class VentanaInicio  extends JFrame{
 		        pSearch.add(pFechasE);
 		        pSearch.add(pFechasS);
 		        pSearch.setLayout(new GridBagLayout());
+		        
+		        JPanel pPorTipoAloj = new JPanel();
+				pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
+				
+				JPanel pHotel = new JPanel();
+				pHotel.setLayout(new FlowLayout());
+				JLabel lHotel = new JLabel("Hotel");
+				JLabel iHotel = new JLabelAjustado(new ImageIcon("Resources/images/hotel.jpeg"));
+				pHotel.add(lHotel);
+				pHotel.add(iHotel);
+				
+				JPanel pApartamento= new JPanel();
+				pApartamento.setLayout(new FlowLayout());
+				JLabel lApartamento = new JLabel("Apartamento");
+				JLabel iApartamento = new JLabelAjustado(new ImageIcon("Resources/images/hotel.jpeg"));
+				pApartamento.add(lApartamento);
+				pApartamento.add(iApartamento);
+				
+				pPorTipoAloj.add(pHotel);
+				pPorTipoAloj.add(pApartamento);
+				
+				
+				
 		    
 		        setIconImage(new ImageIcon("resources/images/imagenHotel.png").getImage());	
 		    	add(pSearch, BorderLayout.NORTH);
 				add(new JScrollPane(jTableEstancias), BorderLayout.CENTER);
 				add(jLabelInfo, BorderLayout.SOUTH);
+				add(pPorTipoAloj, BorderLayout.CENTER);
+				
+				
 		    
 		}
+		
+	
+
+		//IA generated
 				
-				
-				
+		private static class JLabelAjustado extends JLabel {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			private ImageIcon imagen; 
+			private int tamX;
+			private int tamY;
+			/** Crea un jlabel que ajusta una imagen cualquiera con fondo blanco a su tamaño (a la que ajuste más de las dos escalas, horizontal o vertical)
+			* @param imagen Imagen a visualizar en el label
+			*/
+			public JLabelAjustado( ImageIcon imagen ) {
+				setImagen( imagen );
+			}
+			/** Modifica la imagen
+			* @param imagen Nueva imagen a visualizar en el label
+			*/
+			public void setImagen( ImageIcon imagen ) {
+				this.imagen = imagen;
+				if (imagen==null) {
+					tamX = 0;
+					tamY = 0;
+				} else {
+					this.tamX = imagen.getIconWidth();
+					this.tamY = imagen.getIconHeight();
+				}
+			}	
 		
 
 
 	    public static void main(String[] args) {
-	        VentanaInicio ventana = new VentanaInicio();
-	        
+
+	    	SwingUtilities.invokeLater(() -> {
+	            VentanaInicio ventana = new VentanaInicio();
+	            ventana.setVisible(true);
+	        });
 	    }
-		 
 	  
 	
 		
+		}
 	}
 
