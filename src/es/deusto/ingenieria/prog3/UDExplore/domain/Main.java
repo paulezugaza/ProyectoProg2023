@@ -1,5 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 

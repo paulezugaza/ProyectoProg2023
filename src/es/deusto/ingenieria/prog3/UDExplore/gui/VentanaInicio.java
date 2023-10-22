@@ -65,7 +65,7 @@ public class VentanaInicio extends JFrame{
 
 		ArrayList<Object> lista = this.getEstancias();
 		
-		public VentanaInicio() {
+		public VentanaInicio(){
 
 			
 			  	setTitle("UDExplore");
@@ -111,6 +111,11 @@ public class VentanaInicio extends JFrame{
 				JPanel pBotones = new JPanel();
 				JButton bRegistro = new JButton("Registrarse");
 				JButton bInicioS= new JButton("Iniciar sesión");
+				bInicioS.addActionListener(e -> {
+		        	VentanaLogin ventana= new VentanaLogin(); 
+					dispose();
+				
+		        });
 				pBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
 				pBotones.add(bRegistro);
 				pBotones.add(bInicioS);
