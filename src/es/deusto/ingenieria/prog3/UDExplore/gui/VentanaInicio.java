@@ -1,8 +1,10 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,12 +21,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
-
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 
 public class VentanaInicio  extends JFrame{
@@ -31,6 +37,7 @@ public class VentanaInicio  extends JFrame{
 		
 		//JTable de tipos estancia
 		private JTable jTableEstancias= new JTable();	
+		private DefaultTableModel modeloDatosEstancias;
 		
 		//Lista de estancias que se está visualizando en la ventana
 		private List<Estancia> Estancias = new ArrayList<>();
@@ -57,7 +64,11 @@ public class VentanaInicio  extends JFrame{
 		
 		public VentanaInicio() {
 				
-			
+		  	setTitle("UDExplore");
+	        setSize(400, 300);
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        setLocationRelativeTo(null);
+
 			
 			  	setTitle("UDExplore");
 		        setSize(400, 300);
@@ -99,6 +110,7 @@ public class VentanaInicio  extends JFrame{
 				jLabelInfo.setHorizontalAlignment(JLabel.RIGHT);
 		     
 		        JPanel pDestino = new JPanel();
+		        pDestino.setLayout(new BoxLayout(pDestino, BoxLayout.Y_AXIS));
 		        pDestino.setBounds(10, 50, 380, 30);
 		        JLabel label = new JLabel("¿A donde desea viajar? ");
 		        Font Fuente = new Font("SanSerif", Font.PLAIN, 20);
@@ -108,6 +120,7 @@ public class VentanaInicio  extends JFrame{
 		        pDestino.add(jComboDestino);
 		        
 		        JPanel pFechasE = new JPanel();
+		        pFechasE.setLayout(new BoxLayout(pFechasE, BoxLayout.Y_AXIS));
 		        pFechasE.add(new JLabel("Fecha de Entrada: "));
 		        pFechasE.setBounds(10, 90, 380, 30);
 		        pFechasE.add(jComboDiaEntrada);
@@ -115,6 +128,7 @@ public class VentanaInicio  extends JFrame{
 		        pFechasE.add(jComboAnioEntrada);
 		        
 		        JPanel pFechasS = new JPanel();
+		        pFechasS.setLayout(new BoxLayout(pFechasS, BoxLayout.Y_AXIS));
 		        pFechasS.setBounds(10, 130, 380, 30);
 		        pFechasS.add(new JLabel("Fecha de Salida: "));
 		        pFechasS.add(jComboDiaSalida);
@@ -133,22 +147,16 @@ public class VentanaInicio  extends JFrame{
 				add(new JScrollPane(jTableEstancias), BorderLayout.CENTER);
 				add(jLabelInfo, BorderLayout.SOUTH);
 		    
-
-		        setVisible(true);
-		    }
-		
-			
-		public void updateEstancias() {
-			
 		}
-	
+				
+				
+				
 		
-	
 
 
 	    public static void main(String[] args) {
 	        VentanaInicio ventana = new VentanaInicio();
-	        ventana.updateEstancias(); 
+	        
 	    }
 		 
 	  
