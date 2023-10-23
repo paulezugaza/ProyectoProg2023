@@ -19,6 +19,7 @@ public class Main {
 	            VentanaInicio ventana = new VentanaInicio();
 	            ventana.setVisible(true);
 	            
+	            
 	        };
 	
 	

@@ -22,6 +22,8 @@ public class VentanaFiltros extends JDialog {
 	public VentanaFiltros(JFrame parent) {
 		super(parent, "Filtros", true);
 		
+		
+		
 		JPanel panelPrecio = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel panelPuntuacion = new JPanel(new GridLayout(3, 1));
         JPanel panelTipoAlojamiento = new JPanel(new FlowLayout(FlowLayout.LEFT));

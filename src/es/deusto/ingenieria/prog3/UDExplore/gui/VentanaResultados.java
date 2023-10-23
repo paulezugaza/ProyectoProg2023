@@ -1,7 +1,10 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.Component;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,7 +19,6 @@ import javax.swing.table.TableCellRenderer;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 
@@ -27,23 +29,26 @@ public class VentanaResultados extends JFrame {
     private JScrollPane scrollPaneEstancias;
     private JButton filtros;
     private List<Estancia> estancias;
+    private JComboBox<String> comboBoxOrdenarPor;
     
 
     public VentanaResultados(List<Estancia> estancias) {
     	
     	this.estancias = estancias;
     	
-        
-    
-
-        setTitle("Página de Estancias");
-        setSize(800, 600);
+    	int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
+		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
+		this.setSize(anchoP, altoP);
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("RESULTADOS");
+      
 
-        // Crear y configurar la tabla
+        
         initTables();
 
-        // Crear y configurar el campo de filtro
+      
         txtFiltro = new JTextField(20);
         txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -61,7 +66,7 @@ public class VentanaResultados extends JFrame {
             }
         });
 
-        // Crear y configurar el botón "Volver al Inicio"
+     
         JButton btnVolverInicio = new JButton("Volver al Inicio");
 
         btnVolverInicio.addActionListener(e -> {
@@ -76,8 +81,32 @@ public class VentanaResultados extends JFrame {
         	dispose();
         	ventana.setVisible(true);
         });
+        
+        JPanel pCombo = new JPanel();
+        JComboBox<String> comboBoxOrden = new JComboBox<>();
+        comboBoxOrden.addItem("Ordenar por:");
+        comboBoxOrden.addItem("De menor precio a mayor");
+        comboBoxOrden.addItem("De mayor precio a menor");
+        comboBoxOrden.addItem("De mejor puntuación a peor");
+        
+        comboBoxOrden.addActionListener( e -> {
+        	String seleccionado = comboBoxOrden.getSelectedItem().toString();
+        	
+        	if(seleccionado.equals("De menor precio a mayor")) {
+        		estancias.sort((estancia1,estancia2)->Double.compare(estancia1.getTarifaNoche(), estancia2.getTarifaNoche()));
+        	}
+        	else if(seleccionado.equals("De mayor precio a menor")) {
+        		estancias.sort((estancia1,estancia2)->Double.compare(estancia2.getTarifaNoche(), estancia1.getTarifaNoche()));
+        	}
+        	
+        	loadEstancias();
+        
 
-        // Agregar componentes a la ventana
+        });
+        pCombo.add(comboBoxOrden);
+        
+        
+       
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnVolverInicio);
         panelBotones.add(bFiltros);
@@ -92,8 +121,11 @@ public class VentanaResultados extends JFrame {
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
         panelPrincipal.add(panelBotones);
+        panelPrincipal.add(pCombo);
         panelPrincipal.add(panelBuscador);
         panelPrincipal.add(scrollPaneEstancias);
+        
+       
 
         add(panelPrincipal);
         loadEstancias();
@@ -113,15 +145,36 @@ public class VentanaResultados extends JFrame {
 
         modeloDatosResultados = new DefaultTableModel(new Vector<>(), cabeceraResultados);
         tablaResultados = new JTable(modeloDatosResultados);
+        tablaResultados.setRowHeight(100);
 
         tablaResultados.getColumnModel().getColumn(0).setPreferredWidth(200);
         tablaResultados.getColumnModel().getColumn(1).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaResultados.getColumnModel().getColumn(3).setPreferredWidth(100);
-        tablaResultados.getColumnModel().getColumn(4).setCellRenderer(new imageRenderer());
+        tablaResultados.getColumnModel().getColumn(4).setPreferredWidth(100);
     }
-
-
+    
+    TableCellRenderer imageRenderer = (table, value, isSelected, hasFocus, row, column) -> {
+        JLabel result = new JLabel();
+        
+       
+        if (value instanceof String) {
+            String imagePath = (String) value;
+            
+            
+            ImageIcon imageIcon = new ImageIcon(imagePath);
+            
+            
+            if (imageIcon.getIconWidth() > 100 || imageIcon.getIconHeight() > 100) {
+                imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+            }
+            
+          
+            result.setIcon(imageIcon);
+        }
+        
+        return result;
+    };
  
 
 
@@ -139,7 +192,6 @@ public class VentanaResultados extends JFrame {
                         e.getCiudad(),
                         e.getNumeroHabitaciones(),
                         e.getTarifaNoche(),
-                        e.getFoto()
                 });
             }
         });

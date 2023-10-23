@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -68,8 +69,13 @@ public class VentanaInicio extends JFrame{
 		public VentanaInicio(){
 
 			
+			
 			  	setTitle("UDExplore");
-		        setSize(400, 300);
+			  	int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
+				int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
+				this.setSize(anchoP, altoP);
+				this.setExtendedState(MAXIMIZED_BOTH);
+				this.setLocationRelativeTo(null);
 		        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        setLocationRelativeTo(null);
 	
@@ -107,7 +113,9 @@ public class VentanaInicio extends JFrame{
 				jLabelInfo.setHorizontalAlignment(JLabel.RIGHT);
 				
 				JPanel contenedorPrincipal = new JPanel(new BorderLayout());
-
+				JPanel contenedorCentral = new JPanel(new BorderLayout());
+				
+				
 				JPanel pBotones = new JPanel();
 				JButton bRegistro = new JButton("Registrarse");
 				JButton bInicioS= new JButton("Iniciar sesión");
@@ -174,11 +182,13 @@ public class VentanaInicio extends JFrame{
 				
 				JPanel ptitulo = new JPanel();
 				JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
+				ltitulo.setFont(new Font("Serif", Font.PLAIN, 20));
 				ptitulo.add(ltitulo);
 				
 				JPanel pHotel = new JPanel();
-				pHotel.setLayout(new FlowLayout());
+				pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
 				JLabel lHotel = new JLabel("Hotel");
+				lHotel.setFont(new Font("Serif", Font.PLAIN, 15));
 				JLabel iHotel = new JLabel(scaleImage("resources/images/hotel.jpeg",200,100));
 				pHotel.add(lHotel);
 				pHotel.add(iHotel);
@@ -190,11 +200,12 @@ public class VentanaInicio extends JFrame{
 						
 						
 						
-						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
 						Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
 						Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
 						hoteles.add(hotelMadrid);
 				 		hoteles.add(hotelBarcelona);
+				 		hoteles.add(hotelSevilla);
 						ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
 						for (Hotel h : hoteles) {
 							estanciasFiltradas.add(h);
@@ -213,8 +224,9 @@ public class VentanaInicio extends JFrame{
 				
 				
 				JPanel pApartamento= new JPanel();
-				pApartamento.setLayout(new FlowLayout());
+				pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
 				JLabel lApartamento = new JLabel("Apartamento");
+				lApartamento.setFont(new Font("Serif", Font.PLAIN, 15));
 				JLabel iApartamento = new JLabel(scaleImage("resources/images/apartamento.jpeg",200,100));
 				pApartamento.add(lApartamento);
 				pApartamento.add(iApartamento);
@@ -241,27 +253,47 @@ public class VentanaInicio extends JFrame{
 				
 				
 				
-				
+				JPanel centralTipoAloj = new JPanel();
+				centralTipoAloj.add(pHotel);
+				centralTipoAloj.add(pApartamento);
 				
 				pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
-				pPorTipoAloj.add(pHotel, BorderLayout.CENTER);
-				pPorTipoAloj.add(pApartamento, BorderLayout.CENTER);
+				pPorTipoAloj.add(centralTipoAloj, BorderLayout.CENTER);
+				
+				JPanel pDestinosPopulares = new JPanel();
+				JLabel lDestinosPopulares = new JLabel("Nuestros destinos más populares:");
+				lDestinosPopulares.setFont(new Font("Serif", Font.PLAIN, 20));
+				pDestinosPopulares.add(lDestinosPopulares, BorderLayout.NORTH);
+				pDestinosPopulares.setPreferredSize(new Dimension(anchoP, 200));
 				
 			
+				
+
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Barcelona,"resources/images/Barcelona.jpeg");
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Madrid,"resources/images/Madril.jpg");
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Valencia,"resources/images/Valencia.jpg");
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Málaga,"resources/images/Malaga.jpg");
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Bilbao,"resources/images/Bilbao.jpg");
+				agregarDestinoPopular(pDestinosPopulares,Ciudad.Ibiza,"resources/images/ibiza.jpg");
+				
+				
+				
+				
+				
 			
 				
 
 				contenedorPrincipal.add(pBotones, BorderLayout.NORTH);
 			    contenedorPrincipal.add(pSearch, BorderLayout.CENTER);
 				
-				
+				contenedorCentral.add(pPorTipoAloj, BorderLayout.NORTH);
+				contenedorCentral.add(pDestinosPopulares, BorderLayout.CENTER);
 				
 		    
 				
 		    	add(contenedorPrincipal, BorderLayout.NORTH);
-				add(new JScrollPane(jTableEstancias), BorderLayout.CENTER);
-				add(jLabelInfo, BorderLayout.SOUTH);
-				add(pPorTipoAloj, BorderLayout.CENTER);
+				add(contenedorCentral, BorderLayout.CENTER);
+				
 				
 				
 				
@@ -281,6 +313,43 @@ public class VentanaInicio extends JFrame{
 	        }
 	        return null;
 	    }
+		
+		private void agregarDestinoPopular(JPanel panelDestinos, Ciudad ciudad, String imageRuta) {
+			JPanel panelCiudad = new JPanel();
+			panelCiudad.setLayout(new BoxLayout(panelCiudad, BoxLayout.Y_AXIS));
+			
+			panelCiudad.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						List<Estancia> estancias= new ArrayList<>();
+						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+						Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+						Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+						estancias.add(hotelMadrid);
+						estancias.add(hotelBarcelona);
+						estancias.add(hotelSevilla);
+						ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+						for (Estancia E : estancias) {
+							if (E.getCiudad() == ciudad) {
+								estanciasFiltradas.add(E);
+							}
+							
+							
+						}
+						if (e.getClickCount() == 2) {
+							VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+							ventana.setVisible(true);
+						}
+					}
+				});
+			
+			JLabel labelNombreCiudad = new JLabel(ciudad.toString());
+			labelNombreCiudad.setFont(new Font("Serif", Font.PLAIN, 15));
+			JLabel labelImagen = new JLabel(scaleImage(imageRuta, 150 ,150));
+			panelCiudad.add(labelNombreCiudad);
+			panelCiudad.add(labelImagen);
+			
+			panelDestinos.add(panelCiudad);
+		}
 				
 		
 		public ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias) {
