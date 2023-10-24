@@ -3,18 +3,19 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 import java.util.Date;
 
 public class Reserva {
+	
     private int numeroReserva;
     private Date fechaInicio;
     private Date fechaFin;
-    private Estancia hotel;
+    private Estancia tipo;
     private Cliente cliente;
 
     // Constructor
-    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Estancia hotel, Cliente cliente) {
+    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Estancia tipo, Cliente cliente) {
         this.numeroReserva = numeroReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.hotel = hotel;
+        this.tipo = tipo;
         this.cliente = cliente;
     }
 
@@ -31,8 +32,8 @@ public class Reserva {
         return fechaFin;
     }
 
-    public Estancia getHotel() {
-        return hotel;
+    public Estancia getTipo() {
+        return tipo;
     }
 
     public Cliente getCliente() {
@@ -53,7 +54,7 @@ public class Reserva {
     }
 
     public void setHotel(Estancia hotel) {
-        this.hotel = hotel;
+        this.tipo = tipo;
     }
 
     public void setCliente(Cliente cliente) {
@@ -64,6 +65,6 @@ public class Reserva {
     @Override
     public String toString() {
         return "Reserva [numeroReserva=" + numeroReserva + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
-                + ", hotel=" + hotel.getNombre() + ", cliente=" + cliente.getNombre() + " " + cliente.getApellido() + "]";
+                + ", tipo=" + tipo.getNombre() + ", cliente=" + cliente.getNombre() + " " + cliente.getApellido() + "]";
     }
 }

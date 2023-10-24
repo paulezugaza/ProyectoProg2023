@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 public class Habitacion {
+	
     private int numero;
     private int capacidadMaxima;
     private double precioPorNoche;
@@ -31,7 +32,7 @@ public class Habitacion {
         return reservada;
     }
 
-    // Setters (opcional)
+    // Setters 
     public void setNumero(int numero) {
         this.numero = numero;
     }
@@ -48,7 +49,7 @@ public class Habitacion {
         this.reservada = reservada;
     }
 
-    // Otros métodos (según necesidad)
+    // Otros métodos 
     @Override
     public String toString() {
         return "Habitacion [Número: " + numero + ", Capacidad Máxima: " + capacidadMaxima + " personas, Precio por Noche: " + precioPorNoche + "€, Reservada: " + reservada + "]";

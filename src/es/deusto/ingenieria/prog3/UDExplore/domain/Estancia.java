@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estancia  {
+	
     private String nombre;
     private Ciudad ciudad;
     private int numeroHabitaciones;
     private double tarifaNoche;
     private String foto;
    
-
     
-
-
+    //Constructor
     public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
 		super();
 		this.nombre = nombre;
@@ -24,13 +23,10 @@ public class Estancia  {
 	}
 
 
-
 	// Getters
     public String getNombre() {
         return nombre;
     }
-
- 
 
     public int getNumeroHabitaciones() {
         return numeroHabitaciones;
@@ -44,9 +40,7 @@ public class Estancia  {
     // Setters 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    
+    }  
 
     public void setNumeroHabitaciones(int numeroHabitaciones) {
         this.numeroHabitaciones = numeroHabitaciones;
@@ -56,9 +50,7 @@ public class Estancia  {
         this.tarifaNoche = tarifaNoche;
     }
     
-
-    
-
+ 
     // Otros métodos 
     public double calcularPrecioTotal(int numNoches) {
         return numNoches * tarifaNoche;
@@ -66,10 +58,9 @@ public class Estancia  {
 
     @Override
     public String toString() {
-        return "Hotel [nombre=" + nombre + ", ciudad=" + ciudad + ", numeroHabitaciones=" + numeroHabitaciones
+        return "Nombre=" + nombre + ", ciudad=" + ciudad + ", numeroHabitaciones=" + numeroHabitaciones
                 + ", tarifaNoche=" + tarifaNoche + "]";
     }
-
 
 
 	public Ciudad getCiudad() {
@@ -81,17 +72,13 @@ public class Estancia  {
 	}
 
 
-
 	public String getFoto() {
 		return foto;
 	}
 
 
-
 	public void setFoto(String foto) {
 		this.foto = foto;
 	}
-
-
 
 }

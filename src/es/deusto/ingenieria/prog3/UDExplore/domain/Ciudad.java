@@ -24,15 +24,4 @@ public enum Ciudad {
 	Logroño,
 	Pamplona,
 	Segovia,
-
-
-
-
-
-	
-
-
-
-
-
 }
