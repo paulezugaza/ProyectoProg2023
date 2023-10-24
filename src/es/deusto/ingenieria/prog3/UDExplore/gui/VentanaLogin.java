@@ -1,61 +1,115 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JFrame;
 
-public class VentanaLogin {
 	
-    public VentanaLogin() {
-    	
-        JFrame frame = new JFrame("Registro de Hotel");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 200);
-        frame.setLayout(new GridLayout(5, 2));
 
-        JLabel lblNombre = new JLabel("Nombre:");
-        JTextField txtNombre = new JTextField();
-        JLabel lblApellidos = new JLabel("Apellidos:");
-        JTextField txtApellidos = new JTextField();
-        JLabel lblEmail = new JLabel("Correo Electrónico:");
-        JTextField txtEmail = new JTextField();
-        JLabel lblTelefono = new JLabel("Número de Teléfono:");
-        JTextField txtTelefono = new JTextField();
-
-        JButton btnRegistrar = new JButton("Registrar");
-        btnRegistrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nombre = txtNombre.getText();
-                String apellidos = txtApellidos.getText();
-                String email = txtEmail.getText();
-                String telefono = txtTelefono.getText();
+		import java.awt.Font;
+		import java.awt.GridLayout;
+		import java.awt.event.WindowAdapter;
+		import java.awt.event.WindowEvent;
 
 
-                JOptionPane.showMessageDialog(frame, "Registro exitoso");
-            }
-        });
+		import javax.swing.JButton;
+		import javax.swing.JLabel;
+		import javax.swing.JPanel;
+		import javax.swing.JPasswordField;
+		import javax.swing.JTextField;
 
-        frame.add(lblNombre);
-        frame.add(txtNombre);
-        frame.add(lblApellidos);
-        frame.add(txtApellidos);
-        frame.add(lblEmail);
-        frame.add(txtEmail);
-        frame.add(lblTelefono);
-        frame.add(txtTelefono);
-        frame.add(btnRegistrar);
+	
 
-        frame.setVisible(true);
-    }
+		public class VentanaLogin extends JFrame{
+			
+			private static final long serialVersionUID = 1L;
+			
+				//Componentes del Log In
+				private JLabel email;
+				private JTextField txtemail;
+				private JLabel contrasenya;
+				private JPasswordField txtcontrasenya;
+				private JButton registrarse;
+				private JButton entrar;
+				private JPanel panelCentral;
+				private JPanel botonera;
+				
+				//Componentes del registro, de momento ocultos
+				private JLabel infoCuenta;
+				private JLabel nombreRegistro;
+				private JTextField txtnombreRegistro;
+				private JLabel emailRegistro;
+				private JTextField txtemailRegistro;
+				private JLabel contrasenyaRegistro;
+				private JTextField txtcontrasenyaRegistro;
+				private JPanel datosCuenta;
+				private JButton guardarDatos;
+				
+				private JPanel botoneraRegistro;
+				
+				public VentanaLogin()  {
+					inicializar();
+				}
+				
+				private void inicializar() {
+					JFrame v = this;
+					//Inicializamos elementos 
+					email= new JLabel("Email: ");
+					contrasenya= new JLabel("Contraseña: ");
+					txtemail= new JTextField(25);
+					txtcontrasenya= new JPasswordField(25);
+					entrar= new JButton("Entrar");
+					panelCentral= new JPanel();
+					botonera= new JPanel();
+					entrar.setFont(new Font("Serif", Font.PLAIN, 20));
+					infoCuenta=new JLabel("DATOS DE LA CUENTA:");
+					nombreRegistro= new JLabel("Nombre: ");
+					txtnombreRegistro= new JTextField(25);
+					emailRegistro= new JLabel("Email: ");
+					txtemailRegistro= new JTextField(25);
+					contrasenyaRegistro= new JLabel("Contraseña: ");
+					txtcontrasenyaRegistro= new JTextField(25);
+					datosCuenta= new JPanel();
+					botoneraRegistro= new JPanel();
+					guardarDatos= new JButton("Registrarse");
+					
+					//Añadimos a la ventana
+					panelCentral.add(email);
+					panelCentral.add(txtemail);
+					panelCentral.add(contrasenya);
+					panelCentral.add(txtcontrasenya);
+					botonera.add(entrar);
+					
+					//Dejamos añadidos los elementos a los paneles que visibilizaremos después
+					datosCuenta.add(nombreRegistro);
+					datosCuenta.add(txtnombreRegistro);
+					datosCuenta.add(emailRegistro);
+					datosCuenta.add(txtemailRegistro);
+					datosCuenta.add(contrasenyaRegistro);
+					datosCuenta.add(txtcontrasenyaRegistro);
+					datosCuenta.setLayout(new GridLayout(3,2));
+					
+					botoneraRegistro.add(guardarDatos);
+					botoneraRegistro.setLayout(new GridLayout(1,2));
+					
+					//Caracteristicas de la ventana
+					setSize(500,200);
+					setLocationRelativeTo(null);
+					setTitle("INICIO DE SESIÓN");
+					getContentPane().setLayout(new GridLayout(2,1));
+					panelCentral.setLayout(new GridLayout(2,2));
+					this.add(panelCentral);
+					this.add(botonera);
+					setVisible(true);
+					
+					this.addWindowListener(new WindowAdapter() {
+						public void windowClosing(WindowEvent e) {
+							System.out.println("Cerrando");
+							System.exit(0);
+						}
+					});
+		
+	}
+	
+	
+	
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VentanaLogin();
-            }
-        });
-    }
 }
