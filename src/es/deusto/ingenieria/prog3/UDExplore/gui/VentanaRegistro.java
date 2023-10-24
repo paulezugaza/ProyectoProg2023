@@ -32,7 +32,7 @@ public class VentanaRegistro {
                 String email = txtEmail.getText();
                 String telefono = txtTelefono.getText();
 
-                // Aquí puedes agregar código para procesar la información del registro, como guardarla en una base de datos.
+
 
                 JOptionPane.showMessageDialog(frame, "Registro exitoso");
             }
