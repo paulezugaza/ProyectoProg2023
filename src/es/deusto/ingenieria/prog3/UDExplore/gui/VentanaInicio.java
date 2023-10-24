@@ -119,6 +119,12 @@ public class VentanaInicio extends JFrame{
 				JPanel pBotones = new JPanel();
 				JButton bRegistro = new JButton("Registrarse");
 				JButton bInicioS= new JButton("Iniciar sesión");
+				
+				bRegistro.addActionListener(e -> {
+					VentanaRegistro ventana = new VentanaRegistro();
+					dispose();
+				});
+				
 				bInicioS.addActionListener(e -> {
 		        	VentanaLogin ventana= new VentanaLogin(); 
 					dispose();
