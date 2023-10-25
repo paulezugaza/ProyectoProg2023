@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hotel extends Estancia {
-<<<<<<< HEAD
+
 
 	private int categoria; 
     private CadenaHotelera cadenaHotelera;
@@ -53,12 +53,6 @@ public class Hotel extends Estancia {
 		return super.getTarifaNoche();
 	}
 
-
-=======
-	
-	private int categoria; 
-    private CadenaHotelera cadenaHotelera;
-    private List<Habitacion> habitaciones;
     
     
     //Constructor
@@ -72,7 +66,6 @@ public class Hotel extends Estancia {
 
 
     //Getters
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
 	public int getCategoria() {
 		return categoria;
 	}

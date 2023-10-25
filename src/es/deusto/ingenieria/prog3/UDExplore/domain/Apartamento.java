@@ -5,20 +5,26 @@ import java.util.List;
 
 public class Apartamento extends Estancia{
 	
+	private int id;
+	private String nombre;
+	private Ciudad ciudad;
+	private int numeroHabitaciones;
+	private double tarifaNoche;
+	private String foto;
+	private double puntuacion;
 
 	public Apartamento(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			double puntuacion) {
 		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
 		this.puntuacion = puntuacion;
-=======
-	private double puntuacion; 
+	}
 
 	//Constructor
 	public Apartamento(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, double puntuacion) {
 		super(nombre, ciudad, numeroHabitaciones,  tarifaNoche, foto);
 		this.puntuacion =  puntuacion;
+	}
 
-	private double puntuacion; 
 
 	
 
@@ -68,13 +74,7 @@ public class Apartamento extends Estancia{
 		return super.calcularPrecioTotal(numNoches);
 	}
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
-=======
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
+
 	
 	
 	//Getter

@@ -4,26 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estancia  {
-<<<<<<< HEAD
+
 	private int id;
-=======
-	
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
+
     private String nombre;
     private Ciudad ciudad;
     private int numeroHabitaciones;
     private double tarifaNoche;
     private String foto;
    
-    
-<<<<<<< HEAD
-
 
     public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
-=======
+    	
+    }
+
     //Constructor
     public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
 		super();
 		this.id=id;
 		this.nombre = nombre;
@@ -92,7 +88,6 @@ public class Estancia  {
 		this.foto = foto;
 	}
 
-<<<<<<< HEAD
 
 
 	public int getId() {
@@ -106,7 +101,4 @@ public class Estancia  {
 	}
 
 
-
-=======
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
 }
