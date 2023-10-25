@@ -11,7 +11,4 @@ public enum CadenaHotelera {
 	    HARBORFRONTGROUP,
 	    TRAVELHUBHOTELS,
 	    PEACEFULRETREAT
-	
-	
-
 }

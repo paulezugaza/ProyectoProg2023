@@ -2,13 +2,23 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.util.List;
 
-public class Apartamento  extends Estancia{
+public class Apartamento extends Estancia{
 	
+<<<<<<< HEAD
 	public Apartamento(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			double puntuacion) {
 		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
 		this.puntuacion = puntuacion;
+=======
+	private double puntuacion; 
+
+	//Constructor
+	public Apartamento(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, double puntuacion) {
+		super(nombre, ciudad, numeroHabitaciones,  tarifaNoche, foto);
+		this.puntuacion =  puntuacion;
+>>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
 	}
+<<<<<<< HEAD
 
 	private double puntuacion; 
 
@@ -65,32 +75,26 @@ public class Apartamento  extends Estancia{
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
+=======
+>>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
 	
-
-
-
-
-
-	@Override
-	public Ciudad getCiudad() {
-		// TODO Auto-generated method stub
-		return super.getCiudad();
-	}
-
-	@Override
-	public void setCiudad(Ciudad ciudad) {
-		// TODO Auto-generated method stub
-		super.setCiudad(ciudad);
-	}
-
+	
+	//Getter
 	public Double getPuntuacion() {
 		return puntuacion;
 	}
-
+	
+	
+	//Setter
 	public void setPuntuacion(Float puntuacion) {
 		this.puntuacion = puntuacion;
 	}
+
 	
-	
+	//Métodos
+	@Override
+	public String toString() {
+		return "Apartamento " + super.toString() + "[puntuacion=" + puntuacion + "]";
+	}	
 
 }

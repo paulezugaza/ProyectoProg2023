@@ -119,6 +119,12 @@ public class VentanaInicio extends JFrame{
 				JPanel pBotones = new JPanel();
 				JButton bRegistro = new JButton("Registrarse");
 				JButton bInicioS= new JButton("Iniciar sesión");
+				
+				bRegistro.addActionListener(e -> {
+					VentanaRegistro ventana = new VentanaRegistro();
+					dispose();
+				});
+				
 				bInicioS.addActionListener(e -> {
 		        	VentanaLogin ventana= new VentanaLogin(); 
 					dispose();
@@ -194,11 +200,7 @@ public class VentanaInicio extends JFrame{
 				pHotel.add(iHotel);
 				pHotel.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						List<Hotel> hoteles= filtrarHoteles(Estancias);
-						
-				 		
-						
-						
+						List<Hotel> hoteles= filtrarHoteles(Estancias);	
 						
 						Hotel hotelMadrid = new Hotel(1,"Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
 						Hotel hotelBarcelona = new Hotel(2,"Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
@@ -217,11 +219,7 @@ public class VentanaInicio extends JFrame{
 						}
 					}
 				});
-				
-			
 					
-					
-				
 				
 				JPanel pApartamento= new JPanel();
 				pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
