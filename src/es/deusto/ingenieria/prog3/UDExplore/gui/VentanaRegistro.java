@@ -32,11 +32,12 @@ public class VentanaRegistro {
                 String email = txtEmail.getText();
                 String telefono = txtTelefono.getText();
 
-
+// kjhgfd
 
                 JOptionPane.showMessageDialog(frame, "Registro exitoso");
             }
         });
+        
 
         frame.add(lblNombre);
         frame.add(txtNombre);
