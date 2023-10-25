@@ -1,10 +1,11 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
+
 import java.util.List;
 
 public class Apartamento extends Estancia{
 	
-<<<<<<< HEAD
+
 	public Apartamento(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			double puntuacion) {
 		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
@@ -16,9 +17,6 @@ public class Apartamento extends Estancia{
 	public Apartamento(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, double puntuacion) {
 		super(nombre, ciudad, numeroHabitaciones,  tarifaNoche, foto);
 		this.puntuacion =  puntuacion;
->>>>>>> branch 'master' of git@github.com:paulezugaza/PruebaRepo.git
-	}
-<<<<<<< HEAD
 
 	private double puntuacion; 
 
