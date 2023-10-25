@@ -4,19 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Hotel extends Estancia {
-	
-	
-    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, int categoria, 
-			CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super(nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
-		this.categoria = categoria;
-		this.cadenaHotelera = cadenaHotelera;
-		this.habitaciones = habitaciones;
-	}
-
-
-	
-
 
 	private int categoria; 
     private CadenaHotelera cadenaHotelera;
@@ -24,7 +11,27 @@ public class Hotel extends Estancia {
 	
 	
 
+	
 
+	public Hotel(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
+			int categoria, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
+		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
+		this.categoria = categoria;
+		this.cadenaHotelera = cadenaHotelera;
+		this.habitaciones = habitaciones;
+	}
+
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return super.getId();
+	}
+
+	@Override
+	public void setId(int id) {
+		// TODO Auto-generated method stub
+		super.setId(id);
+	}
 
 	@Override
 	public String getNombre() {

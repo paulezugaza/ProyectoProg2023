@@ -200,9 +200,9 @@ public class VentanaInicio extends JFrame{
 						
 						
 						
-						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
-						Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-						Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+						Hotel hotelMadrid = new Hotel(1,"Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+						Hotel hotelBarcelona = new Hotel(2,"Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+						Hotel hotelSevilla = new Hotel(3,"Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
 						hoteles.add(hotelMadrid);
 				 		hoteles.add(hotelBarcelona);
 				 		hoteles.add(hotelSevilla);
@@ -321,9 +321,9 @@ public class VentanaInicio extends JFrame{
 			panelCiudad.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
 						List<Estancia> estancias= new ArrayList<>();
-						Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
-						Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-						Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+						Hotel hotelMadrid = new Hotel(1,"Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+						Hotel hotelBarcelona = new Hotel(2,"Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+						Hotel hotelSevilla = new Hotel(3,"Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4, CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
 						estancias.add(hotelMadrid);
 						estancias.add(hotelBarcelona);
 						estancias.add(hotelSevilla);

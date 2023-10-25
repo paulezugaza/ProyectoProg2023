@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estancia  {
+	private int id;
     private String nombre;
     private Ciudad ciudad;
     private int numeroHabitaciones;
@@ -14,8 +15,9 @@ public class Estancia  {
     
 
 
-    public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
+    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
 		super();
+		this.id=id;
 		this.nombre = nombre;
 		this.ciudad = ciudad;
 		this.numeroHabitaciones = numeroHabitaciones;
@@ -90,6 +92,18 @@ public class Estancia  {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

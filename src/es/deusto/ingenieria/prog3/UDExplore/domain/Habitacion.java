@@ -4,14 +4,14 @@ public class Habitacion {
     private int numero;
     private int capacidadMaxima;
     private double precioPorNoche;
-    private boolean reservada;
+ 
 
     // Constructor
     public Habitacion(int numero, int capacidadMaxima, double precioPorNoche) {
         this.numero = numero;
         this.capacidadMaxima = capacidadMaxima;
         this.precioPorNoche = precioPorNoche;
-        this.reservada = false;
+   
     }
 
     // Getters
@@ -27,9 +27,7 @@ public class Habitacion {
         return precioPorNoche;
     }
 
-    public boolean isReservada() {
-        return reservada;
-    }
+  
 
     // Setters (opcional)
     public void setNumero(int numero) {
@@ -44,13 +42,10 @@ public class Habitacion {
         this.precioPorNoche = precioPorNoche;
     }
 
-    public void setReservada(boolean reservada) {
-        this.reservada = reservada;
-    }
 
     // Otros métodos (según necesidad)
     @Override
     public String toString() {
-        return "Habitacion [Número: " + numero + ", Capacidad Máxima: " + capacidadMaxima + " personas, Precio por Noche: " + precioPorNoche + "€, Reservada: " + reservada + "]";
+        return "Habitacion [Número: " + numero + ", Capacidad Máxima: " + capacidadMaxima + " personas, Precio por Noche: " + precioPorNoche + "€," + "]";
     }
 }

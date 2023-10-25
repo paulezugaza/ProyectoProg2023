@@ -4,12 +4,15 @@ import java.util.List;
 
 public class Apartamento  extends Estancia{
 	
-	 private double puntuacion; 
-
-	public Apartamento(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, double puntuacion) {
-		super(nombre, ciudad, numeroHabitaciones,  tarifaNoche, foto);
-		this.puntuacion =  puntuacion;
+	public Apartamento(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
+			double puntuacion) {
+		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
+		this.puntuacion = puntuacion;
 	}
+
+	private double puntuacion; 
+
+	
 
 
 	@Override

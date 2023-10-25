@@ -3,6 +3,8 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +21,7 @@ import javax.swing.table.TableCellRenderer;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.TableRenderer;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 
@@ -33,6 +36,8 @@ public class VentanaResultados extends JFrame {
     
 
     public VentanaResultados(List<Estancia> estancias) {
+    	
+    	
     	
     	this.estancias = estancias;
     	
@@ -68,6 +73,7 @@ public class VentanaResultados extends JFrame {
 
      
         JButton btnVolverInicio = new JButton("Volver al Inicio");
+      
 
         btnVolverInicio.addActionListener(e -> {
         	VentanaInicio ventana= new VentanaInicio(); 
@@ -142,9 +148,11 @@ public class VentanaResultados extends JFrame {
         cabeceraResultados.add("Número de Habitaciones");
         cabeceraResultados.add("Tarifa por Noche");
         cabeceraResultados.add("Imagen");
+        cabeceraResultados.add("Reserva");
 
         modeloDatosResultados = new DefaultTableModel(new Vector<>(), cabeceraResultados);
         tablaResultados = new JTable(modeloDatosResultados);
+        tablaResultados.setDefaultEditor(Object.class, null);
         tablaResultados.setRowHeight(100);
 
         tablaResultados.getColumnModel().getColumn(0).setPreferredWidth(200);
@@ -152,7 +160,32 @@ public class VentanaResultados extends JFrame {
         tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaResultados.getColumnModel().getColumn(3).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(5).setCellRenderer(imageRenderer);
+        tablaResultados.getColumnModel().getColumn(6).setPreferredWidth(100);
+        
+        
+        
+        tablaResultados.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = tablaResultados.rowAtPoint(e.getPoint());
+                    int col = tablaResultados.columnAtPoint(e.getPoint());
+
+                    if (col == 6) { // Columna "Reserva"
+                        // Obtener la Estancia correspondiente a la fila
+                        Estancia estancia = estancias.get(row);
+
+                        // Abrir la ventana de reserva
+                        new VentanaReserva(estancia);
+                    }
+                }
+            }
+        });
+
     }
+    
+   
     
     TableCellRenderer imageRenderer = (table, value, isSelected, hasFocus, row, column) -> {
         JLabel result = new JLabel();
@@ -175,7 +208,10 @@ public class VentanaResultados extends JFrame {
         
         return result;
     };
- 
+    
+  
+
+  
 
 
     private void loadEstancias() {
@@ -186,16 +222,28 @@ public class VentanaResultados extends JFrame {
 
 		estancias.forEach(e -> {
             if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
+            	
+           
+                  
+              
+            	
+            	
                 modeloDatosResultados.addRow(new Object[]{
                         e.getNombre(),
                         e.getClass().getSimpleName(),
                         e.getCiudad(),
                         e.getNumeroHabitaciones(),
-                        e.getTarifaNoche(),
+                        e.getTarifaNoche() + "€",
+                        e.getFoto(),
+                        new String("Reservar ")+e.getNombre()
+                       
+                        
                 });
             }
         });
     }
+    
+    
     
     public static void main(String[] args) {
     	
