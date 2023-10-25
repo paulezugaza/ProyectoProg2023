@@ -10,13 +10,20 @@ public class Hotel extends Estancia {
     private CadenaHotelera cadenaHotelera;
     private List<Habitacion> habitaciones;
 	
-	
-
-	
 
 	public Hotel(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			int categoria, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
 		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
+		this.categoria = categoria;
+		this.cadenaHotelera = cadenaHotelera;
+		this.habitaciones = habitaciones;
+	}
+
+    
+    //Constructor
+    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, int categoria, 
+			CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
+		super(nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
 		this.categoria = categoria;
 		this.cadenaHotelera = cadenaHotelera;
 		this.habitaciones = habitaciones;
@@ -54,17 +61,6 @@ public class Hotel extends Estancia {
 	}
 
     
-    
-    //Constructor
-    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, int categoria, 
-			CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super(nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
-		this.categoria = categoria;
-		this.cadenaHotelera = cadenaHotelera;
-		this.habitaciones = habitaciones;
-	}
-
-
     //Getters
 	public int getCategoria() {
 		return categoria;

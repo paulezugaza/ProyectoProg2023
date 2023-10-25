@@ -12,13 +12,14 @@ public class VentanaRegistro {
         JFrame frame = new JFrame("Registro de Hotel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
+        frame.setLocationRelativeTo(null);
         frame.setLayout(new GridLayout(5, 2));
 
         JLabel lblNombre = new JLabel("Nombre:");
         JTextField txtNombre = new JTextField();
         JLabel lblApellidos = new JLabel("Apellidos:");
         JTextField txtApellidos = new JTextField();
-        JLabel lblEmail = new JLabel("Correo Electrónico:");
+        JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
         JLabel lblTelefono = new JLabel("Número de Teléfono:");
         JTextField txtTelefono = new JTextField();
@@ -32,11 +33,12 @@ public class VentanaRegistro {
                 String email = txtEmail.getText();
                 String telefono = txtTelefono.getText();
 
-// kjhgfd
 
                 JOptionPane.showMessageDialog(frame, "Registro exitoso");
             }
         });
+        
+        JButton btnCerrar = new JButton("Cerrar");
         
 
         frame.add(lblNombre);
@@ -47,6 +49,7 @@ public class VentanaRegistro {
         frame.add(txtEmail);
         frame.add(lblTelefono);
         frame.add(txtTelefono);
+        frame.add(btnCerrar);
         frame.add(btnRegistrar);
 
         frame.setVisible(true);
