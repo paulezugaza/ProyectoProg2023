@@ -96,3 +96,4 @@ public class Apartamento extends Estancia{
 	}	
 
 }
+//compentario para probar commit
