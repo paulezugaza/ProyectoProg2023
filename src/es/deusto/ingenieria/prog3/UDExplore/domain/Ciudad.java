@@ -25,3 +25,5 @@ public enum Ciudad {
 	Pamplona,
 	Segovia,
 }
+
+//que la ventana reciba como parametro la ciudad para no tener que hacer una ventana por ciudad al seleccionarla
