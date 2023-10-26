@@ -64,7 +64,7 @@ public class Usuario {
     // Otros métodos (según necesidad)
     @Override
     public String toString() {
-        return "Administrador [nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", correoElectronico=" + correoElectronico
+        return "[nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", correoElectronico=" + correoElectronico
                 + ", numeroTelefono=" + numeroTelefono + "]";
     }
 }
