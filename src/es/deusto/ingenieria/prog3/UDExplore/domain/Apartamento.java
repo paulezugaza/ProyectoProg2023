@@ -1,8 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-
-import java.util.List;
-
 public class Apartamento extends Estancia{
 	
 	private int id;
@@ -12,6 +9,7 @@ public class Apartamento extends Estancia{
 	private double tarifaNoche;
 	private String foto;
 	private double puntuacion;
+	
 
 	public Apartamento(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			double puntuacion) {
@@ -19,11 +17,6 @@ public class Apartamento extends Estancia{
 		this.puntuacion = puntuacion;
 	}
 
-	//Constructor
-	public Apartamento(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, double puntuacion) {
-		super(nombre, ciudad, numeroHabitaciones,  tarifaNoche, foto);
-		this.puntuacion =  puntuacion;
-	}
 
 
 	
@@ -96,4 +89,3 @@ public class Apartamento extends Estancia{
 	}	
 
 }
-//compentario para probar commit

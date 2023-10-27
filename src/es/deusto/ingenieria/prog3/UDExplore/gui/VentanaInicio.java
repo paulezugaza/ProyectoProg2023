@@ -7,12 +7,18 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -21,29 +27,27 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
 
 public class VentanaInicio extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	// JTable de tipos estancia
 	private JTable jTableEstancias = new JTable();
-	private DefaultTableModel modeloDatosEstancias;
+	//private DefaultTableModel modeloDatosEstancias;
 
 	// Lista de estancias que se está visualizando en la ventana
-	private List<Estancia> Estancias = new ArrayList<>();
+	private List<Estancia> estancias = new ArrayList<>();
 	private JComboBox<String> jComboDestino = new JComboBox<>();
 	private JComboBox<String> jComboDiaEntrada = new JComboBox<>();
 	private JComboBox<String> jComboMesEntrada = new JComboBox<>();
@@ -53,7 +57,9 @@ public class VentanaInicio extends JFrame {
 	private JComboBox<String> jComboAnioSalida = new JComboBox<>();
 	private JLabel jLabelInfo = new JLabel("Seleccione el destino y fechas de entrada y salida");
 
-	private List<Estancia> listaEstancias = new ArrayList<>();
+	//private List<Estancia> listaEstancias = new ArrayList<>();
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
 
 	public ArrayList<Object> getEstancias() {
 		ArrayList<Object> listaEnMain = Main.getList();
@@ -65,6 +71,8 @@ public class VentanaInicio extends JFrame {
 	ArrayList<Object> lista = this.getEstancias();
 
 	public VentanaInicio() {
+		
+		
 
 		setTitle("UDExplore");
 		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
@@ -77,11 +85,11 @@ public class VentanaInicio extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		// Configurar el JComboBox
+	
 		for (Ciudad c : Ciudad.values()) {
 			jComboDestino.addItem(c.toString());
 		}
-		// Configurar los JComboBox para fechas
+		
 		for (int dia = 1; dia <= 31; dia++) {
 			jComboDiaEntrada.addItem(String.valueOf(dia));
 			jComboDiaSalida.addItem(String.valueOf(dia));
@@ -114,12 +122,12 @@ public class VentanaInicio extends JFrame {
 		JButton bInicioS = new JButton("Iniciar sesión");
 
 		bRegistro.addActionListener(e -> {
-			VentanaRegistro ventana = new VentanaRegistro();
+			new VentanaRegistro();
 			dispose();
 		});
 
 		bInicioS.addActionListener(e -> {
-			VentanaLogin ventana = new VentanaLogin();
+			new VentanaLogin();
 			dispose();
 
 		});
@@ -177,6 +185,25 @@ public class VentanaInicio extends JFrame {
 		JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
 		ltitulo.setFont(new Font("Serif", Font.PLAIN, 20));
 		ptitulo.add(ltitulo);
+		
+
+		Hotel hotelMadrid = new Hotel(1, "Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,
+				"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
+		Hotel hotelBarcelona = new Hotel(2, "Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, "", 3,
+				CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+		Hotel hotelSevilla = new Hotel(3, "Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4,
+				CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
+		Apartamento apartamentoValencia = new Apartamento(4,"Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0, "", 4.5);
+		estancias.add(hotelMadrid);
+		estancias.add(hotelBarcelona);
+		estancias.add(hotelSevilla);
+		estancias.add(apartamentoValencia);
+		
+		ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+	
+			filtrarHoteles(estancias).forEach(h -> {
+				estanciasFiltradas.add(h);
+			});
 
 		JPanel pHotel = new JPanel();
 		pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
@@ -187,29 +214,29 @@ public class VentanaInicio extends JFrame {
 		pHotel.add(iHotel);
 		pHotel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				List<Hotel> hoteles = filtrarHoteles(Estancias);
-
-				Hotel hotelMadrid = new Hotel(1, "Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,
-						"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
-				Hotel hotelBarcelona = new Hotel(2, "Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, "", 3,
-						CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-				Hotel hotelSevilla = new Hotel(3, "Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4,
-						CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
-				hoteles.add(hotelMadrid);
-				hoteles.add(hotelBarcelona);
-				hoteles.add(hotelSevilla);
-				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-				for (Hotel h : hoteles) {
-					estanciasFiltradas.add(h);
-
-				}
+				
+		
 				if (e.getClickCount() == 2) {
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
 				}
 			}
 		});
-
+		bBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Date inicio = sdf.parse(""+((String) jComboDiaEntrada.getSelectedItem())+"/"+(jComboMesEntrada.getSelectedIndex()+1) + "/" +((String) jComboAnioEntrada.getSelectedItem()));
+					Date fin = sdf.parse(""+((String) jComboDiaSalida.getSelectedItem())+"/"+(jComboMesSalida.getSelectedIndex()+1) + "/" +((String) jComboAnioSalida.getSelectedItem()));
+					System.out.println(inicio.after(fin));
+					System.out.println(inicio.before(fin));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
+			}
+		});
 		JPanel pApartamento = new JPanel();
 		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
 		JLabel lApartamento = new JLabel("Apartamento");
@@ -220,14 +247,15 @@ public class VentanaInicio extends JFrame {
 		pApartamento.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				List<Apartamento> apartamentos = filtrarApartamentos(Estancias);
+				List<Apartamento> apartamentos = filtrarApartamentos(estancias);
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-				for (Apartamento a : apartamentos) {
-					estanciasFiltradas.add(a);
-				}
+					apartamentos.forEach(a -> {
+						estanciasFiltradas.add(a);
+					});
 				if (e.getClickCount() == 2) {
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
+					dispose();
 				}
 
 			}
@@ -276,6 +304,7 @@ public class VentanaInicio extends JFrame {
 		}
 		return null;
 	}
+	//
 
 	private void agregarDestinoPopular(JPanel panelDestinos, Ciudad ciudad, String imageRuta) {
 		JPanel panelCiudad = new JPanel();
@@ -320,7 +349,7 @@ public class VentanaInicio extends JFrame {
 		ArrayList<Hotel> hoteles = new ArrayList<>();
 		for (Estancia e : Estancias) {
 			if (e instanceof Hotel) {
-				hoteles.add((Hotel) e);
+				hoteles.add(((Hotel) e));
 			}
 		}
 		return hoteles;

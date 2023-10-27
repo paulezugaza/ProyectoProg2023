@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -33,6 +34,12 @@ public class VentanaResultados extends JFrame {
     private JButton filtros;
     private List<Estancia> estancias;
     private JComboBox<String> comboBoxOrdenarPor;
+    JComboBox<String> jComboDiaEntrada = new JComboBox<>();
+    JComboBox<String> jComboMesEntrada = new JComboBox<>();
+    JComboBox<String> jComboAnioEntrada = new JComboBox<>();
+    JComboBox<String> jComboDiaSalida = new JComboBox<>();
+    JComboBox<String> jComboMesSalida = new JComboBox<>();
+    JComboBox<String> jComboAnioSalida = new JComboBox<>();
     
 
     public VentanaResultados(List<Estancia> estancias) {
@@ -76,7 +83,7 @@ public class VentanaResultados extends JFrame {
       
 
         btnVolverInicio.addActionListener(e -> {
-        	VentanaInicio ventana= new VentanaInicio(); 
+        	new VentanaInicio(); 
 			dispose();
 		
         });
@@ -120,6 +127,45 @@ public class VentanaResultados extends JFrame {
         JPanel panelBuscador = new JPanel();
         panelBuscador.add(new JLabel("Buscar: "));
         panelBuscador.add(txtFiltro);
+        
+    	for (int dia = 1; dia <= 31; dia++) {
+			jComboDiaEntrada.addItem(String.valueOf(dia));
+			jComboDiaSalida.addItem(String.valueOf(dia));
+		}
+
+		String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+				"Octubre", "Noviembre", "Diciembre" };
+		for (String mes : meses) {
+			jComboMesEntrada.addItem(mes);
+			jComboMesSalida.addItem(mes);
+		}
+
+		for (int anio = 2023; anio <= 2030; anio++) {
+			jComboAnioEntrada.addItem(String.valueOf(anio));
+			jComboAnioSalida.addItem(String.valueOf(anio));
+		}
+
+		
+        JPanel pFechasE = new JPanel();
+        pFechasE.setLayout(new BoxLayout(pFechasE, BoxLayout.Y_AXIS));
+        pFechasE.add(new JLabel("Fecha de Entrada: "));
+        pFechasE.setSize(50, 100);
+        pFechasE.add(jComboDiaEntrada);
+        pFechasE.add(jComboMesEntrada);
+        pFechasE.add(jComboAnioEntrada);
+     
+
+        
+
+        JPanel pFechasS = new JPanel();
+        pFechasS.setLayout(new BoxLayout(pFechasS, BoxLayout.Y_AXIS));
+        pFechasS.add(new JLabel("Fecha de Salida: "));
+        pFechasE.setSize(50, 100);
+        pFechasS.add(jComboDiaSalida);
+        pFechasS.add(jComboMesSalida);
+        pFechasS.add(jComboAnioSalida);
+        
+      
 
         scrollPaneEstancias = new JScrollPane(tablaResultados);
         scrollPaneEstancias.setBorder(new TitledBorder("Resultados de Estancias"));
@@ -127,8 +173,10 @@ public class VentanaResultados extends JFrame {
         JPanel panelPrincipal = new JPanel();
         panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
         panelPrincipal.add(panelBotones);
-        panelPrincipal.add(pCombo);
         panelPrincipal.add(panelBuscador);
+        panelPrincipal.add(pFechasE);
+        panelPrincipal.add(pFechasS);
+        panelPrincipal.add(pCombo);  
         panelPrincipal.add(scrollPaneEstancias);
         
        
@@ -163,25 +211,24 @@ public class VentanaResultados extends JFrame {
         tablaResultados.getColumnModel().getColumn(5).setCellRenderer(imageRenderer);
         tablaResultados.getColumnModel().getColumn(6).setPreferredWidth(100);
         
-        
-        
         tablaResultados.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    int row = tablaResultados.rowAtPoint(e.getPoint());
-                    int col = tablaResultados.columnAtPoint(e.getPoint());
+                    int row = tablaResultados.getSelectedRow();
+                    int col = tablaResultados.getSelectedColumn();
 
-                    if (col == 6) { // Columna "Reserva"
-                        // Obtener la Estancia correspondiente a la fila
+                    if (col == 6) { 
                         Estancia estancia = estancias.get(row);
-
-                        // Abrir la ventana de reserva
-                        new VentanaReserva(estancia);
+                        new VentanaReserva(estancia).setVisible(true);
+                       
+                        
                     }
                 }
             }
         });
+        
+     
 
     }
     
@@ -219,15 +266,9 @@ public class VentanaResultados extends JFrame {
 
         String filtro = txtFiltro.getText().toLowerCase();
 
-
+        System.out.println(estancias);
 		estancias.forEach(e -> {
             if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
-            	
-           
-                  
-              
-            	
-            	
                 modeloDatosResultados.addRow(new Object[]{
                         e.getNombre(),
                         e.getClass().getSimpleName(),
@@ -251,5 +292,4 @@ public class VentanaResultados extends JFrame {
         
     }
 }
-
 

@@ -1,6 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Hotel extends Estancia {
@@ -19,15 +18,7 @@ public class Hotel extends Estancia {
 		this.habitaciones = habitaciones;
 	}
 
-    
-    //Constructor
-    public Hotel(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, int categoria, 
-			CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super(nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
-		this.categoria = categoria;
-		this.cadenaHotelera = cadenaHotelera;
-		this.habitaciones = habitaciones;
-	}
+   
 
 	@Override
 	public int getId() {
@@ -104,4 +95,5 @@ public class Hotel extends Estancia {
 	}	
 
 }
+
 

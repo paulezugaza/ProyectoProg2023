@@ -1,8 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Estancia  {
 
 	private int id;
@@ -14,12 +11,12 @@ public class Estancia  {
     private String foto;
    
 
-    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
+    public Estancia() {
     	
     }
 
     //Constructor
-    public Estancia(String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
+    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
 		super();
 		this.id=id;
 		this.nombre = nombre;
