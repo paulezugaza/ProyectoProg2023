@@ -26,8 +26,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -223,20 +225,62 @@ public class VentanaInicio extends JFrame {
 			}
 		});
 		bBuscar.addActionListener(new ActionListener() {
-			
+			//
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Date inicio = sdf.parse(""+((String) jComboDiaEntrada.getSelectedItem())+"/"+(jComboMesEntrada.getSelectedIndex()+1) + "/" +((String) jComboAnioEntrada.getSelectedItem()));
 					Date fin = sdf.parse(""+((String) jComboDiaSalida.getSelectedItem())+"/"+(jComboMesSalida.getSelectedIndex()+1) + "/" +((String) jComboAnioSalida.getSelectedItem()));
+					
+					//Comprobar que la fecha de salida no es anterior a la de entrada
+					if (fin.before(inicio)) {
+						jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
+			        } else {
+			            jLabelInfo.setText("Realizando búsqueda...");
+			            //Buscar estancias para esas fechas
+			            List<Estancia> estanciasDisponibles = new ArrayList<>();
+
+		                for (Estancia estancia : estancias) {
+		                	 if (estancia.getCiudad().toString().equals(jComboDestino.getSelectedItem().toString())) {
+		                         if (estancia.isDisponible()) {
+		                             estanciasDisponibles.add(estancia); //añadir las estancias con el atributo disponible a true
+		                         }
+		                     }
+		                }
+
+		                if (estanciasDisponibles.isEmpty()) {
+		                    jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
+		                } else {
+		                    jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
+		             
+		                    //IA, chatgpt
+		                    JTextArea textArea = new JTextArea();
+		                    textArea.setEditable(false); // Para que el usuario no pueda editar el texto
+
+		                    // Agregar información de estancias válidas al JTextArea
+		                    for (Estancia estancia : estanciasDisponibles) {
+		                        textArea.append("Nombre: " + estancia.getNombre() + ", Precio: " + estancia.getTarifaNoche() + "\n");
+		                    }
+
+		                    // Crear un JScrollPane para el JTextArea
+		                    JScrollPane scrollPane = new JScrollPane(textArea);
+
+		                    // Crear un nuevo JFrame para mostrar el resultado
+		                    JFrame resultadoFrame = new JFrame("Estancias Disponibles");
+		                    resultadoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		                    resultadoFrame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		                    resultadoFrame.setSize(400, 300);
+		                    resultadoFrame.setVisible(true);
+		                }
+					}
 					System.out.println(inicio.after(fin));
 					System.out.println(inicio.before(fin));
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}				
 			}
 		});
+		
 		JPanel pApartamento = new JPanel();
 		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
 		JLabel lApartamento = new JLabel("Apartamento");

@@ -9,6 +9,7 @@ public class Estancia  {
     private int numeroHabitaciones;
     private double tarifaNoche;
     private String foto;
+    public boolean disponible;
    
 
     public Estancia() {
@@ -16,14 +17,14 @@ public class Estancia  {
     }
 
     //Constructor
-    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto) {
-		super();
+    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, boolean disponible) {
 		this.id=id;
 		this.nombre = nombre;
 		this.ciudad = ciudad;
 		this.numeroHabitaciones = numeroHabitaciones;
 		this.tarifaNoche = tarifaNoche;
 		this.setFoto(foto);
+		this.disponible = disponible;
 	}
 
 
@@ -41,6 +42,10 @@ public class Estancia  {
     }
   
 
+    public static boolean isDisponible() {
+    	return true;
+    }
+    
     // Setters 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -55,6 +60,10 @@ public class Estancia  {
     }
     
  
+    public void setDisponible() {
+    	this.disponible = disponible;
+    }
+    
     // Otros métodos 
     public double calcularPrecioTotal(int numNoches) {
         return numNoches * tarifaNoche;

@@ -12,42 +12,36 @@ public class Hotel extends Estancia {
 
 	public Hotel(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto,
 			int categoria, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto);
+		super(id, nombre, ciudad, numeroHabitaciones, tarifaNoche, foto, isDisponible());
 		this.categoria = categoria;
 		this.cadenaHotelera = cadenaHotelera;
 		this.habitaciones = habitaciones;
 	}
-
    
 
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
 		return super.getId();
 	}
 
 	@Override
 	public void setId(int id) {
-		// TODO Auto-generated method stub
 		super.setId(id);
 	}
 
 	@Override
 	public String getNombre() {
-		// TODO Auto-generated method stub
 		return super.getNombre();
 	}
 
 	
 	@Override
 	public int getNumeroHabitaciones() {
-		// TODO Auto-generated method stub
 		return super.getNumeroHabitaciones();
 	}
 
 	@Override
 	public double getTarifaNoche() {
-		// TODO Auto-generated method stub
 		return super.getTarifaNoche();
 	}
 
@@ -90,7 +84,6 @@ public class Hotel extends Estancia {
 
 	@Override
 	public double calcularPrecioTotal(int numNoches) {
-		// TODO Auto-generated method stub
 		return super.calcularPrecioTotal(numNoches);
 	}	
 
