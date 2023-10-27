@@ -26,7 +26,7 @@ public class Main {
 		static Hotel hotelMadrid = new Hotel(1,"Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
 		static Hotel hotelBarcelona = new Hotel(2,"Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
 		/**
-		// Crear apartamentos
+	
 		Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0, 4.5);
 		Apartamento apartamentoGranada = new Apartamento("Apartamento Granada Centro", Ciudad.Granada, 3, 70.0, 4.0);
 		Apartamento apartamentoMallorca = new Apartamento("Apartamento Mallorca Relax", Ciudad.Mallorca, 4, 90.0, 4.2);
