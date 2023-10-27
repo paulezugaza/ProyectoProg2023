@@ -2,7 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 public class Estancia  {
 
-	private int id;
+	int codigoHotel =0;
 
     private String nombre;
     private Ciudad ciudad;
@@ -10,17 +10,18 @@ public class Estancia  {
     private double tarifaNoche;
     private String foto;
     public boolean disponible;
+	private int categoria;
    
 
     public Estancia() {
     	
     }
 
-    //Constructor
-    public Estancia(int id, String nombre, Ciudad ciudad, int numeroHabitaciones, double tarifaNoche, String foto, boolean disponible) {
-		this.id=id;
+    public Estancia( String nombre, Ciudad ciudad, int categoria,  int numeroHabitaciones, double tarifaNoche, String foto, boolean disponible) {
+		super();
 		this.nombre = nombre;
 		this.ciudad = ciudad;
+		this.setCategoria(categoria);
 		this.numeroHabitaciones = numeroHabitaciones;
 		this.tarifaNoche = tarifaNoche;
 		this.setFoto(foto);
@@ -28,7 +29,6 @@ public class Estancia  {
 	}
 
 
-	// Getters
     public String getNombre() {
         return nombre;
     }
@@ -96,14 +96,13 @@ public class Estancia  {
 
 
 
-	public int getId() {
-		return id;
+
+	public int getCategoria() {
+		return categoria;
 	}
 
-
-
-	public void setId(int id) {
-		this.id = id;
+	public void setCategoria(int categoria) {
+		this.categoria = categoria;
 	}
 
 

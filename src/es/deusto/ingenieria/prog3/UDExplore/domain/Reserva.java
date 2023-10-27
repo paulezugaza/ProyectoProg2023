@@ -40,7 +40,7 @@ public class Reserva {
         return cliente;
     }
 
-    // Setters (opcional)
+
     public void setNumeroReserva(int numeroReserva) {
         this.numeroReserva = numeroReserva;
     }
@@ -61,7 +61,7 @@ public class Reserva {
         this.cliente = cliente;
     }
 
-    // Otros métodos (según necesidad)
+
     @Override
     public String toString() {
         return "Reserva [numeroReserva=" + numeroReserva + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin

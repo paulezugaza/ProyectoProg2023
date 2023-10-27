@@ -1,13 +1,14 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
-import java.awt.Component;
+
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.Vector;
 
@@ -15,25 +16,21 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-import es.deusto.ingenieria.prog3.UDExplore.domain.TableRenderer;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
+
+
 
 public class VentanaResultados extends JFrame {
-    private DefaultTableModel modeloDatosResultados;
+    private static final long serialVersionUID = 8210065439199121917L;
+	private DefaultTableModel modeloDatosResultados;
     private JTextField txtFiltro;
     private JTable tablaResultados;
     private JScrollPane scrollPaneEstancias;
-    private JButton filtros;
     private List<Estancia> estancias;
-    private JComboBox<String> comboBoxOrdenarPor;
     JComboBox<String> jComboDiaEntrada = new JComboBox<>();
     JComboBox<String> jComboMesEntrada = new JComboBox<>();
     JComboBox<String> jComboAnioEntrada = new JComboBox<>();
@@ -65,12 +62,12 @@ public class VentanaResultados extends JFrame {
         txtFiltro.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                loadEstancias();
+                loadEstancias(estancias);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                loadEstancias();
+                loadEstancias(estancias);
             }
 
             @Override
@@ -88,12 +85,7 @@ public class VentanaResultados extends JFrame {
 		
         });
         
-        JButton bFiltros = new JButton("Filtros");
-        bFiltros.addActionListener(e -> {
-        	VentanaFiltros ventana = new VentanaFiltros(this);
-        	dispose();
-        	ventana.setVisible(true);
-        });
+       
         
         JPanel pCombo = new JPanel();
         JComboBox<String> comboBoxOrden = new JComboBox<>();
@@ -111,18 +103,23 @@ public class VentanaResultados extends JFrame {
         	else if(seleccionado.equals("De mayor precio a menor")) {
         		estancias.sort((estancia1,estancia2)->Double.compare(estancia2.getTarifaNoche(), estancia1.getTarifaNoche()));
         	}
+        	else if (seleccionado.equals("De mejor puntuación a peor")) {
+                estancias.sort((estancia1, estancia2) -> Integer.compare(estancia2.getCategoria(), estancia1.getCategoria()));
+            }
         	
-        	loadEstancias();
+        	loadEstancias(estancias);
         
 
         });
         pCombo.add(comboBoxOrden);
         
         
+        
+        
        
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnVolverInicio);
-        panelBotones.add(bFiltros);
+       
 
         JPanel panelBuscador = new JPanel();
         panelBuscador.add(new JLabel("Buscar: "));
@@ -144,7 +141,8 @@ public class VentanaResultados extends JFrame {
 			jComboAnioEntrada.addItem(String.valueOf(anio));
 			jComboAnioSalida.addItem(String.valueOf(anio));
 		}
-
+		JPanel pFechas = new JPanel();
+		pFechas.setPreferredSize(new Dimension(200,100));
 		
         JPanel pFechasE = new JPanel();
         pFechasE.setLayout(new BoxLayout(pFechasE, BoxLayout.Y_AXIS));
@@ -165,7 +163,52 @@ public class VentanaResultados extends JFrame {
         pFechasS.add(jComboMesSalida);
         pFechasS.add(jComboAnioSalida);
         
+        pFechas.add(pFechasE);
+        pFechas.add(pFechasS);
+        JButton bBuscar = new JButton("Buscar");
+        pFechas.add(bBuscar, BorderLayout.SOUTH);
+        
       
+        JPanel pCategorias  = new JPanel();
+        pCategorias.add(new JLabel("Busque por categoría:"), BorderLayout.NORTH);
+        pCategorias.setLayout(new BoxLayout(pCategorias, BoxLayout.X_AXIS));
+        JCheckBox unaEstrella = new JCheckBox("★");
+        JCheckBox dosEstrellas = new JCheckBox("★★");
+        JCheckBox tresEstrellas = new JCheckBox("★★★");
+        JCheckBox cuatroEstrellas = new JCheckBox("★★★★");
+        JCheckBox cincoEstrellas = new JCheckBox("★★★★★");
+        
+        pCategorias.add(unaEstrella);
+        pCategorias.add(dosEstrellas);
+        pCategorias.add(tresEstrellas);
+        pCategorias.add(cuatroEstrellas);
+        pCategorias.add(cincoEstrellas);
+        
+        boolean unaEstrellaSeleccionada = unaEstrella.isSelected();
+        boolean dosEstrellasSeleccionada = dosEstrellas.isSelected();
+        boolean tresEstrellasSeleccionada = tresEstrellas.isSelected();
+        boolean cuatroEstrellasSeleccionada = cuatroEstrellas.isSelected();
+        boolean cincoEstrellasSeleccionada = cincoEstrellas.isSelected();
+        
+        bBuscar.addActionListener(e -> {
+            List<Estancia> estanciasFiltradas = new ArrayList<>();
+
+            for (Estancia estancia : estancias) {
+                if ((unaEstrellaSeleccionada && estancia.getCategoria() == 1) ||
+                    (dosEstrellasSeleccionada && estancia.getCategoria() == 2) ||
+                    (tresEstrellasSeleccionada && estancia.getCategoria() == 3) ||
+                    (cuatroEstrellasSeleccionada && estancia.getCategoria() == 4) ||
+                    (cincoEstrellasSeleccionada && estancia.getCategoria() == 5)) {
+                    estanciasFiltradas.add(estancia);
+                }
+            }
+            
+
+            loadEstancias(estanciasFiltradas);
+        });
+
+        
+ 
 
         scrollPaneEstancias = new JScrollPane(tablaResultados);
         scrollPaneEstancias.setBorder(new TitledBorder("Resultados de Estancias"));
@@ -174,17 +217,17 @@ public class VentanaResultados extends JFrame {
         panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
         panelPrincipal.add(panelBotones);
         panelPrincipal.add(panelBuscador);
-        panelPrincipal.add(pFechasE);
-        panelPrincipal.add(pFechasS);
+        panelPrincipal.add(pFechas);
+        panelPrincipal.add(pCategorias);
         panelPrincipal.add(pCombo);  
         panelPrincipal.add(scrollPaneEstancias);
         
        
 
         add(panelPrincipal);
-        loadEstancias();
+        loadEstancias(estancias);
 
-        // Configurar el cierre de la ventana
+  
         setVisible(true);
     }
 
@@ -193,6 +236,7 @@ public class VentanaResultados extends JFrame {
         cabeceraResultados.add("Nombre");
         cabeceraResultados.add("Tipo de Estancia");
         cabeceraResultados.add("Ciudad");
+        cabeceraResultados.add("Categoria");
         cabeceraResultados.add("Número de Habitaciones");
         cabeceraResultados.add("Tarifa por Noche");
         cabeceraResultados.add("Imagen");
@@ -208,8 +252,9 @@ public class VentanaResultados extends JFrame {
         tablaResultados.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaResultados.getColumnModel().getColumn(3).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(4).setPreferredWidth(100);
-        tablaResultados.getColumnModel().getColumn(5).setCellRenderer(imageRenderer);
-        tablaResultados.getColumnModel().getColumn(6).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(6).setCellRenderer(imageRenderer);
+        tablaResultados.getColumnModel().getColumn(7).setPreferredWidth(100);
         
         tablaResultados.addMouseListener(new MouseAdapter() {
             @Override
@@ -218,7 +263,7 @@ public class VentanaResultados extends JFrame {
                     int row = tablaResultados.getSelectedRow();
                     int col = tablaResultados.getSelectedColumn();
 
-                    if (col == 6) { 
+                    if (col == 7) { 
                         Estancia estancia = estancias.get(row);
                         new VentanaReserva(estancia).setVisible(true);
                        
@@ -261,7 +306,7 @@ public class VentanaResultados extends JFrame {
   
 
 
-    private void loadEstancias() {
+    private void loadEstancias(List<Estancia> estanciasFiltradas) {
         modeloDatosResultados.setRowCount(0);
 
         String filtro = txtFiltro.getText().toLowerCase();
@@ -269,10 +314,12 @@ public class VentanaResultados extends JFrame {
         System.out.println(estancias);
 		estancias.forEach(e -> {
             if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
+            	
                 modeloDatosResultados.addRow(new Object[]{
                         e.getNombre(),
                         e.getClass().getSimpleName(),
                         e.getCiudad(),
+                        e.getCategoria(),
                         e.getNumeroHabitaciones(),
                         e.getTarifaNoche() + "€",
                         e.getFoto(),

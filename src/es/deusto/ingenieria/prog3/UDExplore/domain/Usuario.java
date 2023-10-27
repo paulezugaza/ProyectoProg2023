@@ -17,7 +17,7 @@ public class Usuario {
     }
 
     
-    // Getters
+   
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -39,7 +39,7 @@ public class Usuario {
     }
 
     
-    // Setters (opcional)
+    
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
@@ -61,11 +61,7 @@ public class Usuario {
     }
 
     
-    // Otros métodos (según necesidad)
-    @Override
-    public String toString() {
-        return "[nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", correoElectronico=" + correoElectronico
-                + ", numeroTelefono=" + numeroTelefono + "]";
-    }
+   
+   
 }
 

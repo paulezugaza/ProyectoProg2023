@@ -2,6 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -36,7 +37,9 @@ public class VentanaReserva extends JDialog {
 		setLocationRelativeTo(null);
 		
 		JPanel pHotelInfo = new JPanel(new BorderLayout());
+		Font nuevaFuente = new Font("Arial", Font.BOLD, 24);
         JLabel hotelInfoLabel = new JLabel("Hotel: " + estancia.getNombre() + " | Precio por noche: " + estancia.getTarifaNoche() + "€", SwingConstants.CENTER);
+        hotelInfoLabel.setFont(nuevaFuente);
         pHotelInfo.add(hotelInfoLabel, BorderLayout.CENTER);
         
         JPanel pHotelFoto = new JPanel(new BorderLayout());

@@ -44,9 +44,4 @@ public class Habitacion {
     }
 
 
-    // Otros métodos 
-    @Override
-    public String toString() {
-        return "Habitacion [Número: " + numero + ", Capacidad Máxima: " + capacidadMaxima + " personas, Precio por Noche: " + precioPorNoche + "€," + "]";
-    }
 }

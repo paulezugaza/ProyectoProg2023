@@ -23,8 +23,8 @@ public class Main {
 	        };
 	
 	
-		static Hotel hotelMadrid = new Hotel(1,"Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,"", 4, CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
-		static Hotel hotelBarcelona = new Hotel(2,"Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0,"", 3, CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
+		static Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,"", CadenaHotelera.GRANDSPLENDOUR,new ArrayList<>()) ;
+		static Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona,5,  80, 120.0,"", CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
 		/**
 	
 		Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0, 4.5);

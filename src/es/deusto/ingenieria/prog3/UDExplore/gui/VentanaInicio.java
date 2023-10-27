@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,11 +45,9 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
 public class VentanaInicio extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	// JTable de tipos estancia
-	private JTable jTableEstancias = new JTable();
-	//private DefaultTableModel modeloDatosEstancias;
 
-	// Lista de estancias que se está visualizando en la ventana
+	private JTable jTableEstancias = new JTable();
+
 	private List<Estancia> estancias = new ArrayList<>();
 	private JComboBox<String> jComboDestino = new JComboBox<>();
 	private JComboBox<String> jComboDiaEntrada = new JComboBox<>();
@@ -59,7 +58,7 @@ public class VentanaInicio extends JFrame {
 	private JComboBox<String> jComboAnioSalida = new JComboBox<>();
 	private JLabel jLabelInfo = new JLabel("Seleccione el destino y fechas de entrada y salida");
 
-	//private List<Estancia> listaEstancias = new ArrayList<>();
+
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
 
@@ -67,7 +66,6 @@ public class VentanaInicio extends JFrame {
 		ArrayList<Object> listaEnMain = Main.getList();
 		return listaEnMain;
 
-		// Ahora puedes trabajar con la lista listaEnMain
 	}
 
 	ArrayList<Object> lista = this.getEstancias();
@@ -133,12 +131,21 @@ public class VentanaInicio extends JFrame {
 			dispose();
 
 		});
+		
+		
+		JPanel pPersonal = new JPanel();
+		JLabel icono = new JLabel(scaleImage("resources/images/usuario.png", 60, 60));
+		pPersonal.add(icono);
+
+		
+		
 		pBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pBotones.add(bRegistro);
 		pBotones.add(bInicioS);
+		pBotones.add(icono);
 
 		JPanel pfoto = new JPanel();
-		JLabel iIcono = new JLabel(scaleImage("resources/images/imagenHotel.png", 150, 150));
+		JLabel iIcono = new JLabel(scaleImage("resources/images/icono.png", 170, 170));
 		pfoto.add(iIcono);
 
 		JPanel pDestino = new JPanel();
@@ -178,6 +185,20 @@ public class VentanaInicio extends JFrame {
 		pSearch.add(pFechasS);
 		pSearch.add(bBuscar);
 		pSearch.setLayout(new GridBagLayout());
+		
+		int diaEntrada = Integer.parseInt((String) jComboDiaEntrada.getSelectedItem());
+		int mesEntrada = jComboMesEntrada.getSelectedIndex(); // Restamos 1 para obtener el mes correcto (0-11)
+		int anioEntrada = Integer.parseInt((String) jComboAnioEntrada.getSelectedItem());
+		int diaSalida = Integer.parseInt((String) jComboDiaSalida.getSelectedItem());
+		int mesSalida = jComboMesSalida.getSelectedIndex(); // Restamos 1 para obtener el mes correcto (0-11)
+		int anioSalida = Integer.parseInt((String) jComboAnioSalida.getSelectedItem());
+
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(anioEntrada, mesEntrada, diaEntrada);
+		Date fechaEntrada = cal.getTime();
+		cal.set(anioSalida, mesSalida, diaSalida);
+		Date fechaSalida = cal.getTime();
 
 		JPanel pPorTipoAloj = new JPanel();
 		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
@@ -189,16 +210,18 @@ public class VentanaInicio extends JFrame {
 		ptitulo.add(ltitulo);
 		
 
-		Hotel hotelMadrid = new Hotel(1, "Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,
-				"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
-		Hotel hotelBarcelona = new Hotel(2, "Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, "", 3,
+		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,
+				"Resources/images/madrid.jpg", CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
+		Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 5,  80, 120.0, "", 
 				CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-		Hotel hotelSevilla = new Hotel(3, "Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4,
+		Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 3, 60, 100.0, "",
 				CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
-		Apartamento apartamentoValencia = new Apartamento(4,"Apartamento Valencia Beach", Ciudad.Valencia, 2, 80.0, "", 4.5);
+		
+		Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia,(int) 4.5, 2, 80.0, "");
 		estancias.add(hotelMadrid);
 		estancias.add(hotelBarcelona);
 		estancias.add(hotelSevilla);
+	
 		estancias.add(apartamentoValencia);
 		
 		ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
@@ -232,12 +255,12 @@ public class VentanaInicio extends JFrame {
 					Date inicio = sdf.parse(""+((String) jComboDiaEntrada.getSelectedItem())+"/"+(jComboMesEntrada.getSelectedIndex()+1) + "/" +((String) jComboAnioEntrada.getSelectedItem()));
 					Date fin = sdf.parse(""+((String) jComboDiaSalida.getSelectedItem())+"/"+(jComboMesSalida.getSelectedIndex()+1) + "/" +((String) jComboAnioSalida.getSelectedItem()));
 					
-					//Comprobar que la fecha de salida no es anterior a la de entrada
+					
 					if (fin.before(inicio)) {
 						jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
 			        } else {
 			            jLabelInfo.setText("Realizando búsqueda...");
-			            //Buscar estancias para esas fechas
+			      
 			            List<Estancia> estanciasDisponibles = new ArrayList<>();
 
 		                for (Estancia estancia : estancias) {
@@ -262,10 +285,9 @@ public class VentanaInicio extends JFrame {
 		                        textArea.append("Nombre: " + estancia.getNombre() + ", Precio: " + estancia.getTarifaNoche() + "\n");
 		                    }
 
-		                    // Crear un JScrollPane para el JTextArea
+
 		                    JScrollPane scrollPane = new JScrollPane(textArea);
 
-		                    // Crear un nuevo JFrame para mostrar el resultado
 		                    JFrame resultadoFrame = new JFrame("Estancias Disponibles");
 		                    resultadoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		                    resultadoFrame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -357,11 +379,11 @@ public class VentanaInicio extends JFrame {
 		panelCiudad.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				List<Estancia> estancias = new ArrayList<>();
-				Hotel hotelMadrid = new Hotel(1, "Hotel Madrid Centro", Ciudad.Madrid, 100, 150.0,
-						"Resources/images/madrid.jpg", 4, CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
-				Hotel hotelBarcelona = new Hotel(2, "Hotel Barcelona Playa", Ciudad.Barcelona, 80, 120.0, "", 3,
+				Hotel hotelMadrid = new Hotel( "Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,
+						"Resources/images/madrid.jpg", CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
+				Hotel hotelBarcelona = new Hotel( "Hotel Barcelona Playa", Ciudad.Barcelona, 3, 80, 120.0, "",
 						CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-				Hotel hotelSevilla = new Hotel(3, "Hotel Sevilla Histórico", Ciudad.Sevilla, 60, 100.0, "", 4,
+				Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla,4,  60, 100.0, "",
 						CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
 				estancias.add(hotelMadrid);
 				estancias.add(hotelBarcelona);
