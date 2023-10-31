@@ -20,7 +20,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 
 
 
@@ -262,12 +264,18 @@ public class VentanaResultados extends JFrame {
                 if (e.getClickCount() == 2) {
                     int row = tablaResultados.getSelectedRow();
                     int col = tablaResultados.getSelectedColumn();
+                    
 
                     if (col == 7) { 
-                        Estancia estancia = estancias.get(row);
+                    	if (estancias.get(row) instanceof Hotel) {
+                    		Hotel hotel = (Hotel) estancias.get(row);
+                    		new VentanaHabitaciones(hotel).setVisible(true);
+                    		
+                    	} else {
+                    	Estancia estancia = estancias.get(row);
                         new VentanaReserva(estancia).setVisible(true);
                        
-                        
+                    	}
                     }
                 }
             }
@@ -312,8 +320,11 @@ public class VentanaResultados extends JFrame {
         String filtro = txtFiltro.getText().toLowerCase();
 
         System.out.println(estancias);
+        
+        
 		estancias.forEach(e -> {
             if (e.getNombre().toLowerCase().contains(filtro) || filtro.isEmpty()) {
+            	if ( e instanceof Apartamento) {
             	
                 modeloDatosResultados.addRow(new Object[]{
                         e.getNombre(),
@@ -324,9 +335,23 @@ public class VentanaResultados extends JFrame {
                         e.getTarifaNoche() + "€",
                         e.getFoto(),
                         new String("Reservar ")+e.getNombre()
-                       
-                        
+                 
+                
+                     
                 });
+            }else{
+            	 modeloDatosResultados.addRow(new Object[]{
+                         e.getNombre(),
+                         e.getClass().getSimpleName(),
+                         e.getCiudad(),
+                         e.getCategoria(),
+                         e.getNumeroHabitaciones(),
+                         e.getTarifaNoche() + "€",
+                         e.getFoto(),
+                         new String("Ver habitaciones")
+            	 });
+            	
+            	}
             }
         });
     }

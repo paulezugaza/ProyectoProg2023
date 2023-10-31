@@ -1,8 +1,12 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-public class Apartamento extends Estancia{
+import java.io.Serializable;
+
+public class Apartamento extends Estancia implements Serializable {
 	
 	
+
+	private static final long serialVersionUID = 1L;
 
 	public Apartamento( String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto) {
 		super( nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, isDisponible());

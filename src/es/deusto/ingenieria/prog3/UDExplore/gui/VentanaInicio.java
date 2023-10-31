@@ -39,8 +39,10 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaInicio extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -48,7 +50,7 @@ public class VentanaInicio extends JFrame {
 
 	private JTable jTableEstancias = new JTable();
 
-	private List<Estancia> estancias = new ArrayList<>();
+
 	private JComboBox<String> jComboDestino = new JComboBox<>();
 	private JComboBox<String> jComboDiaEntrada = new JComboBox<>();
 	private JComboBox<String> jComboMesEntrada = new JComboBox<>();
@@ -210,23 +212,10 @@ public class VentanaInicio extends JFrame {
 		ptitulo.add(ltitulo);
 		
 
-		Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,
-				"Resources/images/madrid.jpg", CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
-		Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 5,  80, 120.0, "", 
-				CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-		Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 3, 60, 100.0, "",
-				CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
-		
-		Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia,(int) 4.5, 2, 80.0, "");
-		estancias.add(hotelMadrid);
-		estancias.add(hotelBarcelona);
-		estancias.add(hotelSevilla);
-	
-		estancias.add(apartamentoValencia);
 		
 		ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
 	
-			filtrarHoteles(estancias).forEach(h -> {
+			filtrarHoteles(Logica.estanciasHistoricas).forEach(h -> {
 				estanciasFiltradas.add(h);
 			});
 
@@ -263,7 +252,7 @@ public class VentanaInicio extends JFrame {
 			      
 			            List<Estancia> estanciasDisponibles = new ArrayList<>();
 
-		                for (Estancia estancia : estancias) {
+		                for (Estancia estancia : Logica.estanciasHistoricas) {
 		                	 if (estancia.getCiudad().toString().equals(jComboDestino.getSelectedItem().toString())) {
 		                         if (estancia.isDisponible()) {
 		                             estanciasDisponibles.add(estancia); //añadir las estancias con el atributo disponible a true
@@ -313,7 +302,7 @@ public class VentanaInicio extends JFrame {
 		pApartamento.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				List<Apartamento> apartamentos = filtrarApartamentos(estancias);
+				List<Apartamento> apartamentos = filtrarApartamentos(Logica.estanciasHistoricas);
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
 					apartamentos.forEach(a -> {
 						estanciasFiltradas.add(a);
@@ -326,6 +315,7 @@ public class VentanaInicio extends JFrame {
 
 			}
 		});
+		
 
 		JPanel centralTipoAloj = new JPanel();
 		centralTipoAloj.add(pHotel);
@@ -370,31 +360,22 @@ public class VentanaInicio extends JFrame {
 		}
 		return null;
 	}
-	//
-
+	
 	private void agregarDestinoPopular(JPanel panelDestinos, Ciudad ciudad, String imageRuta) {
 		JPanel panelCiudad = new JPanel();
 		panelCiudad.setLayout(new BoxLayout(panelCiudad, BoxLayout.Y_AXIS));
 
 		panelCiudad.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				List<Estancia> estancias = new ArrayList<>();
-				Hotel hotelMadrid = new Hotel( "Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,
-						"Resources/images/madrid.jpg", CadenaHotelera.GRANDSPLENDOUR, new ArrayList<>());
-				Hotel hotelBarcelona = new Hotel( "Hotel Barcelona Playa", Ciudad.Barcelona, 3, 80, 120.0, "",
-						CadenaHotelera.LUXURYRESORTS, new ArrayList<>());
-				Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla,4,  60, 100.0, "",
-						CadenaHotelera.SUNSETRETREAT, new ArrayList<>());
-				estancias.add(hotelMadrid);
-				estancias.add(hotelBarcelona);
-				estancias.add(hotelSevilla);
+				
+				
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-				for (Estancia E : estancias) {
-					if (E.getCiudad() == ciudad) {
-						estanciasFiltradas.add(E);
+				Logica.estanciasHistoricas.forEach( est ->{
+					if (est.getCiudad() == ciudad) {
+						estanciasFiltradas.add(est);
 					}
 
-				}
+				});
 				if (e.getClickCount() == 2) {
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
@@ -413,21 +394,21 @@ public class VentanaInicio extends JFrame {
 
 	public ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias) {
 		ArrayList<Hotel> hoteles = new ArrayList<>();
-		for (Estancia e : Estancias) {
-			if (e instanceof Hotel) {
-				hoteles.add(((Hotel) e));
+		Logica.estanciasHistoricas.forEach( est ->{
+			if (est instanceof Hotel) {
+				hoteles.add(((Hotel) est));
 			}
-		}
+		});
 		return hoteles;
 	}
 
 	public ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias) {
 		ArrayList<Apartamento> apartamentos = new ArrayList<>();
-		for (Estancia e : Estancias) {
-			if (e instanceof Apartamento) {
-				apartamentos.add((Apartamento) e);
+		Logica.estanciasHistoricas.forEach( est ->{
+			if (est instanceof Apartamento) {
+				apartamentos.add((Apartamento) est);
 			}
-		}
+		});
 		return apartamentos;
 	}
 

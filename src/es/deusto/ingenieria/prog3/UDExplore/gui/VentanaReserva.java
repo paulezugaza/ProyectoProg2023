@@ -37,9 +37,12 @@ public class VentanaReserva extends JDialog {
 		setLocationRelativeTo(null);
 		
 		JPanel pHotelInfo = new JPanel(new BorderLayout());
-		Font nuevaFuente = new Font("Arial", Font.BOLD, 24);
-        JLabel hotelInfoLabel = new JLabel("Hotel: " + estancia.getNombre() + " | Precio por noche: " + estancia.getTarifaNoche() + "€", SwingConstants.CENTER);
+		Font nuevaFuente = new Font("Arial", Font.ROMAN_BASELINE, 17);
+		 JLabel labelReser = new JLabel("Desea reservar esta estancia?", SwingConstants.CENTER);
+        JLabel hotelInfoLabel = new JLabel("Hotel: " + estancia.getNombre(), SwingConstants.CENTER);
         hotelInfoLabel.setFont(nuevaFuente);
+        labelReser.setFont(nuevaFuente);
+        pHotelInfo.add(hotelInfoLabel, BorderLayout.NORTH);
         pHotelInfo.add(hotelInfoLabel, BorderLayout.CENTER);
         
         JPanel pHotelFoto = new JPanel(new BorderLayout());

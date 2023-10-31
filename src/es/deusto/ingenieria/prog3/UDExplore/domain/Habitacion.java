@@ -1,8 +1,11 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-public class Habitacion {
+import java.io.Serializable;
+
+public class Habitacion implements Serializable{
 	
-    private int numero;
+    private static final long serialVersionUID = 1L;
+	private int numero;
     private int capacidadMaxima;
     private double precioPorNoche;
  

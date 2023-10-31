@@ -1,12 +1,14 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Hotel extends Estancia {
+public class Hotel extends Estancia implements Serializable {
 
 
 
-    private CadenaHotelera cadenaHotelera;
+    private static final long serialVersionUID = 1L;
+	private CadenaHotelera cadenaHotelera;
     private List<Habitacion> habitaciones;
 	
 

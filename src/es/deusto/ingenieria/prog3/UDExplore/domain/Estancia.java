@@ -1,6 +1,10 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-public class Estancia  {
+import java.io.Serializable;
+
+public class Estancia  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	int codigoHotel =0;
 
