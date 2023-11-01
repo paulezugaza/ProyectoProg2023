@@ -8,13 +8,15 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 	import java.io.ObjectOutputStream;
 	import java.io.Serializable;
 	import java.util.ArrayList;
-	import java.util.List;
+import java.util.Date;
+import java.util.List;
 	import java.util.logging.Level;
 	import java.util.logging.Logger;
 
 
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 
 	public class Logica implements Serializable{
 		
@@ -68,6 +70,19 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 			}
 		}
 		
+		public static boolean estanciaDisponibleEnFechas(Estancia estancia, Date inicio, Date fin) {
+		    if (estancia.getReservas() == null) {
+		        return true; 
+		    }
+
+		    for (Reserva reserva : estancia.getReservas()) {
+		        if (!fin.before(reserva.getFechaInicio()) && !inicio.after(reserva.getFechaFin())) {
+		            return false; 
+		        }
+		    }
+		    return true; 
+		}
+
 	
 	
 

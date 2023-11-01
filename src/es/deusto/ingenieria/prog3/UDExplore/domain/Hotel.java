@@ -12,15 +12,12 @@ public class Hotel extends Estancia implements Serializable {
     private List<Habitacion> habitaciones;
 	
 
-	public Hotel( String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto,
-		 CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones) {
-		super( nombre, ciudad,categoria , numeroHabitaciones, tarifaNoche, foto, isDisponible());
-	
+
+	public Hotel(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones,  List<Reserva> reservas) {
+		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
 		this.cadenaHotelera = cadenaHotelera;
 		this.habitaciones = habitaciones;
 	}
-   
-
 
 
 	@Override

@@ -42,6 +42,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaInicio extends JFrame {
@@ -58,7 +59,7 @@ public class VentanaInicio extends JFrame {
 	private JComboBox<String> jComboDiaSalida = new JComboBox<>();
 	private JComboBox<String> jComboMesSalida = new JComboBox<>();
 	private JComboBox<String> jComboAnioSalida = new JComboBox<>();
-	private JLabel jLabelInfo = new JLabel("Seleccione el destino y fechas de entrada y salida");
+	private JLabel jLabelInfo = new JLabel();
 
 
 	
@@ -187,21 +188,7 @@ public class VentanaInicio extends JFrame {
 		pSearch.add(pFechasS);
 		pSearch.add(bBuscar);
 		pSearch.setLayout(new GridBagLayout());
-		
-		int diaEntrada = Integer.parseInt((String) jComboDiaEntrada.getSelectedItem());
-		int mesEntrada = jComboMesEntrada.getSelectedIndex(); // Restamos 1 para obtener el mes correcto (0-11)
-		int anioEntrada = Integer.parseInt((String) jComboAnioEntrada.getSelectedItem());
-		int diaSalida = Integer.parseInt((String) jComboDiaSalida.getSelectedItem());
-		int mesSalida = jComboMesSalida.getSelectedIndex(); // Restamos 1 para obtener el mes correcto (0-11)
-		int anioSalida = Integer.parseInt((String) jComboAnioSalida.getSelectedItem());
-
-
-		Calendar cal = Calendar.getInstance();
-		cal.set(anioEntrada, mesEntrada, diaEntrada);
-		Date fechaEntrada = cal.getTime();
-		cal.set(anioSalida, mesSalida, diaSalida);
-		Date fechaSalida = cal.getTime();
-
+	
 		JPanel pPorTipoAloj = new JPanel();
 		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
 		pPorTipoAloj.setPreferredSize(new Dimension(200, 200));
@@ -236,60 +223,53 @@ public class VentanaInicio extends JFrame {
 				}
 			}
 		});
+		
+		
+		
+		
 		bBuscar.addActionListener(new ActionListener() {
-			//
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Date inicio = sdf.parse(""+((String) jComboDiaEntrada.getSelectedItem())+"/"+(jComboMesEntrada.getSelectedIndex()+1) + "/" +((String) jComboAnioEntrada.getSelectedItem()));
-					Date fin = sdf.parse(""+((String) jComboDiaSalida.getSelectedItem())+"/"+(jComboMesSalida.getSelectedIndex()+1) + "/" +((String) jComboAnioSalida.getSelectedItem()));
-					
-					
-					if (fin.before(inicio)) {
-						jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
+			
+			    try {
+			        Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
+			        Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+			        System.out.println("Botón Buscar clicado."); 
+			        
+
+			        if (fin.before(inicio)) {
+			            jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
 			        } else {
 			            jLabelInfo.setText("Realizando búsqueda...");
-			      
+
 			            List<Estancia> estanciasDisponibles = new ArrayList<>();
 
-		                for (Estancia estancia : Logica.estanciasHistoricas) {
-		                	 if (estancia.getCiudad().toString().equals(jComboDestino.getSelectedItem().toString())) {
-		                         if (estancia.isDisponible()) {
-		                             estanciasDisponibles.add(estancia); //añadir las estancias con el atributo disponible a true
-		                         }
-		                     }
-		                }
+			            for (Estancia estancia : Logica.estanciasHistoricas) {
+			                if (estancia.getCiudad().toString().equals(jComboDestino.getSelectedItem().toString())) {
+			                    if (Logica.estanciaDisponibleEnFechas(estancia, inicio, fin)) {
+			                        estanciasDisponibles.add(estancia);
+			                    }
+			                }
+			            }
 
-		                if (estanciasDisponibles.isEmpty()) {
-		                    jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
-		                } else {
-		                    jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
-		             
-		                    //IA, chatgpt
-		                    JTextArea textArea = new JTextArea();
-		                    textArea.setEditable(false); // Para que el usuario no pueda editar el texto
-
-		                    // Agregar información de estancias válidas al JTextArea
-		                    for (Estancia estancia : estanciasDisponibles) {
-		                        textArea.append("Nombre: " + estancia.getNombre() + ", Precio: " + estancia.getTarifaNoche() + "\n");
-		                    }
-
-
-		                    JScrollPane scrollPane = new JScrollPane(textArea);
-
-		                    JFrame resultadoFrame = new JFrame("Estancias Disponibles");
-		                    resultadoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		                    resultadoFrame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-		                    resultadoFrame.setSize(400, 300);
-		                    resultadoFrame.setVisible(true);
-		                }
-					}
-					System.out.println(inicio.after(fin));
-					System.out.println(inicio.before(fin));
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}				
+			            if (estanciasDisponibles.isEmpty()) {
+			                jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
+			               
+			            } else {
+			                jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
+			                
+			               
+			                VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
+			                ventanaResultados.setVisible(true);
+			                dispose();
+			            }
+			        }
+			    } catch (ParseException e1) {
+			        e1.printStackTrace();
+			    }
 			}
+
 		});
 		
 		JPanel pApartamento = new JPanel();
@@ -411,13 +391,9 @@ public class VentanaInicio extends JFrame {
 		});
 		return apartamentos;
 	}
+	
+	
 
-	public static void main(String[] args) {
-
-		SwingUtilities.invokeLater(() -> {
-			VentanaInicio ventana = new VentanaInicio();
-			ventana.setVisible(true);
-		});
-	}
+	
 
 }

@@ -1,19 +1,26 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Apartamento extends Estancia implements Serializable {
 	
 	
 
 	private static final long serialVersionUID = 1L;
-
-	public Apartamento( String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto) {
-		super( nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, isDisponible());
 	
+
+
+	public Apartamento(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
+			String foto, List<Reserva> reservas) {
+		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
+		
 	}
 
-	@Override
+
+
+
 	public String getNombre() {
 		return super.getNombre();
 	}

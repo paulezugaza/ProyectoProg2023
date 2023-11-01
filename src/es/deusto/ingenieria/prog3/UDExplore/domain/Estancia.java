@@ -1,6 +1,8 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Estancia  implements Serializable {
 
@@ -13,15 +15,15 @@ public class Estancia  implements Serializable {
     private int numeroHabitaciones;
     private double tarifaNoche;
     private String foto;
-    public boolean disponible;
 	private int categoria;
+	ArrayList<Reserva> reservas;
    
 
     public Estancia() {
     	
     }
 
-    public Estancia( String nombre, Ciudad ciudad, int categoria,  int numeroHabitaciones, double tarifaNoche, String foto, boolean disponible) {
+    public Estancia( String nombre, Ciudad ciudad, int categoria,  int numeroHabitaciones, double tarifaNoche, String foto, List<Reserva> reservas) {
 		super();
 		this.nombre = nombre;
 		this.ciudad = ciudad;
@@ -29,11 +31,19 @@ public class Estancia  implements Serializable {
 		this.numeroHabitaciones = numeroHabitaciones;
 		this.tarifaNoche = tarifaNoche;
 		this.setFoto(foto);
-		this.disponible = disponible;
+	
 	}
 
 
-    public String getNombre() {
+    public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(ArrayList<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public String getNombre() {
         return nombre;
     }
 
@@ -63,11 +73,7 @@ public class Estancia  implements Serializable {
         this.tarifaNoche = tarifaNoche;
     }
     
- 
-    public void setDisponible() {
-    	this.disponible = disponible;
-    }
-    
+
     // Otros métodos 
     public double calcularPrecioTotal(int numNoches) {
         return numNoches * tarifaNoche;

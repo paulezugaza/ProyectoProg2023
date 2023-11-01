@@ -6,13 +6,16 @@ import javax.swing.JFrame;
 
 		import java.awt.Font;
 		import java.awt.GridLayout;
-		import java.awt.event.WindowAdapter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 		import java.awt.event.WindowEvent;
 
 
 		import javax.swing.JButton;
 		import javax.swing.JLabel;
-		import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 		import javax.swing.JPasswordField;
 		import javax.swing.JTextField;
 
@@ -51,7 +54,7 @@ import javax.swing.JFrame;
 				
 				private void inicializar() {
 					JFrame v = this;
-					//Inicializamos elementos 
+					
 					email= new JLabel("Email: ");
 					contrasenya= new JLabel("Contraseña: ");
 					txtemail= new JTextField(25);
@@ -61,36 +64,21 @@ import javax.swing.JFrame;
 					botonera= new JPanel();
 					entrar.setFont(new Font("Serif", Font.PLAIN, 20));
 					infoCuenta=new JLabel("DATOS DE LA CUENTA:");
-					nombreRegistro= new JLabel("Nombre: ");
-					txtnombreRegistro= new JTextField(25);
-					emailRegistro= new JLabel("Email: ");
-					txtemailRegistro= new JTextField(25);
-					contrasenyaRegistro= new JLabel("Contraseña: ");
-					txtcontrasenyaRegistro= new JTextField(25);
-					datosCuenta= new JPanel();
-					botoneraRegistro= new JPanel();
-					guardarDatos= new JButton("Registrarse");
 					
-					//Añadimos a la ventana
+					
 					panelCentral.add(email);
 					panelCentral.add(txtemail);
 					panelCentral.add(contrasenya);
 					panelCentral.add(txtcontrasenya);
 					botonera.add(entrar);
 					
-					//Dejamos añadidos los elementos a los paneles que visibilizaremos después
-					datosCuenta.add(nombreRegistro);
-					datosCuenta.add(txtnombreRegistro);
-					datosCuenta.add(emailRegistro);
-					datosCuenta.add(txtemailRegistro);
-					datosCuenta.add(contrasenyaRegistro);
-					datosCuenta.add(txtcontrasenyaRegistro);
-					datosCuenta.setLayout(new GridLayout(3,2));
-					
-					botoneraRegistro.add(guardarDatos);
-					botoneraRegistro.setLayout(new GridLayout(1,2));
-					
-					//Caracteristicas de la ventana
+					entrar.addActionListener(new ActionListener() {
+				            @Override
+				            public void actionPerformed(ActionEvent e) {
+				                new VentanaInicio();
+				            }
+				      });
+				
 					setSize(500,200);
 					setLocationRelativeTo(null);
 					setTitle("INICIO DE SESIÓN");

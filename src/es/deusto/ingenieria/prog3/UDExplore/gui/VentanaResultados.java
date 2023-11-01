@@ -5,10 +5,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,10 +23,12 @@ import javax.swing.event.DocumentListener;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.JTextComponent;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 
 
@@ -39,12 +45,15 @@ public class VentanaResultados extends JFrame {
     JComboBox<String> jComboDiaSalida = new JComboBox<>();
     JComboBox<String> jComboMesSalida = new JComboBox<>();
     JComboBox<String> jComboAnioSalida = new JComboBox<>();
+	private JLabel jLabelInfo = new JLabel();
     
 
     public VentanaResultados(List<Estancia> estancias) {
     	
     	
+
     	
+    	SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
     	this.estancias = estancias;
     	
     	int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
@@ -186,28 +195,58 @@ public class VentanaResultados extends JFrame {
         pCategorias.add(cuatroEstrellas);
         pCategorias.add(cincoEstrellas);
         
-        boolean unaEstrellaSeleccionada = unaEstrella.isSelected();
-        boolean dosEstrellasSeleccionada = dosEstrellas.isSelected();
-        boolean tresEstrellasSeleccionada = tresEstrellas.isSelected();
-        boolean cuatroEstrellasSeleccionada = cuatroEstrellas.isSelected();
-        boolean cincoEstrellasSeleccionada = cincoEstrellas.isSelected();
+        
         
         bBuscar.addActionListener(e -> {
-            List<Estancia> estanciasFiltradas = new ArrayList<>();
+            try {
+                Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
+                Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+                System.out.println("Botón Buscar clicado.");
 
-            for (Estancia estancia : estancias) {
-                if ((unaEstrellaSeleccionada && estancia.getCategoria() == 1) ||
-                    (dosEstrellasSeleccionada && estancia.getCategoria() == 2) ||
-                    (tresEstrellasSeleccionada && estancia.getCategoria() == 3) ||
-                    (cuatroEstrellasSeleccionada && estancia.getCategoria() == 4) ||
-                    (cincoEstrellasSeleccionada && estancia.getCategoria() == 5)) {
-                    estanciasFiltradas.add(estancia);
+                JTextComponent jLabelInfo = null;
+                if (fin.before(inicio)) {
+                    jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
+                } else {
+                    jLabelInfo.setText("Realizando búsqueda...");
+
+                    List<Estancia> estanciasDisponibles = new ArrayList<>();
+                    boolean unaEstrellaSeleccionada = unaEstrella.isSelected();
+                    boolean dosEstrellasSeleccionada = dosEstrellas.isSelected();
+                    boolean tresEstrellasSeleccionada = tresEstrellas.isSelected();
+                    boolean cuatroEstrellasSeleccionada = cuatroEstrellas.isSelected();
+                    boolean cincoEstrellasSeleccionada = cincoEstrellas.isSelected();
+           
+                    for (Estancia estancia : Logica.estanciasHistoricas) {
+                        if (Logica.estanciaDisponibleEnFechas(estancia, inicio, fin)) {
+                            
+                            int categoria = estancia.getCategoria();
+
+                            // Verificar si el hotel coincide con las categorías seleccionadas
+                            if ((unaEstrellaSeleccionada && categoria == 1) ||
+                                (dosEstrellasSeleccionada && categoria == 2) ||
+                                (tresEstrellasSeleccionada && categoria == 3) ||
+                                (cuatroEstrellasSeleccionada && categoria == 4) ||
+                                (cincoEstrellasSeleccionada && categoria == 5)) {
+                                estanciasDisponibles.add(estancia);
+                            }
+                        }
+                    }
+
+                    if (estanciasDisponibles.isEmpty()) {
+                        jLabelInfo.setText("No hay estancias disponibles para estas fechas y categorías en este destino.");
+                    } else {
+                        jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
+
+                        VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
+                        ventanaResultados.setVisible(true);
+                        dispose();
+                    }
                 }
+            } catch (ParseException e1) {
+                e1.printStackTrace();
             }
-            
-
-            loadEstancias(estanciasFiltradas);
         });
+
 
         
  
