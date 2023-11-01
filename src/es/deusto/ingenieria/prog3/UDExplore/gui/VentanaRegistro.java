@@ -83,8 +83,10 @@ public class VentanaRegistro {
         btnCerrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new VentanaInicio();
-                dispose();
+            	VentanaInicio ventanaInicio = new VentanaInicio();
+                ventanaInicio.setVisible(true);
+                frame.dispose();
+                
             }
 
 			private void dispose() {
