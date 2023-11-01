@@ -6,21 +6,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class VentanaRegistro {
-
+	
+	JFrame frame = new JFrame("Registro de usuario");
+	private JTextField txtNombre;
+	private JTextField txtApellidos;
+	private JPasswordField txtContrasenya;
+	private JPasswordField txtContrasenyaRep;
+	
     public VentanaRegistro() {
-        JFrame frame = new JFrame("Registro de usuario");
+        frame = new JFrame("Registro de usuario");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 300);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout(10, 10));  
  
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(7, 2, 5, 5));  
+        inputPanel.setLayout(new GridLayout(8, 2, 5, 5));  
 
         JLabel lblNombre = new JLabel("Nombre:");
-        JTextField txtNombre = new JTextField();
+        txtNombre = new JTextField();
         JLabel lblApellidos = new JLabel("Apellidos:");
-        JTextField txtApellidos = new JTextField();
+        txtApellidos = new JTextField();
         JLabel lblTelefono = new JLabel("Número de Teléfono:");
         JTextField txtTelefono = new JTextField();
         JLabel lblDireccion = new JLabel("Direccion:");
@@ -29,8 +35,11 @@ public class VentanaRegistro {
         JTextField txtCiudad = new JTextField();
         JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
-        JLabel lblContraseña = new JLabel("Contraseña:");
-        JTextField txtContraseña = new JTextField();
+        JLabel lblContrasenya = new JLabel("Contraseña:"); 
+        txtContrasenya = new JPasswordField();
+        JLabel lblContrasenyaRep = new JLabel("Confrima tu contraseña:");
+        txtContrasenyaRep = new JPasswordField();
+       
 
         inputPanel.add(lblNombre);
         inputPanel.add(txtNombre);
@@ -44,8 +53,10 @@ public class VentanaRegistro {
         inputPanel.add(txtTelefono);
         inputPanel.add(lblEmail);
         inputPanel.add(txtEmail);
-        inputPanel.add(lblContraseña);
-        inputPanel.add(txtContraseña);
+        inputPanel.add(lblContrasenya);
+        inputPanel.add(txtContrasenya);
+        inputPanel.add(lblContrasenyaRep);
+        inputPanel.add(txtContrasenyaRep);
 
  
         JPanel buttonPanel = new JPanel();
@@ -59,12 +70,28 @@ public class VentanaRegistro {
                 String apellidos = txtApellidos.getText();
                 String email = txtEmail.getText();
                 String telefono = txtTelefono.getText();
+                char[] cont1 = txtContrasenya.getPassword();
+                char[] cont2 = txtContrasenyaRep.getPassword();
+                	
+                checkFields();
 
-                JOptionPane.showMessageDialog(frame, "Registro exitoso");
+
             }
         });
 
         JButton btnCerrar = new JButton("Cerrar");
+        btnCerrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaInicio();
+                dispose();
+            }
+
+			private void dispose() {
+				this.dispose();
+				
+			}
+        });
 
         buttonPanel.add(btnRegistrar);
         buttonPanel.add(btnCerrar);
@@ -84,4 +111,30 @@ public class VentanaRegistro {
             }
         });
     }
+    
+    public boolean checkFields() {
+		if (isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Faltan algunos campos por rellenar");
+			return false;
+		} else {
+			if (isWrong()) {
+				JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+				return false;
+			} else{
+				JOptionPane.showMessageDialog(frame, "Registro exitoso");
+			}
+		}
+		return true;
+	}
+    
+    private boolean isEmpty() {
+		return (txtNombre.getText().equals("") || (String.valueOf(txtContrasenya.getPassword()).equals(""))
+				|| (String.valueOf(txtContrasenyaRep.getPassword()).equals("")));
+
+	}
+
+	private boolean isWrong() {
+		return (!String.valueOf(txtContrasenya.getPassword()).equals(String.valueOf(txtContrasenyaRep.getPassword())));
+	}
+
 }
