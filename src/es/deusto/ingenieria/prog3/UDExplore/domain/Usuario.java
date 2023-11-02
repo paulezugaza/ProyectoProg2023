@@ -6,18 +6,23 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String correoElectronico;
+    private String contraseña;
     private String numeroTelefono;
     
-    public Usuario(String nombreUsuario, String nombre, String apellido, String correoElectronico, String numeroTelefono) {
-        this.nombreUsuario = nombreUsuario;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correoElectronico = correoElectronico;
-        this.numeroTelefono = numeroTelefono;
-    }
-
-    
    
+    
+    public Usuario(String nombreUsuario, String nombre, String apellido, String correoElectronico, String contraseña,
+			String numeroTelefono) {
+		super();
+		this.nombreUsuario = nombreUsuario;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.correoElectronico = correoElectronico;
+		this.contraseña = contraseña;
+		this.numeroTelefono = numeroTelefono;
+	}
+
+	// Getters
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -39,7 +44,7 @@ public class Usuario {
     }
 
     
-    
+    // Setters (opcional)
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
@@ -61,7 +66,21 @@ public class Usuario {
     }
 
     
-   
-   
+    // Otros métodos (según necesidad)
+    @Override
+    public String toString() {
+        return "Administrador [nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", correoElectronico=" + correoElectronico
+                + ", numeroTelefono=" + numeroTelefono + "]";
+    }
+
+
+	public String getContraseña() {
+		return contraseña;
+	}
+
+
+	public void setContraseña(String contraseña) {
+		this.contraseña = contraseña;
+	}
 }
 

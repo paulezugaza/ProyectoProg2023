@@ -11,12 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,22 +27,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaInicio extends JFrame {
@@ -130,6 +124,7 @@ public class VentanaInicio extends JFrame {
 		});
 
 		bInicioS.addActionListener(e -> {
+			System.out.println("hola");
 			new VentanaLogin();
 			dispose();
 
@@ -139,13 +134,23 @@ public class VentanaInicio extends JFrame {
 		JPanel pPersonal = new JPanel();
 		JLabel icono = new JLabel(scaleImage("resources/images/usuario.png", 60, 60));
 		pPersonal.add(icono);
+		pPersonal.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+				
+				}
+
+			}
+		});
+		
 
 		
 		
 		pBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pBotones.add(bRegistro);
 		pBotones.add(bInicioS);
-		pBotones.add(icono);
+		pBotones.add(pPersonal);
 
 		JPanel pfoto = new JPanel();
 		JLabel iIcono = new JLabel(scaleImage("resources/images/icono.png", 170, 170));
@@ -200,12 +205,7 @@ public class VentanaInicio extends JFrame {
 		
 
 		
-		ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-	
-			filtrarHoteles(Logica.estanciasHistoricas).forEach(h -> {
-				estanciasFiltradas.add(h);
-			});
-
+		
 		JPanel pHotel = new JPanel();
 		pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
 		JLabel lHotel = new JLabel("Hotel");
@@ -214,13 +214,19 @@ public class VentanaInicio extends JFrame {
 		pHotel.add(lHotel);
 		pHotel.add(iHotel);
 		pHotel.addMouseListener(new MouseAdapter() {
+
 			public void mouseClicked(MouseEvent e) {
-				
-		
+				List<Hotel> hoteles = filtrarHoteles(Logica.estanciasHistoricas);
+				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+					hoteles.forEach(h -> {
+						estanciasFiltradas.add(h);
+					});
 				if (e.getClickCount() == 2) {
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
+					dispose();
 				}
+
 			}
 		});
 		
@@ -294,6 +300,7 @@ public class VentanaInicio extends JFrame {
 				}
 
 			}
+	
 		});
 		
 
@@ -374,7 +381,7 @@ public class VentanaInicio extends JFrame {
 
 	public ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias) {
 		ArrayList<Hotel> hoteles = new ArrayList<>();
-		Logica.estanciasHistoricas.forEach( est ->{
+		Estancias.forEach( est ->{
 			if (est instanceof Hotel) {
 				hoteles.add(((Hotel) est));
 			}
@@ -384,7 +391,7 @@ public class VentanaInicio extends JFrame {
 
 	public ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias) {
 		ArrayList<Apartamento> apartamentos = new ArrayList<>();
-		Logica.estanciasHistoricas.forEach( est ->{
+		Estancias.forEach( est ->{
 			if (est instanceof Apartamento) {
 				apartamentos.add((Apartamento) est);
 			}

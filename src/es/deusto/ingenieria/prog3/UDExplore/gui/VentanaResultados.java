@@ -5,13 +5,12 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -23,7 +22,6 @@ import javax.swing.event.DocumentListener;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.JTextComponent;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
@@ -91,7 +89,7 @@ public class VentanaResultados extends JFrame {
       
 
         btnVolverInicio.addActionListener(e -> {
-        	new VentanaInicio(); 
+        	new VentanaInicio().setVisible(true); 
 			dispose();
 		
         });
@@ -108,16 +106,13 @@ public class VentanaResultados extends JFrame {
         comboBoxOrden.addActionListener( e -> {
         	String seleccionado = comboBoxOrden.getSelectedItem().toString();
         	
-        	if(seleccionado.equals("De menor precio a mayor")) {
-        		estancias.sort((estancia1,estancia2)->Double.compare(estancia1.getTarifaNoche(), estancia2.getTarifaNoche()));
-        	}
-        	else if(seleccionado.equals("De mayor precio a menor")) {
-        		estancias.sort((estancia1,estancia2)->Double.compare(estancia2.getTarifaNoche(), estancia1.getTarifaNoche()));
-        	}
-        	else if (seleccionado.equals("De mejor puntuación a peor")) {
-                estancias.sort((estancia1, estancia2) -> Integer.compare(estancia2.getCategoria(), estancia1.getCategoria()));
+        	if (seleccionado.equals("De menor precio a mayor")) {
+                estancias.sort(Comparator.comparingDouble(Estancia::getTarifaNoche));
+            } else if (seleccionado.equals("De mayor precio a menor")) {
+                estancias.sort(Comparator.comparingDouble(Estancia::getTarifaNoche).reversed());
+            } else if (seleccionado.equals("De mejor puntuación a peor")) {
+                estancias.sort(Comparator.comparingInt(Estancia::getCategoria).reversed());
             }
-        	
         	loadEstancias(estancias);
         
 
@@ -201,39 +196,43 @@ public class VentanaResultados extends JFrame {
             try {
                 Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
                 Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
-                System.out.println("Botón Buscar clicado.");
-
-                JTextComponent jLabelInfo = null;
+     
+              
                 if (fin.before(inicio)) {
-                    jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
+                    
                 } else {
-                    jLabelInfo.setText("Realizando búsqueda...");
-
+                   
                     List<Estancia> estanciasDisponibles = new ArrayList<>();
+                   
+                    boolean alMenosUnaEstrellaSeleccionada = unaEstrella.isSelected() || dosEstrellas.isSelected() || tresEstrellas.isSelected() || cuatroEstrellas.isSelected() || cincoEstrellas.isSelected();
+
+  
                     boolean unaEstrellaSeleccionada = unaEstrella.isSelected();
                     boolean dosEstrellasSeleccionada = dosEstrellas.isSelected();
                     boolean tresEstrellasSeleccionada = tresEstrellas.isSelected();
                     boolean cuatroEstrellasSeleccionada = cuatroEstrellas.isSelected();
                     boolean cincoEstrellasSeleccionada = cincoEstrellas.isSelected();
            
-                    for (Estancia estancia : Logica.estanciasHistoricas) {
-                        if (Logica.estanciaDisponibleEnFechas(estancia, inicio, fin)) {
+                    estancias.forEach(est -> {
+                    	
+                        if (Logica.estanciaDisponibleEnFechas(est, inicio, fin)) {
                             
-                            int categoria = estancia.getCategoria();
+                            int categoria = est.getCategoria();
 
-                            // Verificar si el hotel coincide con las categorías seleccionadas
-                            if ((unaEstrellaSeleccionada && categoria == 1) ||
+                            if ( !alMenosUnaEstrellaSeleccionada || 
+                            	(unaEstrellaSeleccionada && categoria == 1) ||
                                 (dosEstrellasSeleccionada && categoria == 2) ||
                                 (tresEstrellasSeleccionada && categoria == 3) ||
                                 (cuatroEstrellasSeleccionada && categoria == 4) ||
                                 (cincoEstrellasSeleccionada && categoria == 5)) {
-                                estanciasDisponibles.add(estancia);
+                                estanciasDisponibles.add(est);
                             }
                         }
-                    }
+                    });
 
                     if (estanciasDisponibles.isEmpty()) {
                         jLabelInfo.setText("No hay estancias disponibles para estas fechas y categorías en este destino.");
+                        modeloDatosResultados.setRowCount(0);
                     } else {
                         jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
 
@@ -246,7 +245,6 @@ public class VentanaResultados extends JFrame {
                 e1.printStackTrace();
             }
         });
-
 
         
  
@@ -308,6 +306,7 @@ public class VentanaResultados extends JFrame {
                     if (col == 7) { 
                     	if (estancias.get(row) instanceof Hotel) {
                     		Hotel hotel = (Hotel) estancias.get(row);
+                    		System.out.println("hola");
                     		new VentanaHabitaciones(hotel).setVisible(true);
                     		
                     	} else {
@@ -396,11 +395,6 @@ public class VentanaResultados extends JFrame {
     }
     
     
-    
-    public static void main(String[] args) {
-    	
-       
-        
-    }
+  
 }
 

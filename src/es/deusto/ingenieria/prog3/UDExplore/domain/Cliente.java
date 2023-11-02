@@ -1,22 +1,21 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
-
-public class Cliente extends Usuario{
- 
-    private String direccion;
-    private String ciudad;
+	
+	
+	public class Cliente extends Usuario{
+	
+	    private String direccion;
+	    private String ciudad;
+    
    
 
-    // Constructor  
-    public Cliente(String nombreUsuario, String nombre, String apellido, String correoElectronico,
-			String numeroTelefono, String direccion, String ciudad, String pais) {
-		super(nombreUsuario, nombre, apellido, correoElectronico, numeroTelefono);
-		this.direccion = direccion;
-		this.ciudad = ciudad;
-		
-	}
-    
-    
-    // Getters
+	public Cliente(String nombreUsuario, String nombre, String apellido, String correoElectronico,
+				String contraseña, String numeroTelefono, String direccion, String ciudad) {
+			super(nombreUsuario, nombre, apellido, correoElectronico, contraseña, numeroTelefono);
+			this.direccion = direccion;
+			this.ciudad = ciudad;
+		}
+
+	// Getters
     public String getDireccion() {
         return direccion;
     }
@@ -43,5 +42,7 @@ public class Cliente extends Usuario{
 	public String toString() {
 		return "Cliente" + super.toString() + "[direccion=" + direccion + ", ciudad=" + ciudad + "]";
 	}
+
+
  
 }

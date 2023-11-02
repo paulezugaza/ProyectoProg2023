@@ -53,9 +53,7 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
-    public void setHotel(Estancia hotel) {
-        this.tipo = tipo;
-    }
+
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;

@@ -1,12 +1,9 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-
-import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaInicio;
-import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaResultados;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class Main {
@@ -15,40 +12,39 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+
 		 		List<Estancia> estancias = new ArrayList<>();
 		 		
-		 		List<Hotel> hoteles = new ArrayList<>();
-		 		List<Estancia> apartamentos = new ArrayList<>();
-		 	
+		 		HashMap<Cliente ,Reserva> reservas = new HashMap<>();
+		 		List<Habitacion> habitaciones = obtenerHabitacionesDeEjemplo();
+	            
 
 		 	    Hotel hotelMadrid = new Hotel("Hotel Madrid Centro", Ciudad.Madrid, 4, 100, 150.0,
-		 	            "Resources/images/madrid.jpg", CadenaHotelera.GRANDSPLENDOUR, obtenerHabitacionesDeEjemplo(), new ArrayList<>());
-		 	    Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 5, 80, 120.0, "",
-		 	            CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo(), new ArrayList<>());
-		 	    Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 3, 60, 100.0, "",
-		             CadenaHotelera.SUNSETRETREAT, obtenerHabitacionesDeEjemplo(), new ArrayList<>());
+		 	            "Resources/images/madrid.jpg",  reservas, CadenaHotelera.HOTELCO,habitaciones);
+		 	    Hotel hotelBarcelona = new Hotel("Hotel Barcelona Playa", Ciudad.Barcelona, 5, 80, 120.0, "Resources/images/BarcelonaHotel.jpg",
+		 	            reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
+		 	    Hotel hotelSevilla = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 3, 60, 100.0, "Resources/images/hotelSevilla.jpg",
+		             reservas,  CadenaHotelera.TRAVELHUBHOTELS, obtenerHabitacionesDeEjemplo());
 
-		 	    Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia,(int) 4.5, 2, 80.0, "", new ArrayList<>());
+		 	    Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia,(int) 4.5, 2, 80.0, "", reservas);
 		 	    estancias.add(hotelMadrid);
 		 	    estancias.add(hotelBarcelona);
 		 	    estancias.add(hotelSevilla);
 		 	    estancias.add(apartamentoValencia);
-		 	  
+			  
 
-		 	    String nombreArchivo = "estancias.dat";
-
+		 	    String nombreArchivo = "resources/data/estancias.dat";
+		 	   Logica.setEstanciasHistoricas(estancias);
 		 	
-		 	    Logica.setEstanciasHistoricas(estancias);
-		 	    Logica.guardarEstancias(nombreArchivo);		
+		 	    Logica.guardarEstancias(nombreArchivo);
 		 	    
-		 	
+		 	    System.out.println(habitaciones);
 				
 	           VentanaInicio ventana = new VentanaInicio();
 	           ventana.setVisible(true);
 	           
-	          
+	         
 	           
-	            
 	        };
 
 	 		public static List<Habitacion> obtenerHabitacionesDeEjemplo() {
@@ -60,7 +56,8 @@ public class Main {
 	 	        habitaciones.add(new Habitacion(301, 1, 80.0));
 	 	        return habitaciones;
 	 	    }
-
+	 		
+	 		
 /**
 	 		public class GeneradorHotelesApartamentos {
 
@@ -151,7 +148,6 @@ public class Main {
 		
 		
 	}
-	
 
        
     

@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -23,11 +24,17 @@ public class VentanaHabitaciones extends JFrame {
     private JTable tablaHabitaciones;
     private JScrollPane scrollPaneHabitaciones;
     private Hotel hotel;
+    private List<Habitacion> habitaciones;
 
-
+    
 
     public VentanaHabitaciones(Hotel hotel) {
         this.setHotel(hotel);
+     
+        List<Habitacion> habitaciones = hotel.getHabitaciones();
+
+
+
 
         int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
         int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
@@ -73,9 +80,10 @@ public class VentanaHabitaciones extends JFrame {
         
         add(panelBotones, BorderLayout.NORTH);
         add(panelPrincipal, BorderLayout.CENTER);
-        loadHabitaciones(hotel.getHabitaciones());
-
+        loadHabitaciones(habitaciones);
+        
         setVisible(true);
+      
     }
 
  
@@ -88,6 +96,7 @@ public class VentanaHabitaciones extends JFrame {
         cabeceraHabitaciones.add("Capacidad Máxima");
         cabeceraHabitaciones.add("Precio por Noche");
         cabeceraHabitaciones.add("Reservar");
+
 
         modeloDatosHabitaciones = new DefaultTableModel(new Vector<>(), cabeceraHabitaciones);
         tablaHabitaciones = new JTable(modeloDatosHabitaciones);
@@ -127,20 +136,23 @@ public class VentanaHabitaciones extends JFrame {
     }
 
     private void loadHabitaciones(List<Habitacion> habitaciones) {
+   
+     
         modeloDatosHabitaciones.setRowCount(0);
 
-        for (Habitacion habitacion : habitaciones) {
+        habitaciones.forEach(h -> {
+        	
             modeloDatosHabitaciones.addRow(new Object[]{
-                    habitacion.getNumero(),
-                    habitacion.getCapacidadMaxima(),
-                    habitacion.getPrecioPorNoche() + "€",
+                    h.getNumero(),
+                    h.getCapacidadMaxima(),
+                    h.getPrecioPorNoche() + "€",
                     "Reservar"
             });
-        }
+        });
     }
 
     public static void main(String[] args) {
-       
+    	
     }
 
 	public Hotel getHotel() {
@@ -150,4 +162,21 @@ public class VentanaHabitaciones extends JFrame {
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
 	}
+
+
+
+
+
+	public List<Habitacion> getHabitaciones() {
+		return habitaciones;
+	}
+
+
+
+
+
+	public void setHabitaciones(List<Habitacion> habitaciones) {
+		this.habitaciones = habitaciones;
+	}
+	
 }

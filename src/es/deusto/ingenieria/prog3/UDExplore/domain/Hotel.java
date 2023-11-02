@@ -2,6 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class Hotel extends Estancia implements Serializable {
 
@@ -10,13 +11,14 @@ public class Hotel extends Estancia implements Serializable {
     private static final long serialVersionUID = 1L;
 	private CadenaHotelera cadenaHotelera;
     private List<Habitacion> habitaciones;
-	
 
 
-	public Hotel(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones,  List<Reserva> reservas) {
+
+
+	public Hotel(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto,
+			Map<Cliente, Reserva> reservas, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones ) {
 		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
-		this.cadenaHotelera = cadenaHotelera;
-		this.habitaciones = habitaciones;
+		// TODO Auto-generated constructor stub
 	}
 
 

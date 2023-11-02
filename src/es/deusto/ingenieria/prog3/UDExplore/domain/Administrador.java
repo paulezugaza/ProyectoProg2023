@@ -4,9 +4,10 @@ public class Administrador extends Usuario{
 	
 	private Estancia estanciaAdmin;
 
+	
 	public Administrador(String nombreUsuario, String nombre, String apellido, String correoElectronico,
-			String numeroTelefono, Estancia estanciaAdmin) {
-		super(nombreUsuario, nombre, apellido, correoElectronico, numeroTelefono);
+			String contraseña, String numeroTelefono, Estancia estanciaAdmin) {
+		super(nombreUsuario, nombre, apellido, correoElectronico, contraseña, numeroTelefono);
 		this.estanciaAdmin = estanciaAdmin;
 	}
 

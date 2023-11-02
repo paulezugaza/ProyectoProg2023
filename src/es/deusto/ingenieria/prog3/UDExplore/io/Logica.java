@@ -46,7 +46,6 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 		
 		public static void guardarEstancias(String nombreFic) {
 			try {
-				 String rutaArchivo = "./carpeta_destino/" + nombreFic;
 				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreFic));
 				oos.writeObject(estanciasHistoricas);
 				logger.log( Level.INFO, "Estancias guardadas correctamente en: " + nombreFic );
@@ -75,7 +74,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 		        return true; 
 		    }
 
-		    for (Reserva reserva : estancia.getReservas()) {
+		    for (Reserva reserva : estancia.getReservas().values()) {
 		        if (!fin.before(reserva.getFechaInicio()) && !inicio.after(reserva.getFechaFin())) {
 		            return false; 
 		        }
