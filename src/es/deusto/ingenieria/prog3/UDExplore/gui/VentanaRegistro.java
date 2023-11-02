@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VentanaRegistro {
+public class VentanaRegistro extends JFrame{
 	
 	JFrame frame = new JFrame("Registro de usuario");
 	private JTextField txtNombre;
@@ -75,7 +75,6 @@ public class VentanaRegistro {
                 	
                 checkFields();
 
-
             }
         });
 
@@ -87,7 +86,7 @@ public class VentanaRegistro {
                 ventanaInicio.setVisible(true);
                 frame.dispose();
                 
-            }
+         }
 
 			private void dispose() {
 				this.dispose();
