@@ -28,7 +28,6 @@ public class VentanaLogin extends JFrame {
 	private JLabel contrasenya;
 	private JPasswordField txtContrasenya;
 	private JButton registrarse;
-	private JButton entrar;
 	private JPanel panelCentral;
 	private JPanel botonera;
 	
@@ -47,7 +46,7 @@ public class VentanaLogin extends JFrame {
 	private JPanel botoneraRegistro;
 	
 	public VentanaLogin() {
-		frameLog = new JFrame("Registro de usuario");
+		JFrame frameLog = new JFrame("Iniciar Sesión");
         frameLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameLog.setSize(600, 300);
         frameLog.setLocationRelativeTo(null);
@@ -61,17 +60,16 @@ public class VentanaLogin extends JFrame {
 		registrarse = new JButton("Registrarse");
 		JPanel panelCentral = new JPanel();
 		JPanel botonera = new JPanel();
+		panelCentral.setLayout(new GridLayout(2, 2, 2, 2));  
 		infoCuenta = new JLabel("DATOS DE LA CUENTA:");
         
     	panelCentral.add(email);
     	panelCentral.add(txtEmail);
     	panelCentral.add(contrasenya);
     	panelCentral.add(txtContrasenya);
-    	botonera.add(entrar);
-    	botonera.add(registrarse);
     	
-        JButton entrar = new JButton("Entrar");
-        entrar.addActionListener(new ActionListener() {
+        JButton btnEntrar = new JButton("Entrar");
+        btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String email = txtEmail.getText();
@@ -98,26 +96,35 @@ public class VentanaLogin extends JFrame {
 			}
         });
         
+        JButton btnRegistrarse = new JButton("Registrarse");
+        btnCerrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	VentanaRegistro ventanaRegis = new VentanaRegistro();
+                ventanaRegis.setVisible(true);
+                frameLog.dispose();         
+            }
+        });
+        
+        botonera.add(btnRegistrarse);
         botonera.add(btnCerrar);
-        botonera.add(entrar);
+        botonera.add(btnEntrar);
         
 		frameLog.add(panelCentral, BorderLayout.CENTER);
 		frameLog.add(botonera, BorderLayout.SOUTH);
 
 		frameLog.setVisible(true);
+		
+		setVisible(true);
 	
 
-		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.out.println("Cerrando");
-				System.exit(0);
-			}
-		});
+//		this.addWindowListener(new WindowAdapter() {
+//			public void windowClosing(WindowEvent e) {
+//				System.out.println("Cerrando");
+//				System.exit(0);
+//			}
+//		});
 
-		registrarse.addActionListener(e -> {
-			new VentanaRegistro();
-			dispose();
-		});
 	}
 	
 	public static void main(String[] args) {
