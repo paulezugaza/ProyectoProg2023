@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 
 public class VentanaRegistro extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JFrame frame = new JFrame("Registro de usuario");
 	private JTextField txtNombre;
 	private JTextField txtApellidos;
@@ -66,12 +70,12 @@ public class VentanaRegistro extends JFrame{
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String nombre = txtNombre.getText();
-                String apellidos = txtApellidos.getText();
-                String email = txtEmail.getText();
-                String telefono = txtTelefono.getText();
-                char[] cont1 = txtContrasenya.getPassword();
-                char[] cont2 = txtContrasenyaRep.getPassword();
+                txtNombre.getText();
+                txtApellidos.getText();
+                txtEmail.getText();
+                txtTelefono.getText();
+                txtContrasenya.getPassword();
+                txtContrasenyaRep.getPassword();
                 	
                 checkFields();
 
@@ -88,10 +92,7 @@ public class VentanaRegistro extends JFrame{
                 
          }
 
-			private void dispose() {
-				this.dispose();
-				
-			}
+			
         });
 
         buttonPanel.add(btnRegistrar);

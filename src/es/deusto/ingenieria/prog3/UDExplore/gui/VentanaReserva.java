@@ -38,20 +38,19 @@ public class VentanaReserva extends JDialog {
 		
 		JPanel pHotelInfo = new JPanel(new BorderLayout());
 		Font nuevaFuente = new Font("Arial", Font.ROMAN_BASELINE, 17);
-		 JLabel labelReser = new JLabel("Desea reservar esta estancia?", SwingConstants.CENTER);
+		JLabel labelReser = new JLabel("Desea reservar esta estancia?", SwingConstants.CENTER);
         JLabel hotelInfoLabel = new JLabel("Hotel: " + estancia.getNombre(), SwingConstants.CENTER);
         hotelInfoLabel.setFont(nuevaFuente);
         labelReser.setFont(nuevaFuente);
         pHotelInfo.add(hotelInfoLabel, BorderLayout.NORTH);
-        pHotelInfo.add(hotelInfoLabel, BorderLayout.CENTER);
-        
+   
         JPanel pHotelFoto = new JPanel(new BorderLayout());
-        ImageIcon hotelImage = new ImageIcon(estancia.getFoto()); // Reemplaza con la ubicación de tu imagen
+        ImageIcon hotelImage = new ImageIcon(estancia.getFoto());
         JLabel hotelImageLabel = new JLabel(new ImageIcon(hotelImage.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH)));
         pHotelFoto.add(hotelImageLabel, BorderLayout.CENTER);
 
-        pHotelInfo.add(pHotelFoto, BorderLayout.NORTH);
-		
+        pHotelInfo.add(pHotelFoto, BorderLayout.CENTER);
+        
 		JPanel pPrincipal = new JPanel(new GridLayout(4,2,10,10));
 		add(pPrincipal);
 		
@@ -73,9 +72,9 @@ public class VentanaReserva extends JDialog {
 		pBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pBoton.add(bCancelar);
 		pBoton.add(bConfirmarDatos);
-		pBoton.add(bConfirmarDatos, BorderLayout.CENTER);
-
 		
+		setLayout(new BorderLayout());
+	    
 		add(pHotelInfo, BorderLayout.NORTH); 
 	    add(pPrincipal, BorderLayout.CENTER);
 	    add(pBoton, BorderLayout.SOUTH); 

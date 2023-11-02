@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.ParseException;
@@ -120,13 +119,13 @@ public class VentanaInicio extends JFrame {
 
 		bRegistro.addActionListener(e -> {
 			new VentanaRegistro();
-			dispose();
+			
 		});
 
 		bInicioS.addActionListener(e -> {
 			System.out.println("hola");
 			new VentanaLogin();
-			dispose();
+			
 
 		});
 		

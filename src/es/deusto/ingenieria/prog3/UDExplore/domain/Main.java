@@ -45,7 +45,7 @@ public class Main {
 	           //IA generated
 	           
 	           Hotel hotel1 = new Hotel("Hotel Madrid Estrella", Ciudad.Madrid, 4, 100, 150.0,
-	                   "Resources/images/madrid.jpg", reservas, CadenaHotelera.HOTELCO, obtenerHabitacionesDeEjemplo());
+	                   "Resources/images/hotel8.jpg", reservas, CadenaHotelera.HOTELCO, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel2 = new Hotel("Hotel Barcelona Luxe", Ciudad.Barcelona, 5, 80, 120.0,
 	                   "Resources/images/hotel1.jpg", reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel3 = new Hotel("Hotel Sevilla Histórico", Ciudad.Sevilla, 3, 60, 100.0,
@@ -53,9 +53,9 @@ public class Main {
 	           Hotel hotel4 = new Hotel("Hotel Valencia Beach", Ciudad.Valencia, 4, 90, 110.0,
 	                   "Resources/images/hotel3.jpg", reservas, CadenaHotelera.HOTELCO, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel5 = new Hotel("Hotel Granada View", Ciudad.Granada, 2, 70, 80.0,
-	                   "Resources/images/granada.jpg", reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
+	                   "Resources/images/hotel.jpeg", reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel6 = new Hotel("Hotel Malaga Paradise", Ciudad.Málaga, 4, 85, 130.0,
-	                   "Resources/images/hotel4.jpg", reservas, CadenaHotelera.TRAVELHUBHOTELS, obtenerHabitacionesDeEjemplo());
+	                   "Resources/images/hotel4.png", reservas, CadenaHotelera.TRAVELHUBHOTELS, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel7 = new Hotel("Hotel Bilbao Bliss", Ciudad.Bilbao, 3, 70, 95.0,
 	                   "Resources/images/hotel5.jpg", reservas, CadenaHotelera.HOTELCO, obtenerHabitacionesDeEjemplo());
 	           Hotel hotel8 = new Hotel("Hotel Toledo Heritage", Ciudad.Toledo, 2, 55, 75.0,
@@ -66,12 +66,12 @@ public class Main {
 	                   "Resources/images/alicante.jpg", reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
 
 	          
-	           Apartamento apartamento1 = new Apartamento("Apartamento Valencia luxe", Ciudad.Valencia, 4, 2, 80.0, "", reservas);
-	           Apartamento apartamento2 = new Apartamento("Apartamento Barcelona Downtown", Ciudad.Barcelona, 3, 3, 90.0, "", reservas);
-	           Apartamento apartamento3 = new Apartamento("Apartamento Mallorca Paradise", Ciudad.Mallorca, 2, 2, 70.0, "", reservas);
-	           Apartamento apartamento4 = new Apartamento("Apartamento Tenerife View", Ciudad.Tenerife, 3, 4, 100.0, "", reservas);
-	           Apartamento apartamento5 = new Apartamento("Apartamento Girona Retreat", Ciudad.Girona, 2, 2, 75.0, "", reservas);
-	           Apartamento apartamento6 = new Apartamento("Apartamento Córdoba Comfort", Ciudad.Córdoba, 3, 3, 85.0, "", reservas);
+	           Apartamento apartamento1 = new Apartamento("Apartamento Valencia luxe", Ciudad.Valencia, 4, 2, 80.0, "apartamento1.jpg", reservas);
+	           Apartamento apartamento2 = new Apartamento("Apartamento Barcelona Downtown", Ciudad.Barcelona, 3, 3, 90.0, "apartamento2.jpg", reservas);
+	           Apartamento apartamento3 = new Apartamento("Apartamento Mallorca Paradise", Ciudad.Mallorca, 2, 2, 70.0, "apartamento3.jpg", reservas);
+	           Apartamento apartamento4 = new Apartamento("Apartamento Tenerife View", Ciudad.Tenerife, 3, 4, 100.0, "apartamento4.jpg", reservas);
+	           Apartamento apartamento5 = new Apartamento("Apartamento Girona Retreat", Ciudad.Girona, 2, 2, 75.0, "apartamento5.png", reservas);
+	           Apartamento apartamento6 = new Apartamento("Apartamento Córdoba Comfort", Ciudad.Córdoba, 3, 3, 85.0, "apartamento6.jpeg", reservas);
 	           Apartamento apartamento7 = new Apartamento("Apartamento Valladolid Lodges", Ciudad.Valladolid, 2, 2, 70.0, "", reservas);
 	           Apartamento apartamento8 = new Apartamento("Apartamento Cádiz Paradise", Ciudad.Cádiz, 3, 4, 95.0, "", reservas);
 	           Apartamento apartamento9 = new Apartamento("Apartamento Murcia Harbor", Ciudad.Murcia, 2, 2, 80.0, "", reservas);
