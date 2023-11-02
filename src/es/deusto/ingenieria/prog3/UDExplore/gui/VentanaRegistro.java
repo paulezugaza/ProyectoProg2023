@@ -102,6 +102,7 @@ public class VentanaRegistro extends JFrame{
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
+
     }
 
     public static void main(String[] args) {
