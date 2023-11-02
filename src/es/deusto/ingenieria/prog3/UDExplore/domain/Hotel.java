@@ -18,7 +18,10 @@ public class Hotel extends Estancia implements Serializable {
 	public Hotel(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto,
 			Map<Cliente, Reserva> reservas, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones ) {
 		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
-		// TODO Auto-generated constructor stub
+	
+		    this.reservas = reservas;
+		    this.cadenaHotelera = cadenaHotelera;
+		    this.habitaciones = habitaciones;
 	}
 
 
@@ -45,16 +48,14 @@ public class Hotel extends Estancia implements Serializable {
 		return cadenaHotelera;
 	}
 	
+	
+	
+	
 	public List<Habitacion> getHabitaciones() {
 		return habitaciones;
 	}
-	
-	
-   public void addHabitacion(Habitacion habitacion) {
-	        habitaciones.add(habitacion);
-   }
-	
-	
+
+
 	public void setCadenaHotelera(CadenaHotelera cadenaHotelera) {
 			this.cadenaHotelera = cadenaHotelera;
 	}

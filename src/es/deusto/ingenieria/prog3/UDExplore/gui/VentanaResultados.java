@@ -194,6 +194,7 @@ public class VentanaResultados extends JFrame {
         
         bBuscar.addActionListener(e -> {
             try {
+            	
                 Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
                 Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
      
@@ -214,6 +215,7 @@ public class VentanaResultados extends JFrame {
                     boolean cincoEstrellasSeleccionada = cincoEstrellas.isSelected();
            
                     estancias.forEach(est -> {
+                    	
                     	
                         if (Logica.estanciaDisponibleEnFechas(est, inicio, fin)) {
                             

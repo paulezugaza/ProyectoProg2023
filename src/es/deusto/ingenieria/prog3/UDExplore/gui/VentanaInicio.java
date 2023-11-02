@@ -222,6 +222,7 @@ public class VentanaInicio extends JFrame {
 						estanciasFiltradas.add(h);
 					});
 				if (e.getClickCount() == 2) {
+					
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
 					dispose();

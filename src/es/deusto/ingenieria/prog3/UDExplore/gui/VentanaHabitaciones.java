@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -24,17 +23,16 @@ public class VentanaHabitaciones extends JFrame {
     private JTable tablaHabitaciones;
     private JScrollPane scrollPaneHabitaciones;
     private Hotel hotel;
-    private List<Habitacion> habitaciones;
+
 
     
 
     public VentanaHabitaciones(Hotel hotel) {
         this.setHotel(hotel);
      
+        
+
         List<Habitacion> habitaciones = hotel.getHabitaciones();
-
-
-
 
         int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
         int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
@@ -101,12 +99,16 @@ public class VentanaHabitaciones extends JFrame {
         modeloDatosHabitaciones = new DefaultTableModel(new Vector<>(), cabeceraHabitaciones);
         tablaHabitaciones = new JTable(modeloDatosHabitaciones);
         tablaHabitaciones.setDefaultEditor(Object.class, null);
+        tablaHabitaciones.setRowHeight(20);
+        
 
         tablaHabitaciones.getColumnModel().getColumn(0).setPreferredWidth(100);
         tablaHabitaciones.getColumnModel().getColumn(1).setPreferredWidth(100);
         tablaHabitaciones.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaHabitaciones.getColumnModel().getColumn(3).setPreferredWidth(150);
         
+        
+            
         tablaHabitaciones.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -117,12 +119,13 @@ public class VentanaHabitaciones extends JFrame {
 
                     if (col == 3) { 
                     	
-                        new VentanaReserva(hotel).setVisible(true);
+                        VentanaReserva v = new VentanaReserva(hotel);
+                        v.setVisible(true);
+                        dispose();
                        
                     	}
                     }
                 }
-            
         });
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -137,7 +140,7 @@ public class VentanaHabitaciones extends JFrame {
 
     private void loadHabitaciones(List<Habitacion> habitaciones) {
    
-     
+    	
         modeloDatosHabitaciones.setRowCount(0);
 
         habitaciones.forEach(h -> {
@@ -164,19 +167,5 @@ public class VentanaHabitaciones extends JFrame {
 	}
 
 
-
-
-
-	public List<Habitacion> getHabitaciones() {
-		return habitaciones;
-	}
-
-
-
-
-
-	public void setHabitaciones(List<Habitacion> habitaciones) {
-		this.habitaciones = habitaciones;
-	}
 	
 }
