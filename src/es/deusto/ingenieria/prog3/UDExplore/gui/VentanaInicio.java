@@ -123,7 +123,6 @@ public class VentanaInicio extends JFrame {
 		});
 
 		bInicioS.addActionListener(e -> {
-			System.out.println("hola");
 			new VentanaLogin();
 			
 
