@@ -59,6 +59,12 @@ public class VentanaHabitaciones extends JFrame {
             new VentanaInicio();
             dispose();
         });
+        
+        JButton btnVolverAnterior = new JButton("Volver a la anterior");
+        btnVolverAnterior.addActionListener(e ->{
+        	dispose();
+        	
+        });
       
         panelInfo.add(labelNombre);
         panelInfo.add(labelUbicacion);
@@ -67,6 +73,7 @@ public class VentanaHabitaciones extends JFrame {
 
        
         panelBotones.add(btnVolverInicio);
+        panelBotones.add(btnVolverAnterior);
 
         scrollPaneHabitaciones = new JScrollPane(tablaHabitaciones);
         scrollPaneHabitaciones.setBorder(new TitledBorder("Habitaciones del Hotel"));
