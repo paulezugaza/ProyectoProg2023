@@ -100,6 +100,7 @@ public class VentanaHabitaciones extends JFrame {
         cabeceraHabitaciones.add("Número");
         cabeceraHabitaciones.add("Capacidad Máxima");
         cabeceraHabitaciones.add("Precio por Noche");
+        cabeceraHabitaciones.add("Precio total");
         cabeceraHabitaciones.add("Reservar");
 
 
@@ -113,6 +114,7 @@ public class VentanaHabitaciones extends JFrame {
         tablaHabitaciones.getColumnModel().getColumn(1).setPreferredWidth(100);
         tablaHabitaciones.getColumnModel().getColumn(2).setPreferredWidth(150);
         tablaHabitaciones.getColumnModel().getColumn(3).setPreferredWidth(150);
+        tablaHabitaciones.getColumnModel().getColumn(4).setPreferredWidth(150);
         
         
             
@@ -124,11 +126,10 @@ public class VentanaHabitaciones extends JFrame {
                     int col = tablaHabitaciones.getSelectedColumn();
                     
 
-                    if (col == 3) { 
+                    if (col == 4) { 
                     	
                         VentanaReserva v = new VentanaReserva(hotel);
                         v.setVisible(true);
-                        dispose();
                        
                     	}
                     }
@@ -156,6 +157,7 @@ public class VentanaHabitaciones extends JFrame {
                     h.getNumero(),
                     h.getCapacidadMaxima(),
                     h.getPrecioPorNoche() + "€",
+                    h.getPrecioPorNoche() + "€", //cambiar al metodo de numero de noches por precio por noche
                     "Reservar"
             });
         });

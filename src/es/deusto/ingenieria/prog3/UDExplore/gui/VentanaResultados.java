@@ -31,6 +31,8 @@ import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 
 public class VentanaResultados extends JFrame {
+	
+	
     private static final long serialVersionUID = 8210065439199121917L;
 	private DefaultTableModel modeloDatosResultados;
     private JTextField txtFiltro;
@@ -44,7 +46,7 @@ public class VentanaResultados extends JFrame {
     JComboBox<String> jComboMesSalida = new JComboBox<>();
     JComboBox<String> jComboAnioSalida = new JComboBox<>();
 	private JLabel jLabelInfo = new JLabel();
-    
+    private VentanaInicio ventanaInicio;
 
     public VentanaResultados(List<Estancia> estancias) {
     	
@@ -86,10 +88,10 @@ public class VentanaResultados extends JFrame {
 
      
         JButton btnVolverInicio = new JButton("Volver al Inicio");
-      
+        ventanaInicio = new VentanaInicio();
 
         btnVolverInicio.addActionListener(e -> {
-        	new VentanaInicio().setVisible(true); 
+        	ventanaInicio.setVisible(true); 
 			dispose();
 		
         });

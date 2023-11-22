@@ -223,7 +223,7 @@ public class VentanaInicio extends JFrame {
 					
 					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 					ventana.setVisible(true);
-					dispose();
+					setVisible(false);
 				}
 
 			}
