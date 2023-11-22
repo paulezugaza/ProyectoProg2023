@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -58,8 +60,16 @@ public class VentanaReserva extends JDialog {
 		nombre = new JTextField(20);
 		pPrincipal.add(nombre);
 		
+		//intentar que solo sean numeros
 		pPrincipal.add(new JLabel("Numero de tarjeta:"));
 		numTarjeta = new JTextField(20);
+		numTarjeta.addKeyListener(new KeyAdapter() {
+			public void  keyTyped(KeyEvent e) {
+				if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+			}
+		});
 		pPrincipal.add(numTarjeta);
 		
 		pPrincipal.add(new JLabel("Fecha de caducidad:"));
