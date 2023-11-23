@@ -46,7 +46,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	        add(scrollPane, BorderLayout.CENTER);
 
 	 
-	        for (Reserva reserva : hashMap.values()) {
+	      /**  for (Reserva reserva : hashMap.values()) {
 	            if (reserva.getCliente() == cliente) {
 	                Estancia estancia = reserva.getTipo();
 	                Object[] rowData = {
@@ -60,7 +60,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	                };
 	                tableModel.addRow(rowData);
 	            }
-	        }
+	        }**/
 
 	        pack();
 	        setVisible(true);

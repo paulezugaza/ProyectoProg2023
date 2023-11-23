@@ -195,6 +195,7 @@ public class VentanaResultados extends JFrame {
         
         
         bBuscar.addActionListener(e -> {
+        	
             try {
             	
                 Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
@@ -248,6 +249,8 @@ public class VentanaResultados extends JFrame {
             } catch (ParseException e1) {
                 e1.printStackTrace();
             }
+            Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
+		    Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
         });
 
         
@@ -315,7 +318,7 @@ public class VentanaResultados extends JFrame {
                     		
                     	} else {
                     	Estancia estancia = estancias.get(row);
-                        new VentanaReserva(estancia).setVisible(true);
+                        new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
                        
                     	}
                     }

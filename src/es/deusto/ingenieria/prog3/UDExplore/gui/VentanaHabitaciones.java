@@ -124,16 +124,16 @@ public class VentanaHabitaciones extends JFrame {
                 if (e.getClickCount() == 2) {
                  
                     int col = tablaHabitaciones.getSelectedColumn();
-                    
+                    int filaSeleccionada = tablaHabitaciones.getSelectedRow();
 
-                    if (col == 4) { 
-                    	
-                        VentanaReserva v = new VentanaReserva(hotel);
-                        v.setVisible(true);
-                       
-                    	}
+                    if (filaSeleccionada != -1) { 
+                    	List<Habitacion> habitaciones = hotel.getHabitaciones();
+                        Habitacion habitacionSeleccionada = habitaciones.get(filaSeleccionada);
+
+                        new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
                     }
                 }
+            }
         });
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();

@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -141,6 +142,13 @@ public class VentanaInicio extends JFrame {
 				if (e.getClickCount() == 2) {
 					if(Logica.usuario != null && Logica.usuario instanceof Cliente) {
 						new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
+					}
+					if (Logica.usuario == null) {
+						String mensaje = "Parece que no ha iniciado sesión.";
+
+						JOptionPane.showMessageDialog(null, mensaje, "ERROR", JOptionPane.INFORMATION_MESSAGE);
+
+					
 					}
 					
 				}
@@ -281,7 +289,7 @@ public class VentanaInicio extends JFrame {
 			        e1.printStackTrace();
 			    }
 			}
-
+		
 		});
 		
 		JPanel pApartamento = new JPanel();
@@ -404,6 +412,8 @@ public class VentanaInicio extends JFrame {
 		});
 		return apartamentos;
 	}
+	
+
 	
 	
 

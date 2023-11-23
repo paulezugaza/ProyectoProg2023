@@ -4,12 +4,15 @@ import java.util.Date;
 
 public class Reserva {
 	
+	
     private int numeroReserva;
     private Date fechaInicio;
     private Date fechaFin;
     private Cliente cliente;
 
-    // Constructor
+   
+
+	// Constructor
     public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
         this.numeroReserva = numeroReserva;
         this.fechaInicio = fechaInicio;
@@ -33,7 +36,7 @@ public class Reserva {
     public Cliente getCliente() {
         return cliente;
     }
-
+ 
 
     public void setNumeroReserva(int numeroReserva) {
         this.numeroReserva = numeroReserva;
@@ -56,7 +59,7 @@ public class Reserva {
 	@Override
 	public String toString() {
 		return "Reserva [numeroReserva=" + numeroReserva + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
-				+ ", tipo=" + tipo + ", cliente=" + cliente + "]";
+				+ ", cliente=" + cliente + "]";
 	}
 
 

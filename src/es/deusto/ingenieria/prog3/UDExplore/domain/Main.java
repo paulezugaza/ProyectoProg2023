@@ -48,7 +48,7 @@ public class Main {
 		 	    String nombreArchivo = "resources/data/estancias.dat";
 		 	    
 		 	    Logica.setEstanciasHistoricas(estancias);
-		 	    Logica.guardarEstancias(nombreArchivo);
+		 	    Logica.cargarEstancias(nombreArchivo);
 		 	
 				
 	           VentanaInicio ventana = new VentanaInicio();
@@ -115,14 +115,14 @@ public class Main {
 
 	        public static List<Habitacion> obtenerHabitacionesDeEjemplo() {
 	            List<Habitacion> habitaciones = new ArrayList<>();
-	            habitaciones.add(new Habitacion(101, 2, 100.0));
-	            habitaciones.add(new Habitacion(102, 2, 120.0));
-	            habitaciones.add(new Habitacion(201, 4, 180.0));
-	            habitaciones.add(new Habitacion(202, 4, 200.0));
-	            habitaciones.add(new Habitacion(301, 1, 80.0));
-	            habitaciones.add(new Habitacion(302, 1, 80.0));
-	            habitaciones.add(new Habitacion(404, 1, 80.0));
-	            habitaciones.add(new Habitacion(420, 1, 80.0));
+	            habitaciones.add(new Habitacion( 2, 100.0));
+	            habitaciones.add(new Habitacion( 2, 120.0));
+	            habitaciones.add(new Habitacion( 4, 180.0));
+	            habitaciones.add(new Habitacion( 4, 200.0));
+	            habitaciones.add(new Habitacion( 1, 80.0));
+	            habitaciones.add(new Habitacion( 1, 80.0));
+	            habitaciones.add(new Habitacion( 1, 80.0));
+	            habitaciones.add(new Habitacion( 1, 80.0));
 	            return habitaciones;
 	        }
 	 		

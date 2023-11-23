@@ -14,7 +14,7 @@ public class Habitacion implements Serializable{
  
 
     // Constructor
-    public Habitacion( int capacidadMaxima, double precioPorNoche) {s
+    public Habitacion( int capacidadMaxima, double precioPorNoche) {
         this.capacidadMaxima = capacidadMaxima;
         this.precioPorNoche = precioPorNoche;
    

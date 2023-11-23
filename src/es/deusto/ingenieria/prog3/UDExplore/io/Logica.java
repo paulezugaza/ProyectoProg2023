@@ -7,13 +7,17 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 	import java.io.ObjectInputStream;
 	import java.io.ObjectOutputStream;
 	import java.io.Serializable;
-	import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 	import java.util.Date;
 	import java.util.List;
 	import java.util.logging.Level;
 	import java.util.logging.Logger;
 
-	import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import javax.swing.JComboBox;
+
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
@@ -22,8 +26,10 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 		
 		private static final long serialVersionUID = 1L;
 		public static List<Estancia>  estanciasHistoricas = new ArrayList<>();
+		private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		public static Usuario usuario=null;
-
+		public static Date fechaIni;
+		public static Date fechaFin;
 		
 		public static List<Estancia> getEstanciasHistoricas() {
 			return estanciasHistoricas;
@@ -102,9 +108,42 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 		    return true; 
 		}
 
-	
-	
-
+		public static long parsear(String anyo, String mes, String dia) {
+			String fecha = dia + "/" + mes + "/" + anyo;
+			try {
+				return sdf.parse(fecha).getTime();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		public static Date obtenerFechaSeleccionadaIni(JComboBox<String> comboDia, JComboBox<String> comboMes, JComboBox<String> comboAnio) {
+		    try {
+		        String fechaString = String.format("%s/%s/%s",
+		                comboDia.getSelectedItem(),
+		                comboMes.getSelectedIndex() + 1,
+		                comboAnio.getSelectedItem());
+		        fechaIni = sdf.parse(fechaString);
+		        return sdf.parse(fechaString);
+		    } catch (ParseException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+		}
+		public static Date obtenerFechaSeleccionadaFin(JComboBox<String> comboDia, JComboBox<String> comboMes, JComboBox<String> comboAnio) {
+		    try {
+		        String fechaString = String.format("%s/%s/%s",
+		                comboDia.getSelectedItem(),
+		                comboMes.getSelectedIndex() + 1,
+		                comboAnio.getSelectedItem());
+		        fechaFin = sdf.parse(fechaString);
+		        return sdf.parse(fechaString);
+		    } catch (ParseException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+		}
 		
 		
 	
