@@ -59,10 +59,12 @@ public class Reserva {
         this.cliente = cliente;
     }
 
+	@Override
+	public String toString() {
+		return "Reserva [numeroReserva=" + numeroReserva + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
+				+ ", tipo=" + tipo + ", cliente=" + cliente + "]";
+	}
 
-    @Override
-    public String toString() {
-        return "Reserva [numeroReserva=" + numeroReserva + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
-                + ", tipo=" + tipo.getNombre() + ", cliente=" + cliente.getNombre() + " " + cliente.getApellido() + "]";
-    }
+
+   
 }

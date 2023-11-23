@@ -1,77 +1,56 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-public class Usuario {
-	
+public abstract class Usuario {
+	int codigoUsuario =0;
 	private String nombreUsuario;
-    private String nombre;
-    private String apellido;
     private String correoElectronico;
     private String contraseña;
-    private String numeroTelefono;
+    private int admin;
     
    
     
-    public Usuario(String nombreUsuario, String nombre, String apellido, String correoElectronico, String contraseña,
-			String numeroTelefono) {
+    public Usuario(String nomUsuario, String email, String contrasenya, int admin) {
 		super();
-		this.nombreUsuario = nombreUsuario;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.correoElectronico = correoElectronico;
-		this.contraseña = contraseña;
-		this.numeroTelefono = numeroTelefono;
+		this.nombreUsuario = nomUsuario;
+		this.correoElectronico = email;
+		this.contraseña = contrasenya;
+		this.setAdmin(admin);
 	}
 
+	
+
 	// Getters
+    
+    public int getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(int codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
+	}
     public String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
 
-    public String getApellido() {
-        return apellido;
-    }
 
     public String getCorreoElectronico() {
         return correoElectronico;
     }
 
-    public String getNumeroTelefono() {
-        return numeroTelefono;
-    }
+  
 
-    
-    // Setters (opcional)
+
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
     }
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
     }
 
-    public void setNumeroTelefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
-    }
 
     
-    // Otros métodos (según necesidad)
-    @Override
-    public String toString() {
-        return "Administrador [nombreUsuario=" + nombreUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", correoElectronico=" + correoElectronico
-                + ", numeroTelefono=" + numeroTelefono + "]";
-    }
 
 
 	public String getContraseña() {
@@ -81,6 +60,20 @@ public class Usuario {
 
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
+	}
+
+	public int getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(int admin) {
+		this.admin = admin;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [nombreUsuario=" + nombreUsuario + ", correoElectronico=" + correoElectronico + ", contraseña="
+				+ contraseña + ", admin=" + admin + "]";
 	}
 }
 
