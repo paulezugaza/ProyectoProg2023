@@ -13,6 +13,14 @@ public class Main {
 	
 	private static ArrayList<Object> listaEstancias;
 
+	public static ArrayList<Object> getListaEstancias() {
+		return listaEstancias;
+	}
+
+	public static void setListaEstancias(ArrayList<Object> listaEstancias) {
+		Main.listaEstancias = listaEstancias;
+	}
+
 	public static void main(String[] args) {
 		
 				BaseDeDatos.abrirConexion("BaseDeDatos.db", true);
@@ -125,10 +133,6 @@ public class Main {
 		
 		
 	}
-
-       
-    
-	
 
 
 }

@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +10,10 @@ public class Hotel extends Estancia implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
+    private int id=0;
 	private CadenaHotelera cadenaHotelera;
     private List<Habitacion> habitaciones;
+    private HashMap<Habitacion, List<Reserva>> mapaReservasHabitacion;
 
 
 

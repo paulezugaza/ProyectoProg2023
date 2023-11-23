@@ -19,18 +19,113 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import com.sun.tools.javac.Main;
 
-public class VentanaReserva extends JDialog {
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
+
+public abstract class VentanaReserva extends JDialog {
 	
     private static final long serialVersionUID = 1L;
-	Estancia estancia;
     private JTextField nombre;
     private JTextField numTarjeta;
     private JTextField fechaCaducidad;
-	
-	public VentanaReserva(Estancia estancia) {
-		this.estancia =estancia;
+  
+    
+ 
+
+	public VentanaReserva(Habitacion habitacion) {
+
+		setTitle("Reserva de estancia");
+		setSize(800,400);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setLocationRelativeTo(null);
+		
+		JPanel pHotelInfo = new JPanel(new BorderLayout());
+		Font nuevaFuente = new Font("Arial", Font.ROMAN_BASELINE, 17);
+		JLabel labelReser = new JLabel("Desea reservar esta estancia?", SwingConstants.CENTER);
+		
+        JLabel hotelInfoLabel = new JLabel("Hotel: " + .getNombre(), SwingConstants.CENTER);
+        hotelInfoLabel.setFont(nuevaFuente);
+        labelReser.setFont(nuevaFuente);
+        pHotelInfo.add(hotelInfoLabel, BorderLayout.NORTH);
+   
+        JPanel pHotelFoto = new JPanel(new BorderLayout());
+        ImageIcon hotelImage = new ImageIcon(estancia.getFoto());
+        JLabel hotelImageLabel = new JLabel(new ImageIcon(hotelImage.getImage().getScaledInstance(300, 200, Image.SCALE_SMOOTH)));
+        pHotelFoto.add(hotelImageLabel, BorderLayout.CENTER);
+
+        pHotelInfo.add(pHotelFoto, BorderLayout.CENTER);
+        
+		JPanel pPrincipal = new JPanel(new GridLayout(4,2,10,10));
+		add(pPrincipal);
+		
+		pPrincipal.add(new JLabel("Titular de la tarjeta:"));
+		nombre = new JTextField(20);
+		pPrincipal.add(nombre);
+		
+		//intentar que solo sean numeros
+		pPrincipal.add(new JLabel("Numero de tarjeta:"));
+		numTarjeta = new JTextField(20);
+		numTarjeta.addKeyListener(new KeyAdapter() {
+			public void  keyTyped(KeyEvent e) {
+				if(!Character.isDigit(e.getKeyChar())) {
+					e.consume();
+				}
+			}
+		});
+		pPrincipal.add(numTarjeta);
+		
+		pPrincipal.add(new JLabel("Fecha de caducidad:"));
+		fechaCaducidad = new JTextField(6);
+		pPrincipal.add(fechaCaducidad);
+		
+		JPanel pBoton = new JPanel();
+		JButton bCancelar = new JButton("Cancelar");
+		JButton bConfirmarDatos = new JButton("Confirmar operación");
+		pBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
+		pBoton.add(bCancelar);
+		pBoton.add(bConfirmarDatos);
+		
+		setLayout(new BorderLayout());
+	    
+		add(pHotelInfo, BorderLayout.NORTH); 
+	    add(pPrincipal, BorderLayout.CENTER);
+	    add(pBoton, BorderLayout.SOUTH); 
+		
+		
+		bCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+			
+		});
+		
+		bConfirmarDatos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String mensaje = "¡Su reserva ha sido guardada con éxito!\n\n" +
+                        "Detalles de la estancia:\n" +
+                        "Hotel: " + estancia.getNombre() + "\n" +
+                        "Precio por noche: " + estancia.getTarifaNoche() + "€\n";
+
+				JOptionPane.showMessageDialog(null, mensaje, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+
+				dispose();
+				
+			}
+			
+		});
+		
+	}
+	public VentanaReserva(Apartamento apartamento) {
+
 		
 		
 		setTitle("Reserva de estancia");
@@ -119,6 +214,7 @@ public class VentanaReserva extends JDialog {
 		});
 		
 	}
+	
 	
 	
 

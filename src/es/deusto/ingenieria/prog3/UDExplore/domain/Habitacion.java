@@ -1,6 +1,8 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
 public class Habitacion implements Serializable{
 	
@@ -8,11 +10,11 @@ public class Habitacion implements Serializable{
 	private int numero;
     private int capacidadMaxima;
     private double precioPorNoche;
+
  
 
     // Constructor
-    public Habitacion(int numero, int capacidadMaxima, double precioPorNoche) {
-        this.numero = numero;
+    public Habitacion( int capacidadMaxima, double precioPorNoche) {s
         this.capacidadMaxima = capacidadMaxima;
         this.precioPorNoche = precioPorNoche;
    

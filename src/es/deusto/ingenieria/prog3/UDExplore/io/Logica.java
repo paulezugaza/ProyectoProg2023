@@ -22,22 +22,8 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 		
 		private static final long serialVersionUID = 1L;
 		public static List<Estancia>  estanciasHistoricas = new ArrayList<>();
-		private static Usuario usuario;
-		public Logica(Usuario usuario) {
-			super();
-			Logica.usuario = usuario;
-		}
-		
+		public static Usuario usuario=null;
 
-		public static Usuario getUsuario() {
-			return usuario;
-		}
-
-		public void setUsuario(Usuario usuario) {
-			Logica.usuario = usuario;
-		}
-
-		
 		
 		public static List<Estancia> getEstanciasHistoricas() {
 			return estanciasHistoricas;

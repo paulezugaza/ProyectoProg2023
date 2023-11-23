@@ -35,7 +35,24 @@ public class BaseDeDatos {
 				String sent = "CREATE TABLE IF NOT EXISTS usuario(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10), email varchar(25), contrasenya varchar(25), admin int);";
 				logger.log( Level.INFO, "Statement: " + sent );
 				statement.executeUpdate( sent );
+				
+				sent = "CREATE TABLE IF NOT EXISTS reserva(numeroReserva INTEGER PRIMARY KEY AUTOINCREMENT, fechaInicio bigint, fechaFin bigint, idUsuario INTEGER REFERENCES usuario (id));";
+				logger.log( Level.INFO, "Statement: " + sent );
+				statement.executeUpdate( sent );
+				
+				sent = "CREATE TABLE IF NOT EXISTS Habitacion(numeroHabitacion INTEGER PRIMARY KEY AUTOINCREMENT, capacidadMax integer, precioPorNoche integer, iDhotel INTEGER REFERENCES hotel(id));";
+				logger.log( Level.INFO, "Statement: " + sent );
+				statement.executeUpdate( sent );
+
+				sent = "CREATE TABLE IF NOT EXISTS Hotel(id INTEGER PRIMARY KEY AUTOINCREMENT, cadenaHotelera varchar(10));";
+				logger.log( Level.INFO, "Statement: " + sent );
+				statement.executeUpdate( sent );
+				sent = "CREATE TABLE IF NOT EXISTS ReservasHotel(id INTEGER PRIMARY KEY AUTOINCREMENT, iDHabitacion INTEGER REFERENCES Habitacion(id),iDhotel INTEGER REFERENCES hotel(id));";
+				logger.log( Level.INFO, "Statement: " + sent );
+				statement.executeUpdate( sent );
+				
 			}
+			
 			return true;
 		} catch(Exception e) {
 			logger.log( Level.SEVERE, "Excepción", e );
@@ -94,4 +111,5 @@ public class BaseDeDatos {
 			logger.log( Level.SEVERE, "Error en inserción de base de datos\t" + e );
 		}
 	}
+	
 }

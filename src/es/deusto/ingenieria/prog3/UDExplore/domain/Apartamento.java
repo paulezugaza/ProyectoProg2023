@@ -3,6 +3,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class Apartamento extends Estancia implements Serializable {
@@ -10,9 +11,10 @@ public class Apartamento extends Estancia implements Serializable {
 	
 
 	private static final long serialVersionUID = 1L;
-	
+    private int id=0;
+	List<Reserva> reservas;
 
-	public Apartamento(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
+	public Apartamento( String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
 			String foto, HashMap<Cliente, Reserva> reservas) {
 		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
 		// TODO Auto-generated constructor stub

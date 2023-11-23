@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -33,9 +34,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaInicio extends JFrame {
@@ -136,7 +139,10 @@ public class VentanaInicio extends JFrame {
 
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-				
+					if(Logica.usuario != null && Logica.usuario instanceof Cliente) {
+						new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
+					}
+					
 				}
 
 			}

@@ -15,17 +15,19 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 
 public class VentanaLogin extends JFrame {
 	private static final long serialVersionUID = 1L;
-
+	
 	
 	private JLabel email;
 	private JTextField txtEmail;
 	private JLabel contrasenya;
 	private JPasswordField txtContrasenya;
+	Cliente cliente;
 	public VentanaLogin() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,11 +59,11 @@ public class VentanaLogin extends JFrame {
 						if(Logica.usuarioCorrecto(txtEmail.getText(), txtContrasenya.getText())!=null){
 							if(Logica.UsuarioComprador(txtEmail.getText())){
 								dispose();
-								VentanaInicio ventana = new VentanaInicio();
-				
+								new VentanaInicio();
+								
 							}else {
 								//EN ESTA LUEGO HAY QUE PONER LA DE ADMIN
-								VentanaInicio ventana = new VentanaInicio();
+								new VentanaInicio();
 								dispose();
 							}
 							}else JOptionPane.showMessageDialog(null, "ERROR: Contraseña incorrecta. Vuelva a intentarlo");

@@ -7,15 +7,13 @@ public class Reserva {
     private int numeroReserva;
     private Date fechaInicio;
     private Date fechaFin;
-    private Estancia tipo;
     private Cliente cliente;
 
     // Constructor
-    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Estancia tipo, Cliente cliente) {
+    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
         this.numeroReserva = numeroReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.tipo = tipo;
         this.cliente = cliente;
     }
 
@@ -30,10 +28,6 @@ public class Reserva {
 
     public Date getFechaFin() {
         return fechaFin;
-    }
-
-    public Estancia getTipo() {
-        return tipo;
     }
 
     public Cliente getCliente() {

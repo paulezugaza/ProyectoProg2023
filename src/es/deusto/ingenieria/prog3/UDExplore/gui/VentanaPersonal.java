@@ -1,22 +1,26 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.util.HashMap;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 
-import java.awt.BorderLayout;
-	
-	import java.util.Map;
-
 	public class VentanaPersonal extends JFrame {
 	    private static final long serialVersionUID = 1L;
 		private Cliente cliente;
 	    private DefaultTableModel tableModel;
 
-	    public VentanaPersonal(Cliente cliente, Map<Cliente, Reserva> reservas) {
+	    public VentanaPersonal(Cliente cliente, HashMap<Cliente, Reserva> hashMap) {
 	        this.setCliente(cliente);
 
 	        setTitle("Ventana Personal del Cliente");
@@ -42,7 +46,7 @@ import java.awt.BorderLayout;
 	        add(scrollPane, BorderLayout.CENTER);
 
 	 
-	        for (Reserva reserva : reservas.values()) {
+	        for (Reserva reserva : hashMap.values()) {
 	            if (reserva.getCliente() == cliente) {
 	                Estancia estancia = reserva.getTipo();
 	                Object[] rowData = {
