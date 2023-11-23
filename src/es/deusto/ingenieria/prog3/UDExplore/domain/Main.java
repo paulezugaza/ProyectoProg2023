@@ -3,7 +3,10 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+
 import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaInicio;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class Main {
@@ -12,7 +15,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-
+				BaseDeDatos.abrirConexion("BaseDeDatos.db", true);
+		
 		 		List<Estancia> estancias = new ArrayList<>();
 		 		
 		 		HashMap<Cliente ,Reserva> reservas = new HashMap<>();

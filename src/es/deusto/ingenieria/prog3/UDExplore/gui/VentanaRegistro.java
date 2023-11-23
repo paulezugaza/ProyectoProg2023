@@ -1,9 +1,15 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import javax.swing.*;
+
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 public class VentanaRegistro extends JFrame{
 	
@@ -13,7 +19,6 @@ public class VentanaRegistro extends JFrame{
 	private static final long serialVersionUID = 1L;
 	JFrame frame = new JFrame("Registro de usuario");
 	private JTextField txtNombre;
-	private JTextField txtApellidos;
 	private JPasswordField txtContrasenya;
 	private JPasswordField txtContrasenyaRep;
 	
@@ -28,15 +33,7 @@ public class VentanaRegistro extends JFrame{
         inputPanel.setLayout(new GridLayout(8, 2, 5, 5));  
 
         JLabel lblNombre = new JLabel("Nombre:");
-        txtNombre = new JTextField();
-        JLabel lblApellidos = new JLabel("Apellidos:");
-        txtApellidos = new JTextField();
-        JLabel lblTelefono = new JLabel("Número de Teléfono:");
-        JTextField txtTelefono = new JTextField();
-        JLabel lblDireccion = new JLabel("Direccion:");
-        JTextField txtDireccion = new JTextField();
-        JLabel lblCiudad = new JLabel("Ciudad:");
-        JTextField txtCiudad = new JTextField();
+        JTextField txtNombre = new JTextField();
         JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
         JLabel lblContrasenya = new JLabel("Contraseña:"); 
@@ -47,14 +44,6 @@ public class VentanaRegistro extends JFrame{
 
         inputPanel.add(lblNombre);
         inputPanel.add(txtNombre);
-        inputPanel.add(lblApellidos);
-        inputPanel.add(txtApellidos);
-        inputPanel.add(lblDireccion);
-        inputPanel.add(txtDireccion);
-        inputPanel.add(lblCiudad);
-        inputPanel.add(txtCiudad);
-        inputPanel.add(lblTelefono);
-        inputPanel.add(txtTelefono);
         inputPanel.add(lblEmail);
         inputPanel.add(txtEmail);
         inputPanel.add(lblContrasenya);
@@ -70,15 +59,22 @@ public class VentanaRegistro extends JFrame{
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtNombre.getText();
-                txtApellidos.getText();
-                txtEmail.getText();
-                txtTelefono.getText();
-                txtContrasenya.getPassword();
-                txtContrasenyaRep.getPassword();
-                	
-                checkFields();
-
+            	if(Logica.existeUsuario(txtEmail.getText())) {
+					JOptionPane.showMessageDialog(null, "ERROR: Ya existe una cuenta con ese email. Utilice otro");
+				}
+				if (!txtEmail.getText().equals("")  && !txtContrasenya.getText().equals("") ){
+					String er = "[a-zA-Z]{1,}.{0,}[a-zA-Z]{0,}@[a-zA-Z]{1,}.[a-z]{2,}";
+					String email = txtEmail.getText();
+					if(Pattern.matches(er, email)) {
+						Logica.crearUsuario(txtNombre.getText(),txtEmail.getText(), txtContrasenya.getText()); 
+						//aqui hay que añadir el codigo tanto arriba como abajo
+						BaseDeDatos.añadirUsuario(txtNombre.getText(),txtEmail.getText(), txtContrasenya.getText());
+						new VentanaLogin();
+					}
+					else
+						JOptionPane.showMessageDialog(null, "ERROR: El formato del email no es correcto");
+				}else JOptionPane.showMessageDialog(null, "ERROR: Rellene todos los campos");
+		
             }
         });
 

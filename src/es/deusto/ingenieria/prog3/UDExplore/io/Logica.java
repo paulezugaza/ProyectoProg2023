@@ -8,28 +8,46 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 	import java.io.ObjectOutputStream;
 	import java.io.Serializable;
 	import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+	import java.util.Date;
+	import java.util.List;
 	import java.util.logging.Level;
 	import java.util.logging.Logger;
 
-
-
-import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 
 	public class Logica implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
 		public static List<Estancia>  estanciasHistoricas = new ArrayList<>();
+		private static Usuario usuario;
+		public Logica(Usuario usuario) {
+			super();
+			Logica.usuario = usuario;
+		}
 		
+
+		public static Usuario getUsuario() {
+			return usuario;
+		}
+
+		public void setUsuario(Usuario usuario) {
+			Logica.usuario = usuario;
+		}
+
 		
 		
 		public static List<Estancia> getEstanciasHistoricas() {
 			return estanciasHistoricas;
 		}
 
-
+		public static boolean UsuarioComprador(String email) {
+			if(BaseDeDatos.getUsuarios().get(email) instanceof Cliente ) return true;
+			else return false;
+		}
+		
 
 		public static void setEstanciasHistoricas(List<Estancia> estanciasHistoricas) {
 			Logica.estanciasHistoricas = estanciasHistoricas;
@@ -69,6 +87,22 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 			}
 		}
 		
+		public static boolean existeUsuario(String email) {
+			if(BaseDeDatos.getUsuarios().containsKey(email)) return true;
+			else return false;
+		}
+		public static void crearUsuario(String nombre, String email, String contrasenya) {
+			Cliente c1= new Cliente(nombre, email,contrasenya, 0); 
+			BaseDeDatos.getUsuarios().put(c1.getCorreoElectronico(),c1);
+			
+		}
+		public static Usuario usuarioCorrecto(String email, String contrasenya) {
+			if(BaseDeDatos.getUsuarios().get(email).getContraseña().equals(contrasenya)){
+				Logica.usuario=BaseDeDatos.getUsuarios().get(email);
+				logger.log( Level.INFO, "Existe usuario en la BD");
+				return BaseDeDatos.getUsuarios().get(email);
+			}else return null;
+		}
 		public static boolean estanciaDisponibleEnFechas(Estancia estancia, Date inicio, Date fin) {
 		    if (estancia.getReservas() == null) {
 		        return true; 

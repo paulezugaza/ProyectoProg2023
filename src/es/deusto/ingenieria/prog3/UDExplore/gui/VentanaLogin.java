@@ -9,10 +9,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
+
 
 public class VentanaLogin extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -48,12 +52,24 @@ public class VentanaLogin extends JFrame {
         btnEntrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                txtEmail.getText();
-                txtContrasenya.getPassword();
-                	
-                isEmpty();
-
-            }
+				if(!txtEmail.getText().equals("") && !txtContrasenya.getText().equals("")) {
+					if(Logica.existeUsuario(txtEmail.getText())) {
+						if(Logica.usuarioCorrecto(txtEmail.getText(), txtContrasenya.getText())!=null){
+							if(Logica.UsuarioComprador(txtEmail.getText())){
+								dispose();
+								VentanaInicio ventana = new VentanaInicio();
+				
+							}else {
+								//EN ESTA LUEGO HAY QUE PONER LA DE ADMIN
+								VentanaInicio ventana = new VentanaInicio();
+								dispose();
+							}
+							}else JOptionPane.showMessageDialog(null, "ERROR: Contraseña incorrecta. Vuelva a intentarlo");
+						}else JOptionPane.showMessageDialog(null, "ERROR: No existe ninguna cuenta con ese email. REGISTRESE");
+					}else JOptionPane.showMessageDialog(null, "ERROR: Rellene todos los datos");
+				txtEmail.setText("");
+				txtContrasenya.setText("");
+			}
         });
         
         JButton btnCerrar = new JButton("Cerrar");
