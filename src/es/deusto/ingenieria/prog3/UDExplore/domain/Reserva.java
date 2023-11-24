@@ -13,7 +13,7 @@ public class Reserva {
    
 
 	// Constructor
-    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
+    public Reserva(Date fechaInicio, Date fechaFin, Cliente cliente) {
         this.numeroReserva = numeroReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;

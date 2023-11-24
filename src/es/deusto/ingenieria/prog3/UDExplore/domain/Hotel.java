@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,9 @@ public class Hotel extends Estancia implements Serializable {
 	private CadenaHotelera cadenaHotelera;
     private List<Habitacion> habitaciones;
     private HashMap<Habitacion, List<Reserva>> mapaReservasHabitacion;
+    
+    
+  
 
 
 
@@ -81,7 +85,11 @@ public class Hotel extends Estancia implements Serializable {
 		return super.calcularPrecioTotal(numNoches);
 	}
 
-
+	public void actualizarMapaReservas(Habitacion habitacion, Reserva reserva) {
+	    	mapaReservasHabitacion.putIfAbsent(habitacion, new ArrayList<Reserva>());
+	    	mapaReservasHabitacion.get(habitacion).add(reserva);
+	    	
+	 }
 
 
 

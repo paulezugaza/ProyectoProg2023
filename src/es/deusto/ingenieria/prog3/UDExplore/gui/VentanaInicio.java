@@ -288,6 +288,8 @@ public class VentanaInicio extends JFrame {
 			    } catch (ParseException e1) {
 			        e1.printStackTrace();
 			    }
+			    Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
+			    Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
 			}
 		
 		});

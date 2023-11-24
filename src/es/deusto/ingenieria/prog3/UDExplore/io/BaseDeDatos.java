@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -111,5 +112,25 @@ public class BaseDeDatos {
 			logger.log( Level.SEVERE, "Error en inserción de base de datos\t" + e );
 		}
 	}
+	public static int añadirReserva( java.util.Date fechaIni, java.util.Date fechaFin, int usuarioId) {
+		String sent="";
+		try(Statement statement = conexion.createStatement()) {
+			sent = "insert reserva (fechaIni, fechaFin, usuarioId ) values (" + fechaIni + ",'" + fechaFin + "', " + usuarioId + ");";
+			logger.log( Level.INFO, "Lanzada actualización a base de datos: " + sent );
+			int val = statement.executeUpdate( sent );
+			logger.log( Level.INFO, "Añadida " + val + " fila a base de datos\t" + sent );
+			sent = "select id from reserva order by id desc;";
+			ResultSet rs = statement.executeQuery(sent);
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				return id;
+			}
+		} catch (SQLException e) {
+			logger.log( Level.SEVERE, "Error en inserción de base de datos\t" + e );
+		}
+		return 0;
+	}
+
+	
 	
 }

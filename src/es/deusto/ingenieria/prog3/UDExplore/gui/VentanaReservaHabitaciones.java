@@ -3,15 +3,19 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaReservaHabitaciones extends VentanaReserva {
@@ -61,24 +65,36 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         }
 
 
-        
         bConfirmarDatos.addActionListener(new ActionListener() {
-     
-    		@Override
-    		public void actionPerformed(ActionEvent e) {
-    			
-    			String mensaje = "¡Su reserva ha sido guardada con éxito!\n\n" +
-                        "Detalles de la estancia:\n" +
-                        "Hotel: " + esteHotel.getNombre() + "\n" +
-                        "Precio por noche: " + habitacion.getPrecioPorNoche() + "€\n";
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	esteHotel.actualizarMapaReservas(habitacion, new Reserva(Logica.fechaIni, Logica.fechaFin, (Cliente) Logica.usuario));
+                try {
+                    
+                    Date fechaIni = Logica.fechaIni;
+                    Date fechaFin = Logica.fechaFin;
+                    int id = BaseDeDatos.añadirReserva(fechaIni, fechaFin, Logica.usuario.getCodigoUsuario());
 
-    			JOptionPane.showMessageDialog(null, mensaje, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    String mensaje = "¡Su reserva ha sido guardada con éxito!\n\n" +
+                            "Detalles de la estancia:\n" +
+                            "Hotel: " + esteHotel.getNombre() + "\n" +
+                            "Precio por noche: " + habitacion.getPrecioPorNoche() + "€\n";
 
-    			dispose();
-    			
-    		}
-    		
-    	});
+                   
+                    JOptionPane.showMessageDialog(null, mensaje, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+
+                    
+                    dispose();
+
+                } catch (Exception ex) {
+                   
+                    ex.printStackTrace(); 
+                    JOptionPane.showMessageDialog(null, "Error al realizar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
     }
 
     private void inicializarVentana() {
