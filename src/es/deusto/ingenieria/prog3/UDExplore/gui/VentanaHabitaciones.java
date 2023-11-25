@@ -13,7 +13,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 
@@ -24,8 +23,7 @@ public class VentanaHabitaciones extends JFrame {
     private JScrollPane scrollPaneHabitaciones;
     private Hotel hotel;
 
-
-    
+    private VentanaInicio ventanaInicio;
 
     public VentanaHabitaciones(Hotel hotel) {
         this.setHotel(hotel);
@@ -54,10 +52,14 @@ public class VentanaHabitaciones extends JFrame {
         JLabel labelUbicacion = new JLabel("Ubicación: " + hotel.getCiudad());
 
         JPanel panelBotones = new JPanel();
+        
         JButton btnVolverInicio = new JButton("Volver al Inicio");
+        ventanaInicio = new VentanaInicio();
+
         btnVolverInicio.addActionListener(e -> {
-            new VentanaInicio();
-            dispose();
+        	ventanaInicio.setVisible(true); 
+			dispose();
+		
         });
         
         JButton btnVolverAnterior = new JButton("Volver a la anterior");
@@ -90,10 +92,6 @@ public class VentanaHabitaciones extends JFrame {
         setVisible(true);
       
     }
-
- 
-
-    
 
     private void initTables() {
         Vector<String> cabeceraHabitaciones = new Vector<>();

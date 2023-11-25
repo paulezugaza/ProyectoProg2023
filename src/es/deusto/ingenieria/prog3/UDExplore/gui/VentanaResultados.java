@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.ParseException;
@@ -39,14 +40,23 @@ public class VentanaResultados extends JFrame {
     private JTable tablaResultados;
     private JScrollPane scrollPaneEstancias;
     private List<Estancia> estancias;
+    
     JComboBox<String> jComboDiaEntrada = new JComboBox<>();
     JComboBox<String> jComboMesEntrada = new JComboBox<>();
     JComboBox<String> jComboAnioEntrada = new JComboBox<>();
     JComboBox<String> jComboDiaSalida = new JComboBox<>();
     JComboBox<String> jComboMesSalida = new JComboBox<>();
     JComboBox<String> jComboAnioSalida = new JComboBox<>();
+    
+    private JCheckBox unaEstrella;
+    private JCheckBox dosEstrellas;
+    private JCheckBox tresEstrellas;
+    private JCheckBox cuatroEstrellas;
+    private JCheckBox cincoEstrellas;
+    
 	private JLabel jLabelInfo = new JLabel();
     private VentanaInicio ventanaInicio;
+	private Object estanciasDisponibles;
 
     public VentanaResultados(List<Estancia> estancias) {
     	
@@ -161,8 +171,6 @@ public class VentanaResultados extends JFrame {
         pFechasE.add(jComboAnioEntrada);
      
 
-        
-
         JPanel pFechasS = new JPanel();
         pFechasS.setLayout(new BoxLayout(pFechasS, BoxLayout.Y_AXIS));
         pFechasS.add(new JLabel("Fecha de Salida: "));
@@ -180,11 +188,12 @@ public class VentanaResultados extends JFrame {
         JPanel pCategorias  = new JPanel();
         pCategorias.add(new JLabel("Busque por categoría:"), BorderLayout.NORTH);
         pCategorias.setLayout(new BoxLayout(pCategorias, BoxLayout.X_AXIS));
-        JCheckBox unaEstrella = new JCheckBox("★");
-        JCheckBox dosEstrellas = new JCheckBox("★★");
-        JCheckBox tresEstrellas = new JCheckBox("★★★");
-        JCheckBox cuatroEstrellas = new JCheckBox("★★★★");
-        JCheckBox cincoEstrellas = new JCheckBox("★★★★★");
+        
+        unaEstrella = new JCheckBox("★");
+        dosEstrellas = new JCheckBox("★★");
+        tresEstrellas = new JCheckBox("★★★");
+        cuatroEstrellas = new JCheckBox("★★★★");
+        cincoEstrellas = new JCheckBox("★★★★★");
         
         pCategorias.add(unaEstrella);
         pCategorias.add(dosEstrellas);
@@ -193,6 +202,10 @@ public class VentanaResultados extends JFrame {
         pCategorias.add(cincoEstrellas);
         
         
+        boolean alMenosUnaEstrellaSeleccionada = unaEstrella.isSelected() 
+        		|| dosEstrellas.isSelected() || tresEstrellas.isSelected() 
+        		|| cuatroEstrellas.isSelected() || cincoEstrellas.isSelected();
+
         
         bBuscar.addActionListener(e -> {
         	
@@ -207,8 +220,6 @@ public class VentanaResultados extends JFrame {
                 } else {
                    
                     List<Estancia> estanciasDisponibles = new ArrayList<>();
-                   
-                    boolean alMenosUnaEstrellaSeleccionada = unaEstrella.isSelected() || dosEstrellas.isSelected() || tresEstrellas.isSelected() || cuatroEstrellas.isSelected() || cincoEstrellas.isSelected();
 
   
                     boolean unaEstrellaSeleccionada = unaEstrella.isSelected();
@@ -234,7 +245,7 @@ public class VentanaResultados extends JFrame {
                             }
                         }
                     });
-
+                
                     if (estanciasDisponibles.isEmpty()) {
                         jLabelInfo.setText("No hay estancias disponibles para estas fechas y categorías en este destino.");
                         modeloDatosResultados.setRowCount(0);
@@ -252,8 +263,15 @@ public class VentanaResultados extends JFrame {
             Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
 		    Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
         });
-
         
+        ItemListener checkboxListener = e -> cargarEstanciasPorCategoria();
+
+        unaEstrella.addItemListener(checkboxListener);
+        dosEstrellas.addItemListener(checkboxListener);
+        tresEstrellas.addItemListener(checkboxListener);
+        cuatroEstrellas.addItemListener(checkboxListener);
+        cincoEstrellas.addItemListener(checkboxListener);
+      
  
 
         scrollPaneEstancias = new JScrollPane(tablaResultados);
@@ -276,6 +294,45 @@ public class VentanaResultados extends JFrame {
   
         setVisible(true);
     }
+    
+    private void cargarEstanciasPorCategoria() {
+        modeloDatosResultados.setRowCount(0);
+
+        estancias.forEach(estancia -> {
+            int categoria = estancia.getCategoria();
+            
+            //comprobacion de categoria
+            boolean categoriaSeleccionada = false;
+            if (unaEstrella.isSelected() && categoria == 1) {
+                categoriaSeleccionada = true;
+            } else if (dosEstrellas.isSelected() && categoria == 2) {
+                categoriaSeleccionada = true;
+            } else if (tresEstrellas.isSelected() && categoria == 3) {
+                categoriaSeleccionada = true;
+            } else if (cuatroEstrellas.isSelected() && categoria == 4) {
+                categoriaSeleccionada = true;
+            } else if (cincoEstrellas.isSelected() && categoria == 5) {
+                categoriaSeleccionada = true;
+            }
+
+            //añadir estancia a la tabla
+            if (categoriaSeleccionada) {
+                modeloDatosResultados.addRow(new Object[]{
+                        estancia.getNombre(),
+                        estancia.getClass().getSimpleName(),
+                        estancia.getCiudad(),
+                        estancia.getCategoria(),
+                        estancia.getNumeroHabitaciones(),
+                        estancia.getTarifaNoche() + "€",
+                        estancia.getFoto(),
+                        new String("Reservar ") + estancia.getNombre()
+                });
+            }
+        });
+    }
+    
+
+
 
     private void initTables() {
         Vector<String> cabeceraResultados = new Vector<>();
