@@ -20,6 +20,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.DefaultCellEditor;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -357,7 +358,7 @@ public class VentanaResultados extends JFrame {
         tablaResultados.getColumnModel().getColumn(4).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(5).setPreferredWidth(100);
         tablaResultados.getColumnModel().getColumn(6).setCellRenderer(imageRenderer);
-        tablaResultados.getColumnModel().getColumn(7).setPreferredWidth(100);
+        tablaResultados.getColumnModel().getColumn(7).setCellRenderer(createButtonRenderer());
         
         tablaResultados.addMouseListener(new MouseAdapter() {
             @Override
@@ -366,16 +367,14 @@ public class VentanaResultados extends JFrame {
                     int row = tablaResultados.getSelectedRow();
                     int col = tablaResultados.getSelectedColumn();
                     
-
                     if (col == 7) { 
                     	if (estancias.get(row) instanceof Hotel) {
                     		Hotel hotel = (Hotel) estancias.get(row);
-                    		System.out.println("hola");
                     		new VentanaHabitaciones(hotel).setVisible(true);
                     		
                     	} else {
-                    	Estancia estancia = estancias.get(row);
-                        new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
+                    		Estancia estancia = estancias.get(row);
+                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
                        
                     	}
                     }
@@ -383,12 +382,34 @@ public class VentanaResultados extends JFrame {
             }
         });
         
-     
-
     }
     
+    //IA
+    private TableCellRenderer createButtonRenderer() {
+        return (table, value, isSelected, hasFocus, row, column) -> {
+        	if (column == 7) {
+                JButton button = new JButton("Ver habitaciones");
+
+                button.addActionListener(e -> {
+                    if (row >= 0) {
+                        if (estancias.get(row) instanceof Hotel) {
+                            Hotel hotel = (Hotel) estancias.get(row);
+                            new VentanaHabitaciones(hotel).setVisible(true);
+                        } else {
+                            Estancia estancia = estancias.get(row);
+                            new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
+                        }
+                    }
+                });
+
+                return button;
+            }
+
+            return null;
+        };
+    }
+    //
    
-    
     TableCellRenderer imageRenderer = (table, value, isSelected, hasFocus, row, column) -> {
         JLabel result = new JLabel();
         
