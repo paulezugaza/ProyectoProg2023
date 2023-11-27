@@ -17,13 +17,11 @@ public class Hotel extends Estancia implements Serializable {
     private HashMap<Habitacion, List<Reserva>> mapaReservasHabitacion;
     
     
-  
-
 
 
 
 	public Hotel(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche, String foto,
-			Map<Cliente, Reserva> reservas, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones ) {
+			Map<Cliente, List<Reserva>> reservas, CadenaHotelera cadenaHotelera, List<Habitacion> habitaciones ) {
 		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
 	
 		    this.reservas = reservas;

@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaReservaApartamento extends VentanaReserva {
 
@@ -31,6 +34,8 @@ public class VentanaReservaApartamento extends VentanaReserva {
 
     		@Override
     		public void actionPerformed(ActionEvent e) {
+    			Logica.guardarReserva( new Reserva(Logica.fechaIni, Logica.fechaFin, (Cliente) Logica.usuario));
+    			apartamento.getReservas().get(Logica.usuario).add( new Reserva(Logica.fechaIni, Logica.fechaFin, (Cliente) Logica.usuario));
     			
     			String mensaje = "¡Su reserva ha sido guardada con éxito!\n\n" +
                         "Detalles de la estancia:\n" +

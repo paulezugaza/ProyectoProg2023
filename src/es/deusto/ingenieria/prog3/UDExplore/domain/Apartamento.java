@@ -4,6 +4,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Apartamento extends Estancia implements Serializable {
@@ -12,12 +13,28 @@ public class Apartamento extends Estancia implements Serializable {
 
 	private static final long serialVersionUID = 1L;
     private int id=0;
-	List<Reserva> reservas;
+	List<Reserva> reservasLista;
+	
+	public Apartamento() {
+		super();
+		
+	}
 
-	public Apartamento( String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
-			String foto, HashMap<Cliente, Reserva> reservas) {
+
+	public Apartamento(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
+			String foto, Map<Cliente, List<Reserva>> reservas) {
 		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
-		// TODO Auto-generated constructor stub
+		
+	}
+
+
+	public Map<Cliente, List<Reserva>> getReservas() {
+		return reservas;
+	}
+
+
+	public void setReservas(Map<Cliente, List<Reserva>> reservas) {
+		this.reservas = reservas;
 	}
 
 

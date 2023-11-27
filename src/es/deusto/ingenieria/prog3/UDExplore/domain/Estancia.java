@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public class Estancia  implements Serializable {
@@ -15,14 +16,14 @@ public class Estancia  implements Serializable {
     private double tarifaNoche;
     private String foto;
 	private int categoria;
-	Map< Cliente, Reserva> reservas;
+	Map<Cliente, List<Reserva>> reservas;
    
 
     public Estancia() {
     	
     }
 
-    public Estancia( String nombre, Ciudad ciudad, int categoria,  int numeroHabitaciones, double tarifaNoche, String foto, Map< Cliente, Reserva> reservas) {
+    public Estancia( String nombre, Ciudad ciudad, int categoria,  int numeroHabitaciones, double tarifaNoche, String foto, Map< Cliente, List<Reserva>> reservas) {
 		super();
 		this.nombre = nombre;
 		this.ciudad = ciudad;
@@ -35,11 +36,11 @@ public class Estancia  implements Serializable {
 
 
 
-	public Map<Cliente, Reserva> getReservas() {
+	public Map<Cliente, List<Reserva>> getReservas() {
 		return reservas;
 	}
 
-	public void setReservas(Map<Cliente, Reserva> reservas) {
+	public void setReservas(Map<Cliente, List<Reserva>> reservas) {
 		this.reservas = reservas;
 	}
 

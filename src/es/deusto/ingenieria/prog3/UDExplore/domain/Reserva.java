@@ -10,7 +10,7 @@ public class Reserva {
     private Date fechaFin;
     private Cliente cliente;
 
-   
+
 
 	// Constructor
     public Reserva(Date fechaInicio, Date fechaFin, Cliente cliente) {
@@ -20,7 +20,9 @@ public class Reserva {
         this.cliente = cliente;
     }
 
-    // Getters
+   
+
+	// Getters
     public int getNumeroReserva() {
         return numeroReserva;
     }

@@ -1,26 +1,34 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
 
+	import java.io.BufferedWriter;
 	import java.io.FileInputStream;
 	import java.io.FileOutputStream;
+	import java.io.FileWriter;
 	import java.io.IOException;
 	import java.io.ObjectInputStream;
 	import java.io.ObjectOutputStream;
 	import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+	import java.text.ParseException;
+	import java.text.SimpleDateFormat;
+	import java.util.ArrayList;
 	import java.util.Date;
 	import java.util.List;
-	import java.util.logging.Level;
+import java.util.Map;
+import java.util.logging.Level;
 	import java.util.logging.Logger;
+	import javax.swing.JComboBox;
 
-import javax.swing.JComboBox;
-
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-	import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
+
 
 	public class Logica implements Serializable{
 		
@@ -95,13 +103,74 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 				return BaseDeDatos.getUsuarios().get(email);
 			}else return null;
 		}
+		
+		private static final String RESERVATIONS_FILE = "resources/data/reservas.csv";
+		private static final String HOTELES_FILE = "resources/data/hoteles.csv";
+		private static final String APARTAMENTOS_FILE = "resources/data/apartamentos.csv";
+		
+		public static void guardarReserva(Reserva reserva) {
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(RESERVATIONS_FILE, true))) {
+				String line = String.format("%s#%s#%s#%s", 
+										reserva.getNumeroReserva(),
+										reserva.getCliente(),
+										String.valueOf(reserva.getFechaInicio()),
+										String.valueOf(reserva.getFechaFin()));
+				writer.write(line);
+				writer.newLine();
+	        } catch (Exception ex) {
+	        	logger.warning(String.format("%s - Error guardando reserva: %s", reserva , ex.getMessage()));
+	        }		
+		}
+		
+		public static void guardarHotel(Hotel hotel) {
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(HOTELES_FILE, true))) {
+				String line = String.format("%s#%s#%s#%s#%s#%s#%s#%s#%s", 
+										hotel.getNombre(),
+										hotel.getCiudad(),
+										hotel.getCategoria(),
+										hotel.getNumeroHabitaciones(),
+										hotel.getTarifaNoche(),
+										hotel.getFoto(),
+										hotel.getReservas(),
+										hotel.getCadenaHotelera(),
+										hotel.getHabitaciones());
+					
+				
+				writer.write(line);
+				writer.newLine();
+	        } catch (Exception ex) {
+	        	logger.warning(String.format("%s - Error guardando reserva: %s", hotel , ex.getMessage()));
+	        }		
+		}
+		
+		
+		public static void guardarApartamento(Apartamento apartamento) {
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(APARTAMENTOS_FILE, true))) {
+				String line = String.format("%s#%s#%s#%s#%s#%s#%s", 
+										apartamento.getNombre(),
+										apartamento.getCiudad(),
+										apartamento.getCategoria(),
+										apartamento.getNumeroHabitaciones(),
+										apartamento.getTarifaNoche(),
+										apartamento.getFoto(),
+										apartamento.getReservas());
+										
+					
+				
+				writer.write(line);
+				writer.newLine();
+	        } catch (Exception ex) {
+	        	logger.warning(String.format("%s - Error guardando reserva: %s", apartamento, ex.getMessage()));
+	        }		
+		}
+		
 		public static boolean estanciaDisponibleEnFechas(Estancia estancia, Date inicio, Date fin) {
 		    if (estancia.getReservas() == null) {
 		        return true; 
 		    }
 
-		    for (Reserva reserva : estancia.getReservas().values()) {
-		        if (!fin.before(reserva.getFechaInicio()) && !inicio.after(reserva.getFechaFin())) {
+		    for (List<Reserva> reserva : estancia.getReservas().values()) {
+		        if (!fin.before(((Reserva) reserva).getFechaInicio()) && !inicio.after(((Reserva) reserva).getFechaFin())) {
 		            return false; 
 		        }
 		    }

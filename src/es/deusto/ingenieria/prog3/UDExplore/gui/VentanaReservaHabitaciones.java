@@ -68,6 +68,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         bConfirmarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	Logica.guardarReserva( new Reserva(Logica.fechaIni, Logica.fechaFin, (Cliente) Logica.usuario));
             	esteHotel.actualizarMapaReservas(habitacion, new Reserva(Logica.fechaIni, Logica.fechaFin, (Cliente) Logica.usuario));
                 try {
                     
