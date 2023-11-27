@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -131,6 +132,21 @@ public class VentanaInicio extends JFrame {
 			
 
 		});
+		
+		
+		Calendar calendar = Calendar.getInstance();
+        Date fechaActual = calendar.getTime();
+        String diaActual = new SimpleDateFormat("dd").format(fechaActual);
+        String mesActual = new SimpleDateFormat("MM").format(fechaActual);
+        String anioActual = new SimpleDateFormat("yyyy").format(fechaActual);
+        
+        jComboDiaEntrada.setSelectedItem(diaActual);
+        jComboMesEntrada.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+        jComboAnioEntrada.setSelectedItem(anioActual);
+
+        jComboDiaSalida.setSelectedItem(diaActual);
+        jComboMesSalida.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+        jComboAnioSalida.setSelectedItem(anioActual);
 		
 		
 		JPanel pPersonal = new JPanel();
@@ -252,6 +268,7 @@ public class VentanaInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 			    try {
+			    	Date hoy = new Date();
 			        Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
 			        Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
 			     
@@ -259,6 +276,8 @@ public class VentanaInicio extends JFrame {
 
 			        if (fin.before(inicio)) {
 			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de salida no puede ser anterior a la fecha de entrada.", "Error", JOptionPane.ERROR_MESSAGE);
+			        }else if (inicio.before(hoy)) {
+			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de entrada no puede ser anterior a la fecha actual.", "Error", JOptionPane.ERROR_MESSAGE);
 			        } else {
 			            jLabelInfo.setText("Realizando búsqueda...");
 
