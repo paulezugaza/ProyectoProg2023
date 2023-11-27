@@ -20,7 +20,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.DefaultCellEditor;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -363,7 +362,7 @@ public class VentanaResultados extends JFrame {
         tablaResultados.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 1) {
                     int row = tablaResultados.getSelectedRow();
                     int col = tablaResultados.getSelectedColumn();
                     
