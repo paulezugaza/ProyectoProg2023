@@ -258,7 +258,7 @@ public class VentanaInicio extends JFrame {
 			       
 
 			        if (fin.before(inicio)) {
-			            jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
+			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de salida no puede ser anterior a la fecha de entrada.", "Error", JOptionPane.ERROR_MESSAGE);
 			        } else {
 			            jLabelInfo.setText("Realizando búsqueda...");
 
@@ -415,9 +415,6 @@ public class VentanaInicio extends JFrame {
 	}
 	
 
-	
-	
-
-	
 
 }
+
