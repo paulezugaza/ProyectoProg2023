@@ -388,7 +388,7 @@ public class VentanaResultados extends JFrame {
     private TableCellRenderer createButtonRenderer() {
         return (table, value, isSelected, hasFocus, row, column) -> {
         	if (column == 7) {
-                JButton button = new JButton("Ver habitaciones");
+                JButton button = new JButton("Ver más");
 
                 button.addActionListener(e -> {
                     if (row >= 0) {

@@ -39,16 +39,11 @@ public class Main {
 		             reservas,  CadenaHotelera.TRAVELHUBHOTELS, habitaciones);
 
 		 	    Apartamento apartamentoValencia = new Apartamento("Apartamento Valencia Beach", Ciudad.Valencia,(int) 4.5, 2, 80.0, "", reservas);
-		 	    estancias.add(hotelMadrid);
-		 	    estancias.add(hotelBarcelona);
-		 	    estancias.add(hotelSevilla);
-		 	    estancias.add(apartamentoValencia);
-			  
+		 	    
 
 		 	    String nombreArchivo = "resources/data/estancias.dat";
 		 	    
-		 	    Logica.setEstanciasHistoricas(estancias);
-		 	    Logica.cargarEstancias(nombreArchivo);
+		 	 
 		 	
 				
 	           VentanaInicio ventana = new VentanaInicio();
@@ -77,7 +72,12 @@ public class Main {
 	           Hotel hotel10 = new Hotel("Hotel Alicante Paradise", Ciudad.Alicante, 4, 80, 120.0,
 	                   "Resources/images/alicante.jpg", reservas, CadenaHotelera.LUXURYRESORTS, obtenerHabitacionesDeEjemplo());
 
-	          
+	           	estancias.add(hotelMadrid);
+		 	    estancias.add(hotelBarcelona);
+		 	    estancias.add(hotelSevilla);
+		 	    estancias.add(apartamentoValencia);
+		 	    
+			  
 	           Apartamento apartamento1 = new Apartamento("Apartamento Valencia luxe", Ciudad.Valencia, 4, 2, 80.0, "apartamento1.jpg", reservas);
 	           Apartamento apartamento2 = new Apartamento("Apartamento Barcelona Downtown", Ciudad.Barcelona, 3, 3, 90.0, "apartamento2.jpg", reservas);
 	           Apartamento apartamento3 = new Apartamento("Apartamento Mallorca Paradise", Ciudad.Mallorca, 2, 2, 70.0, "apartamento3.jpg", reservas);
@@ -110,6 +110,8 @@ public class Main {
 	           estancias.add(apartamento8);
 	           estancias.add(apartamento9);
 	           estancias.add(apartamento10);
+	           Logica.setEstanciasHistoricas(estancias);
+		 	   Logica.cargarEstancias(nombreArchivo);
 	           
 	        };
 

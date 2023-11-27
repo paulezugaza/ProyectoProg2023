@@ -254,9 +254,8 @@ public class VentanaInicio extends JFrame {
 			    try {
 			        Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
 			        Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
-			        System.out.println("Botón Buscar clicado."); 
-			        System.out.println(inicio);
-			        System.out.println(fin);
+			     
+			       
 
 			        if (fin.before(inicio)) {
 			            jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
@@ -279,7 +278,7 @@ public class VentanaInicio extends JFrame {
 			            } else {
 			                jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
 			                
-			               
+			                System.out.println("Botón Buscar clicado."); 
 			                VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
 			                ventanaResultados.setVisible(true);
 			                dispose();

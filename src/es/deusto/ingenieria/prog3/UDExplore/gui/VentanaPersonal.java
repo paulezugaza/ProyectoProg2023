@@ -1,6 +1,9 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -31,11 +34,28 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	        JLabel datosClienteLabel = new JLabel("Datos del Cliente:");
 	        panelSuperior.add(datosClienteLabel);
 
-	        JTextArea datosClienteText = new JTextArea(cliente.toString());
-	        datosClienteText.setEditable(false);
-	        panelSuperior.add(datosClienteText);
-
+	        JTextArea datosClienteNom = new JTextArea("Usuario:" +  cliente.getNombreUsuario());
+	        datosClienteNom.setBackground(getForeground());
+	        JTextArea datosClienteCorreo = new JTextArea("Correo electrónico:" +  cliente.getCorreoElectronico());
+	        datosClienteCorreo.setBackground(getForeground());
+	        datosClienteNom.setEditable(false);
+	        datosClienteCorreo.setEditable(false);
+	        panelSuperior.add(datosClienteNom);
+	        panelSuperior.add(datosClienteCorreo);
+	        panelSuperior.setPreferredSize(new Dimension(panelSuperior.getPreferredSize().width, 50));
+            panelSuperior.setBackground(Color.LIGHT_GRAY);
 	        add(panelSuperior, BorderLayout.NORTH);
+	        
+	        int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
+			int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
+			this.setSize(anchoP, altoP);
+			this.setExtendedState(MAXIMIZED_BOTH);
+			this.setLocationRelativeTo(null);
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        setTitle("VENTANA PERSONAL");
+	        JPanel panelCentral = new JPanel();
+	        panelCentral.add(new JLabel("Mis Reservas:"));
+	        add(panelCentral, BorderLayout.CENTER);
 
 	     
 	        String[] columnas = {"Número de Reserva", "Fecha de Inicio", "Fecha de Fin", "Nombre Estancia", "Ciudad", "Tarifa Noche", "Categoría"};

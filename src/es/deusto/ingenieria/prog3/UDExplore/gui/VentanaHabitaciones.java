@@ -2,6 +2,9 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 
@@ -76,11 +80,16 @@ public class VentanaHabitaciones extends JFrame {
        
         panelBotones.add(btnVolverInicio);
         panelBotones.add(btnVolverAnterior);
-
+        
+      
+        
+        tablaHabitaciones.setRowHeight(80);
         scrollPaneHabitaciones = new JScrollPane(tablaHabitaciones);
         scrollPaneHabitaciones.setBorder(new TitledBorder("Habitaciones del Hotel"));
 
         JPanel panelPrincipal = new JPanel(new BorderLayout());
+
+       
         panelPrincipal.add(panelInfo, BorderLayout.NORTH);
         panelPrincipal.add(scrollPaneHabitaciones, BorderLayout.CENTER);
 
@@ -137,13 +146,15 @@ public class VentanaHabitaciones extends JFrame {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         
+        
         for (int i = 0; i < tablaHabitaciones.getColumnCount(); i++) {
             tablaHabitaciones.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             JTableHeader header = tablaHabitaciones.getTableHeader();
             header.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
+            
         }
     }
-
+ 
     private void loadHabitaciones(List<Habitacion> habitaciones) {
    
     	
