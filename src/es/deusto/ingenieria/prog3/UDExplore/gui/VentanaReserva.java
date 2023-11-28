@@ -14,16 +14,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.sun.tools.javac.Main;
-
-import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 
 public abstract class VentanaReserva extends JDialog {
 	

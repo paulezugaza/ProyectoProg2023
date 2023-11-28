@@ -1,9 +1,11 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
 
+	import java.io.BufferedReader;
 	import java.io.BufferedWriter;
 	import java.io.FileInputStream;
 	import java.io.FileOutputStream;
+	import java.io.FileReader;
 	import java.io.FileWriter;
 	import java.io.IOException;
 	import java.io.ObjectInputStream;
@@ -13,21 +15,20 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 	import java.text.SimpleDateFormat;
 	import java.util.ArrayList;
 	import java.util.Date;
+	import java.util.HashMap;
 	import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
+	import java.util.Map;
+	import java.util.logging.Level;
 	import java.util.logging.Logger;
 	import javax.swing.JComboBox;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+	import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
+
 
 
 	public class Logica implements Serializable{
@@ -111,8 +112,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 		public static void guardarReserva(Reserva reserva) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(RESERVATIONS_FILE, true))) {
 				String line = String.format("%s#%s#%s#%s", 
-										reserva.getNumeroReserva(),
-										reserva.getCliente(),
+										reserva.getCliente().toString(),
 										String.valueOf(reserva.getFechaInicio()),
 										String.valueOf(reserva.getFechaFin()));
 				writer.write(line);
@@ -120,6 +120,25 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 	        } catch (Exception ex) {
 	        	logger.warning(String.format("%s - Error guardando reserva: %s", reserva , ex.getMessage()));
 	        }		
+		}
+		
+		public static Map<Cliente, List<Reserva>> cargarMapaReservas() {
+			 Map<Cliente, List<Reserva>> reservasCliente = new HashMap<>();
+			
+			try (BufferedReader reader = new BufferedReader(new FileReader(RESERVATIONS_FILE))) {
+				String line = reader.readLine();
+				Reserva reserva;
+
+				while ((line = reader.readLine()) != null) {					reserva = Reserva.parseCSV(line);
+					reservasCliente.putIfAbsent(reserva.getCliente(), new ArrayList<>());
+					reservasCliente.get(reserva.getCliente()).add(reserva);
+				}
+			} catch (Exception ex) {
+				logger.warning(String.format("%s - Error cargando reservas: %s",  ex.getMessage()));
+			}
+			
+			return reservasCliente;
+
 		}
 		
 		public static void guardarHotel(Hotel hotel) {

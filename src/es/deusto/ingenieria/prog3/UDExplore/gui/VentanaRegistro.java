@@ -2,7 +2,6 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import javax.swing.*;
 
-import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
@@ -59,7 +58,8 @@ public class VentanaRegistro extends JFrame{
 
         JButton btnRegistrar = new JButton("Registrarse");
         btnRegistrar.addActionListener(new ActionListener() {
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void actionPerformed(ActionEvent e) {
             	if(Logica.existeUsuario(txtEmail.getText())) {
 					JOptionPane.showMessageDialog(null, "ERROR: Ya existe una cuenta con ese email. Utilice otro");

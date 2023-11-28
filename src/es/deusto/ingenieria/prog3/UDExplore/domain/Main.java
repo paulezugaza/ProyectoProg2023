@@ -3,7 +3,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import es.deusto.ingenieria.prog3.UDExplore.gui.VentanaInicio;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
@@ -27,7 +27,7 @@ public class Main {
 		
 		 		List<Estancia> estancias = new ArrayList<>();
 		 		
-		 		HashMap<Cliente ,Reserva> reservas = new HashMap<>();
+		 		Map<Cliente, List<Reserva>> reservas = new HashMap<>();
 		 		List<Habitacion> habitaciones = obtenerHabitacionesDeEjemplo();
 	            
 
