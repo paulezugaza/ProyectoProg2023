@@ -274,8 +274,8 @@ public class VentanaInicio extends JFrame {
 			     
 			       
 
-			        if (fin.before(inicio)) {
-			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de salida no puede ser anterior a la fecha de entrada.", "Error", JOptionPane.ERROR_MESSAGE);
+			        if (fin.before(inicio) || fin.equals(inicio)) {
+			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de salida no puede ser anterior o igual a la fecha de entrada.", "Error", JOptionPane.ERROR_MESSAGE);
 			        }else if (inicio.before(hoy)) {
 			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de entrada no puede ser anterior a la fecha actual.", "Error", JOptionPane.ERROR_MESSAGE);
 			        } else {
