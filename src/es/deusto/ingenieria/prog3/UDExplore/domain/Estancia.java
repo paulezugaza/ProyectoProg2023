@@ -7,6 +7,7 @@ public abstract class Estancia {
     private String ciudad;
     private String foto;
     
+    public Estancia() {}
 	public Estancia(int id, String nombre, String ciudad, String foto) {
 		super();
 		this.id = id;

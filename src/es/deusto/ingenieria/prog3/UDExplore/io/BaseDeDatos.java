@@ -1,13 +1,13 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -87,6 +87,37 @@ public class BaseDeDatos {
 		}
 	}
 	
+	public static void cargarHoteles() {
+		//sent = "CREATE TABLE IF NOT EXISTS Hotel(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10), ciudad varchar(10), foto varchar(20), categoria integer, idCadenaHotelera INTEGER, FOREIGN KEY(idCadenaHotelera) REFERENCES CadenaHotelera(id));";
+		try (Statement statement = conexion.createStatement()){
+			String sent = "select * from Hotel;";
+			logger.log( Level.INFO, "Statement: " + sent );
+			ResultSet rs = statement.executeQuery( sent );
+			while( rs.next() ) { 
+				int id = rs.getInt("id");
+				String nombre = rs.getString("nombre");
+				String ciudad = rs.getString("ciudad");
+				String foto = rs.getString("foto");
+				Integer categoria = rs.getInt("categoria");
+				Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
+
+				Hotel h = new Hotel() ;
+				h.setNombre(nombre);
+				//CadenaHotelera(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10)
+				sent = "select * from CadenaHotelera WHERE id="+"'"+idCadenaHotelera+"'"+";";
+				logger.log( Level.INFO, "Statement: " + sent );
+				ResultSet rs2 = statement.executeQuery( sent );
+				while(rs.next()) {
+					int id2 = rs2.getInt("id");
+					nombre = rs.getString("nombre");
+					CadenaHotelera ch = new CadenaHotelera(id2, nombre);
+						h.setCadenaHotelera(ch);
+					}
+			} 
+		} catch (SQLException e) {
+			 logger.log(Level.SEVERE, "Excepcion SQL", e);
+		}
+	}
 	public static void cargarUsuarios() {
 		try (Statement statement = conexion.createStatement()){
 			String sent = "select * from Cliente;";
@@ -128,7 +159,7 @@ public class BaseDeDatos {
 			sent = "insert into Cliente (nombre, apellido, email, contrasenya) values ('" + cliente.getNombreUsuario() + "', '" + cliente.getApellido() + "', '" + cliente.getCorreoElectronico() + "', '" + cliente.getContrasenya() + "');";
 			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
 			int val = statement.executeUpdate( sent );
-			logger.log( Level.INFO, "Añadida " + val + " fila a base de datos\t" + sent );
+			logger.log( Level.INFO, "Aï¿½adida " + val + " fila a base de datos\t" + sent );
 			sent = "select max(id) from Cliente;";
 			ResultSet rs = statement.executeQuery(sent);
 			if(rs.next()) {
@@ -141,13 +172,13 @@ public class BaseDeDatos {
 		return 0;
 	}
 	
-	public static int anyadirReserva( java.util.Date fechaIni, java.util.Date fechaFin, int usuarioId) {
+	public static int anyadirReserva( Date fechaIni, Date fechaFin, int usuarioId) {
 		String sent="";
 		try(Statement statement = conexion.createStatement()) {
 			sent = "insert reserva (fechaIni, fechaFin, usuarioId ) values (" + fechaIni + ",'" + fechaFin + "', " + usuarioId + ");";
 			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
 			int val = statement.executeUpdate( sent );
-			logger.log( Level.INFO, "Añadida " + val + " fila a base de datos\t" + sent );
+			logger.log( Level.INFO, "Aï¿½adida " + val + " fila a base de datos\t" + sent );
 			sent = "select max(numeroReserva) from Reserva;";
 			ResultSet rs = statement.executeQuery(sent);
 			if(rs.next()) {

@@ -2,9 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Hotel extends Estancia implements Serializable {
 
@@ -23,6 +21,11 @@ public class Hotel extends Estancia implements Serializable {
 	}
 	
 	
+	public Hotel() {
+		
+	}
+
+
 	public int getCategoria() {
 		return categoria;
 	}

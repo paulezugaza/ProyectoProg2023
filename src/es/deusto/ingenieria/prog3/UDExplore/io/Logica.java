@@ -1,32 +1,24 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
-
-	import java.io.FileInputStream;
-	import java.io.FileOutputStream;
-	import java.io.IOException;
-	import java.io.ObjectInputStream;
-	import java.io.ObjectOutputStream;
-	import java.io.Serializable;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-	import java.util.Date;
-	import java.util.List;
-	import java.util.logging.Level;
-	import java.util.logging.Logger;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
-	import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
-	import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 
-	public class Logica implements Serializable{
+public class Logica implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
-//		public static List<Estancia>  estanciasHistoricas = new ArrayList<>();
+		public static List<Hotel>  hotelesHistoricos = new ArrayList<>();
 		private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		public static Usuario usuario=null;
 		public static Date fechaIni;

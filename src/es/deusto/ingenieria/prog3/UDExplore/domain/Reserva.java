@@ -1,7 +1,6 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.util.Date;
-import java.util.List;
 
 public abstract class Reserva {
 	
@@ -36,7 +35,6 @@ public abstract class Reserva {
         return cliente;
     }
 
-
     public void setNumeroReserva(int numeroReserva) {
         this.numeroReserva = numeroReserva;
     }
@@ -48,8 +46,6 @@ public abstract class Reserva {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
-
-
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
