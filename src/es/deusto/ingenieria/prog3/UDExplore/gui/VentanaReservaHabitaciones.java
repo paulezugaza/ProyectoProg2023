@@ -58,7 +58,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
 //                        labelHotel.setText("Hotel: " + esteHotel.getNombre());
 //                        labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
 //                        labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
-//                        labelPrecioPorNoche.setText("Precio por Noche: " + habitacion.getPrecioPorNoche() + "€");
+//                        labelPrecioPorNoche.setText("Precio por Noche: " + habitacion.getPrecioPorNoche() + "ï¿½");
 //                        break; 
 //                    }
 //                }
@@ -76,7 +76,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
                     int id = BaseDeDatos.anyadirReserva(fechaIni, fechaFin, Logica.usuario.getCodigoUsuario());
                     habitacion.addReserva(new ReservaHotel(id, fechaIni, fechaFin,(Cliente) Logica.usuario));
                    
-                    String mensaje = "¡Su reserva ha sido guardada con Exito!\n\n" +
+                    String mensaje = "Â¡Su reserva ha sido guardada con Exito!\n\n" +
                             "Detalles de la estancia:\n" +
                             "Hotel: " + esteHotel.getNombre() + "\n" +
                             "Precio por noche: " + habitacion.getPrecioPorNoche() + "â‚¬\n";

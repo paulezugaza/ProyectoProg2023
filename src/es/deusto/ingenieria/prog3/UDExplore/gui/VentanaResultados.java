@@ -117,7 +117,7 @@ public class VentanaResultados extends JFrame {
         comboBoxOrden.addItem("Ordenar por:");
         comboBoxOrden.addItem("De menor precio a mayor");
         comboBoxOrden.addItem("De mayor precio a menor");
-        comboBoxOrden.addItem("De mejor puntuaciÃ³n a peor");
+        comboBoxOrden.addItem("De mejor puntuacion a peor");
         
 //        comboBoxOrden.addActionListener( e -> {
 //        	String seleccionado = comboBoxOrden.getSelectedItem().toString();
@@ -362,7 +362,7 @@ public class VentanaResultados extends JFrame {
         cabeceraResultados.add("Tipo de Estancia");
         cabeceraResultados.add("Ciudad");
         cabeceraResultados.add("Categoria");
-        cabeceraResultados.add("NÃºmero de Habitaciones");
+        cabeceraResultados.add("Numero de Habitaciones");
         cabeceraResultados.add("Tarifa por Noche");
         cabeceraResultados.add("Imagen");
         cabeceraResultados.add("Reserva");
@@ -476,7 +476,7 @@ public class VentanaResultados extends JFrame {
                         e.getCiudad(),
                         "",
                         apar.getNumHabitaciones(),
-                        apar.getTarifaNoche() + "â‚¬",
+                        apar.getTarifaNoche() + "€",
                         e.getFoto(),
                         new String("Reservar ")+e.getNombre()
                  

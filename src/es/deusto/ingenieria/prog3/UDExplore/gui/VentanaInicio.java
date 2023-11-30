@@ -176,7 +176,7 @@ public class VentanaInicio extends JFrame {
 		JPanel pDestino = new JPanel();
 		pDestino.setLayout(new BoxLayout(pDestino, BoxLayout.Y_AXIS));
 		pDestino.setBounds(10, 50, 380, 30);
-		JLabel label = new JLabel("¿A donde desea viajar? ");
+		JLabel label = new JLabel("Â¿A donde desea viajar? ");
 		Font Fuente = new Font("SanSerif", Font.PLAIN, 20);
 		label.setFont(Fuente);
 
