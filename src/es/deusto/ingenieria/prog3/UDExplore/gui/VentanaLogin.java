@@ -52,13 +52,12 @@ public class VentanaLogin extends JFrame {
     	
         JButton btnEntrar = new JButton("Entrar");
         btnEntrar.addActionListener(new ActionListener() {
-            @SuppressWarnings("deprecation")
-			@Override
+            @Override
             public void actionPerformed(ActionEvent e) {
 				if(!txtEmail.getText().equals("") && !txtContrasenya.getText().equals("")) {
 					if(Logica.existeUsuario(txtEmail.getText())) {
-						if(Logica.usuarioCorrecto(txtEmail.getText(), txtContrasenya.getText())!=null){
-							if(Logica.UsuarioComprador(txtEmail.getText())){
+						if(Logica.usuarioCorrecto(txtEmail.getText(), txtContrasenya.getText())){
+							if(Logica.esUsuarioCliente(txtEmail.getText())){
 								dispose();
 								new VentanaInicio();
 								
@@ -120,10 +119,10 @@ public class VentanaLogin extends JFrame {
         });
     }
 
-	/**private boolean isEmpty() {
+	private boolean isEmpty() {
 		return (txtEmail.getText().equals("") || (String.valueOf(txtContrasenya.getPassword()).equals(""))
 				|| (String.valueOf(txtContrasenya.getPassword()).equals("")));
 	
-	}**/
+	}
 
 }

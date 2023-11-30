@@ -2,12 +2,10 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,9 +14,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 
 public class VentanaHabitaciones extends JFrame {
     private static final long serialVersionUID = 8210065439199121917L;
@@ -29,12 +27,14 @@ public class VentanaHabitaciones extends JFrame {
 
     private VentanaInicio ventanaInicio;
 
+    private List<Habitacion> habitaciones = new ArrayList<>();
+    
     public VentanaHabitaciones(Hotel hotel) {
         this.setHotel(hotel);
      
         
-
-        List<Habitacion> habitaciones = hotel.getHabitaciones();
+        habitaciones = BaseDeDatos.getHabitaciones(hotel.getId());
+        
 
         int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
         int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
@@ -52,8 +52,8 @@ public class VentanaHabitaciones extends JFrame {
 
         JLabel labelNombre = new JLabel("Nombre: " + hotel.getNombre());
         JLabel labelCategoria = new JLabel("Categoria:"+ hotel.getCategoria()+ " estrellas");
-        JLabel labelCadena = new JLabel("Cadena hotelera:"+ hotel.getCadenaHotelera());
-        JLabel labelUbicacion = new JLabel("Ubicación: " + hotel.getCiudad());
+        JLabel labelCadena = new JLabel("Cadena hotelera:"+ hotel.getCadenaHotelera().getNombre());
+        JLabel labelUbicacion = new JLabel("Ubicacion: " + hotel.getCiudad());
 
         JPanel panelBotones = new JPanel();
         
@@ -80,16 +80,11 @@ public class VentanaHabitaciones extends JFrame {
        
         panelBotones.add(btnVolverInicio);
         panelBotones.add(btnVolverAnterior);
-        
-      
-        
-        tablaHabitaciones.setRowHeight(80);
+
         scrollPaneHabitaciones = new JScrollPane(tablaHabitaciones);
         scrollPaneHabitaciones.setBorder(new TitledBorder("Habitaciones del Hotel"));
 
         JPanel panelPrincipal = new JPanel(new BorderLayout());
-
-       
         panelPrincipal.add(panelInfo, BorderLayout.NORTH);
         panelPrincipal.add(scrollPaneHabitaciones, BorderLayout.CENTER);
 
@@ -134,7 +129,6 @@ public class VentanaHabitaciones extends JFrame {
                     int filaSeleccionada = tablaHabitaciones.getSelectedRow();
 
                     if (filaSeleccionada != -1) { 
-                    	List<Habitacion> habitaciones = hotel.getHabitaciones();
                         Habitacion habitacionSeleccionada = habitaciones.get(filaSeleccionada);
 
                         new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
@@ -146,15 +140,13 @@ public class VentanaHabitaciones extends JFrame {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         
-        
         for (int i = 0; i < tablaHabitaciones.getColumnCount(); i++) {
             tablaHabitaciones.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             JTableHeader header = tablaHabitaciones.getTableHeader();
             header.getColumnModel().getColumn(i).setHeaderRenderer(centerRenderer);
-            
         }
     }
- 
+
     private void loadHabitaciones(List<Habitacion> habitaciones) {
    
     	

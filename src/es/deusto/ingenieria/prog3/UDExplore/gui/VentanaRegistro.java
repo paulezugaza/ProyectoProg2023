@@ -2,6 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import javax.swing.*;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
@@ -35,9 +36,11 @@ public class VentanaRegistro extends JFrame{
 
         JLabel lblNombre = new JLabel("Nombre:");
         JTextField txtNombre = new JTextField();
+        JLabel lblApellido = new JLabel("Apellido:");
+        JTextField txtApellido = new JTextField();
         JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
-        JLabel lblContrasenya = new JLabel("Contraseña:"); 
+        JLabel lblContrasenya = new JLabel("Contrase�a:"); 
         txtContrasenya = new JPasswordField();
         JLabel lblContrasenyaRep = new JLabel("Confrima tu contraseña:");
         txtContrasenyaRep = new JPasswordField();
@@ -45,6 +48,8 @@ public class VentanaRegistro extends JFrame{
 
         inputPanel.add(lblNombre);
         inputPanel.add(txtNombre);
+        inputPanel.add(lblApellido);
+        inputPanel.add(txtApellido);
         inputPanel.add(lblEmail);
         inputPanel.add(txtEmail);
         inputPanel.add(lblContrasenya);
@@ -58,8 +63,7 @@ public class VentanaRegistro extends JFrame{
 
         JButton btnRegistrar = new JButton("Registrarse");
         btnRegistrar.addActionListener(new ActionListener() {
-            @SuppressWarnings("deprecation")
-			@Override
+            @Override
             public void actionPerformed(ActionEvent e) {
             	if(Logica.existeUsuario(txtEmail.getText())) {
 					JOptionPane.showMessageDialog(null, "ERROR: Ya existe una cuenta con ese email. Utilice otro");
@@ -68,12 +72,10 @@ public class VentanaRegistro extends JFrame{
 					String er = "[a-zA-Z]{1,}.{0,}[a-zA-Z]{0,}@[a-zA-Z]{1,}.[a-z]{2,}";
 					String email = txtEmail.getText();
 					if(Pattern.matches(er, email)) {
-						Logica.crearUsuario(txtNombre.getText(),txtEmail.getText(), txtContrasenya.getText()); 
-						//aqui hay que añadir el codigo tanto arriba como abajo
-						BaseDeDatos.añadirUsuario(txtNombre.getText(),txtEmail.getText(), txtContrasenya.getText());
+						Logica.crearUsuario(txtNombre.getText(), txtApellido.getText(), txtEmail.getText(), txtContrasenya.getText()); 
+						//aqui hay que a�dir el codigo tanto arriba como abajo
 						new VentanaLogin();
-					}
-					else
+					}else
 						JOptionPane.showMessageDialog(null, "ERROR: El formato del email no es correcto");
 				}else JOptionPane.showMessageDialog(null, "ERROR: Rellene todos los campos");
 		

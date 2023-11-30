@@ -16,10 +16,10 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -35,12 +35,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Ciudad;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Main;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaInicio extends JFrame {
@@ -57,7 +57,12 @@ public class VentanaInicio extends JFrame {
 	private JComboBox<String> jComboDiaSalida = new JComboBox<>();
 	private JComboBox<String> jComboMesSalida = new JComboBox<>();
 	private JComboBox<String> jComboAnioSalida = new JComboBox<>();
+	
 	private JLabel jLabelInfo = new JLabel();
+	
+	private List<Estancia> estanciasDisponibles = new ArrayList<>();
+	
+	private Estancia estancia;
 
 
 	
@@ -76,19 +81,17 @@ public class VentanaInicio extends JFrame {
 		
 
 		setTitle("UDExplore");
-		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
-				.getWidth();
-		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
-				.getHeight();
+		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
+		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
 		this.setSize(anchoP, altoP);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-	
-		for (Ciudad c : Ciudad.values()) {
-			jComboDestino.addItem(c.toString());
+		Set<String> ciudades = BaseDeDatos.getCiudades();
+		for (String c : ciudades) {
+			jComboDestino.addItem(c);
 		}
 		
 		for (int dia = 1; dia <= 31; dia++) {
@@ -98,6 +101,7 @@ public class VentanaInicio extends JFrame {
 
 		String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
 				"Octubre", "Noviembre", "Diciembre" };
+		
 		for (String mes : meses) {
 			jComboMesEntrada.addItem(mes);
 			jComboMesSalida.addItem(mes);
@@ -120,7 +124,7 @@ public class VentanaInicio extends JFrame {
 
 		JPanel pBotones = new JPanel();
 		JButton bRegistro = new JButton("Registrarse");
-		JButton bInicioS = new JButton("Iniciar sesión");
+		JButton bInicioS = new JButton("Iniciar sesion");
 
 		bRegistro.addActionListener(e -> {
 			new VentanaRegistro();
@@ -134,21 +138,6 @@ public class VentanaInicio extends JFrame {
 		});
 		
 		
-		Calendar calendar = Calendar.getInstance();
-        Date fechaActual = calendar.getTime();
-        String diaActual = new SimpleDateFormat("dd").format(fechaActual);
-        String mesActual = new SimpleDateFormat("MM").format(fechaActual);
-        String anioActual = new SimpleDateFormat("yyyy").format(fechaActual);
-        
-        jComboDiaEntrada.setSelectedItem(diaActual);
-        jComboMesEntrada.setSelectedIndex(Integer.parseInt(mesActual) - 1);
-        jComboAnioEntrada.setSelectedItem(anioActual);
-
-        jComboDiaSalida.setSelectedItem(diaActual);
-        jComboMesSalida.setSelectedIndex(Integer.parseInt(mesActual) - 1);
-        jComboAnioSalida.setSelectedItem(anioActual);
-		
-		
 		JPanel pPersonal = new JPanel();
 		JLabel icono = new JLabel(scaleImage("resources/images/usuario.png", 60, 60));
 		pPersonal.add(icono);
@@ -160,7 +149,7 @@ public class VentanaInicio extends JFrame {
 						new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
 					}
 					if (Logica.usuario == null) {
-						String mensaje = "Parece que no ha iniciado sesión.";
+						String mensaje = "Parece que no ha iniciado sesion.";
 
 						JOptionPane.showMessageDialog(null, mensaje, "ERROR", JOptionPane.INFORMATION_MESSAGE);
 
@@ -187,7 +176,7 @@ public class VentanaInicio extends JFrame {
 		JPanel pDestino = new JPanel();
 		pDestino.setLayout(new BoxLayout(pDestino, BoxLayout.Y_AXIS));
 		pDestino.setBounds(10, 50, 380, 30);
-		JLabel label = new JLabel("¿A donde desea viajar? ");
+		JLabel label = new JLabel("�A donde desea viajar? ");
 		Font Fuente = new Font("SanSerif", Font.PLAIN, 20);
 		label.setFont(Fuente);
 
@@ -244,7 +233,7 @@ public class VentanaInicio extends JFrame {
 		pHotel.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				List<Hotel> hoteles = filtrarHoteles(Logica.estanciasHistoricas);
+				List<Hotel> hoteles = filtrarHoteles();
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
 					hoteles.forEach(h -> {
 						estanciasFiltradas.add(h);
@@ -268,36 +257,27 @@ public class VentanaInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 			    try {
-			    	Date hoy = new Date();
 			        Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
 			        Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
-			     
-			       
+			        System.out.println("Boton Buscar clicado."); 
+			        System.out.println(inicio);
+			        System.out.println(fin);
 
-			        if (fin.before(inicio) || fin.equals(inicio)) {
-			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de salida no puede ser anterior o igual a la fecha de entrada.", "Error", JOptionPane.ERROR_MESSAGE);
-			        }else if (inicio.before(hoy)) {
-			            JOptionPane.showMessageDialog(VentanaInicio.this, "Error: La fecha de entrada no puede ser anterior a la fecha actual.", "Error", JOptionPane.ERROR_MESSAGE);
+			        if (fin.before(inicio)) {
+			            jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
 			        } else {
-			            jLabelInfo.setText("Realizando búsqueda...");
+			            jLabelInfo.setText("Realizando busqueda...");
 
-			            List<Estancia> estanciasDisponibles = new ArrayList<>();
+			           estanciasDisponibles = BaseDeDatos.buscarEstancia((String)jComboDestino.getSelectedItem(), inicio.getTime(), fin.getTime());
 
-			            for (Estancia estancia : Logica.estanciasHistoricas) {
-			                if (estancia.getCiudad().toString().equals(jComboDestino.getSelectedItem().toString())) {
-			                    if (Logica.estanciaDisponibleEnFechas(estancia, inicio, fin)) {
-			                        estanciasDisponibles.add(estancia);
-			                    }
-			                }
-			            }
 
-			            if (estanciasDisponibles.isEmpty()) {
+			            if (estanciasDisponibles == null || estanciasDisponibles.isEmpty()) {
 			                jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
 			               
 			            } else {
 			                jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
 			                
-			                System.out.println("Botón Buscar clicado."); 
+			               
 			                VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
 			                ventanaResultados.setVisible(true);
 			                dispose();
@@ -322,7 +302,7 @@ public class VentanaInicio extends JFrame {
 		pApartamento.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
-				List<Apartamento> apartamentos = filtrarApartamentos(Logica.estanciasHistoricas);
+				List<Apartamento> apartamentos = filtrarApartamentos();
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
 					apartamentos.forEach(a -> {
 						estanciasFiltradas.add(a);
@@ -351,12 +331,12 @@ public class VentanaInicio extends JFrame {
 		pDestinosPopulares.add(lDestinosPopulares, BorderLayout.NORTH);
 		pDestinosPopulares.setPreferredSize(new Dimension(anchoP, 200));
 
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Barcelona, "resources/images/Barcelona.jpeg");
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Madrid, "resources/images/Madril.jpg");
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Valencia, "resources/images/Valencia.jpg");
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Málaga, "resources/images/Malaga.jpg");
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Bilbao, "resources/images/Bilbao.jpg");
-		agregarDestinoPopular(pDestinosPopulares, Ciudad.Ibiza, "resources/images/ibiza.jpg");
+		agregarDestinoPopular(pDestinosPopulares, "Barcelona", "resources/images/Barcelona.jpeg");
+		agregarDestinoPopular(pDestinosPopulares, "Madrid", "resources/images/Madril.jpg");
+		agregarDestinoPopular(pDestinosPopulares, "Valencia", "resources/images/Valencia.jpg");
+		agregarDestinoPopular(pDestinosPopulares, "Malaga", "resources/images/Malaga.jpg");
+		agregarDestinoPopular(pDestinosPopulares, "Bilbao", "resources/images/Bilbao.jpg");
+		agregarDestinoPopular(pDestinosPopulares, "Ibiza", "resources/images/ibiza.jpg");
 
 		contenedorPrincipal.add(pBotones, BorderLayout.NORTH);
 		contenedorPrincipal.add(pSearch, BorderLayout.CENTER);
@@ -382,7 +362,7 @@ public class VentanaInicio extends JFrame {
 		return null;
 	}
 	
-	private void agregarDestinoPopular(JPanel panelDestinos, Ciudad ciudad, String imageRuta) {
+	private void agregarDestinoPopular(JPanel panelDestinos, String ciudad, String imageRuta) {
 		JPanel panelCiudad = new JPanel();
 		panelCiudad.setLayout(new BoxLayout(panelCiudad, BoxLayout.Y_AXIS));
 
@@ -391,7 +371,7 @@ public class VentanaInicio extends JFrame {
 				
 				
 				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-				Logica.estanciasHistoricas.forEach( est ->{
+				estanciasDisponibles.forEach( est ->{
 					if (est.getCiudad() == ciudad) {
 						estanciasFiltradas.add(est);
 					}
@@ -413,9 +393,9 @@ public class VentanaInicio extends JFrame {
 		panelDestinos.add(panelCiudad);
 	}
 
-	public ArrayList<Hotel> filtrarHoteles(List<Estancia> Estancias) {
+	public ArrayList<Hotel> filtrarHoteles() {
 		ArrayList<Hotel> hoteles = new ArrayList<>();
-		Estancias.forEach( est ->{
+		estanciasDisponibles.forEach( est ->{
 			if (est instanceof Hotel) {
 				hoteles.add(((Hotel) est));
 			}
@@ -423,9 +403,9 @@ public class VentanaInicio extends JFrame {
 		return hoteles;
 	}
 
-	public ArrayList<Apartamento> filtrarApartamentos(List<Estancia> Estancias) {
+	public ArrayList<Apartamento> filtrarApartamentos() {
 		ArrayList<Apartamento> apartamentos = new ArrayList<>();
-		Estancias.forEach( est ->{
+		estanciasDisponibles.forEach( est ->{
 			if (est instanceof Apartamento) {
 				apartamentos.add((Apartamento) est);
 			}
@@ -434,6 +414,9 @@ public class VentanaInicio extends JFrame {
 	}
 	
 
+	
+	
+
+	
 
 }
-
