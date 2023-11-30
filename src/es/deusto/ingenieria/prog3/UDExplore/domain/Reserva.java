@@ -1,29 +1,25 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-
-public class Reserva {
-	
+public abstract class Reserva {
 	
     private int numeroReserva;
     private Date fechaInicio;
     private Date fechaFin;
+    
     private Cliente cliente;
 
-
-
-	// Constructor
-    public Reserva(Date fechaInicio, Date fechaFin, Cliente cliente) {
+    // Constructor
+    public Reserva(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
+        this.numeroReserva = numeroReserva;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.cliente = cliente;
     }
 
-   
-
-	// Getters
+    // Getters
     public int getNumeroReserva() {
         return numeroReserva;
     }
@@ -39,7 +35,7 @@ public class Reserva {
     public Cliente getCliente() {
         return cliente;
     }
- 
+
 
     public void setNumeroReserva(int numeroReserva) {
         this.numeroReserva = numeroReserva;
@@ -58,6 +54,7 @@ public class Reserva {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+    
 
 	@Override
 	public String toString() {
@@ -65,29 +62,6 @@ public class Reserva {
 				+ ", cliente=" + cliente + "]";
 	}
 
-	public static Reserva parseCSV(String data) throws Exception {
-		try {
-			String[] fields = data.split("#");	
-			Date fechaIni = new SimpleDateFormat("dd/MM/yyyy").parse(fields[0]);
-			Date fechaFin = new SimpleDateFormat("dd/MM/yyyy").parse(fields[1]);
-			String[] parts = fields[2].split(", ");
-
-	        
-	        String nombreUsuario = parts[0].substring(parts[0].indexOf("=") + 1);
-	        String correoElectronico = parts[1].substring(parts[1].indexOf("=") + 1);
-	        String contraseña = parts[2].substring(parts[2].indexOf("=") + 1);
-	        int admin = Integer.parseInt(parts[3].substring(parts[3].indexOf("=") + 1, parts[3].length() - 1));
-
-	         
-
-			return new Reserva(fechaIni,
-					 			fechaFin,
-					 			new Cliente(nombreUsuario, correoElectronico, contraseña, admin));			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new Exception(String.format("%s from CSV error: %s", Reserva.class, data));
-		}
-	}
 
    
 }

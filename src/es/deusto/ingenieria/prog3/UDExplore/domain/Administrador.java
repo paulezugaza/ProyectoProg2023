@@ -2,24 +2,20 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 public class Administrador extends Usuario{
 	
-		int salario;
+		private float salario;
 		
 		
-		public Administrador(String nomUsuario, String email, String contrasenya, int salario) {
-			super(nomUsuario, email, contrasenya, 1);
+		public Administrador(int codigoUsuario, String nombreUsuario, String apellido, String correoElectronico,
+				String contrasenya, float salario) {
+			super(codigoUsuario, nombreUsuario, apellido, correoElectronico, contrasenya);
 			this.salario = salario;
 		}
 
-		public Administrador(String nomUsuario, String email, String contrasenya) {
-			super(nomUsuario, email, contrasenya, 1);
-		}
-
-		
-		public int getSalario() {
+		public float getSalario() {
 			return salario;
 		}
 
-		public void setSalario(int salario) {
+		public void setSalario(float salario) {
 			this.salario = salario;
 		}
 

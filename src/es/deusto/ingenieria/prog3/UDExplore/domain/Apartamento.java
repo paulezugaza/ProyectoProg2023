@@ -4,75 +4,50 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class Apartamento extends Estancia implements Serializable {
 	
-	
-
 	private static final long serialVersionUID = 1L;
-    private int id=0;
-	List<Reserva> reservasLista;
 	
-	public Apartamento() {
-		super();
-		
+	private int numHabitaciones;
+	private float tarifaNoche;
+	
+	private List<ReservaApartamento> reservas;
+
+	public Apartamento(int id, String nombre, String ciudad, String foto, int numHabitaciones, float tarifaNoche) {
+		super(id, nombre, ciudad, foto);
+		this.numHabitaciones = numHabitaciones;
+		this.tarifaNoche = tarifaNoche;
 	}
 
-
-	public Apartamento(String nombre, Ciudad ciudad, int categoria, int numeroHabitaciones, double tarifaNoche,
-			String foto, Map<Cliente, List<Reserva>> reservas) {
-		super(nombre, ciudad, categoria, numeroHabitaciones, tarifaNoche, foto, reservas);
-		
+	public int getNumHabitaciones() {
+		return numHabitaciones;
 	}
 
+	public void setNumHabitaciones(int numHabitaciones) {
+		this.numHabitaciones = numHabitaciones;
+	}
 
-	public Map<Cliente, List<Reserva>> getReservas() {
+	public float getTarifaNoche() {
+		return tarifaNoche;
+	}
+
+	public void setTarifaNoche(float tarifaNoche) {
+		this.tarifaNoche = tarifaNoche;
+	}
+
+	public List<ReservaApartamento> getReservas() {
 		return reservas;
 	}
 
-
-	public void setReservas(Map<Cliente, List<Reserva>> reservas) {
+	public void setReservas(List<ReservaApartamento> reservas) {
 		this.reservas = reservas;
 	}
 
-
-	public String getNombre() {
-		return super.getNombre();
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-
-	@Override
-	public int getNumeroHabitaciones() {
-		return super.getNumeroHabitaciones();
-	}
-
-	@Override
-	public double getTarifaNoche() {
-		return super.getTarifaNoche();
-	}
-
-	@Override
-	public void setNombre(String nombre) {
-		super.setNombre(nombre);
-	}
-
-	@Override
-	public void setNumeroHabitaciones(int numeroHabitaciones) {
-		super.setNumeroHabitaciones(numeroHabitaciones);
-	}
-
-	@Override
-	public void setTarifaNoche(double tarifaNoche) {
-		super.setTarifaNoche(tarifaNoche);
-	}
-
-	@Override
-	public double calcularPrecioTotal(int numNoches) {
-		return super.calcularPrecioTotal(numNoches);
-	}
-
-
-
+	
 }
