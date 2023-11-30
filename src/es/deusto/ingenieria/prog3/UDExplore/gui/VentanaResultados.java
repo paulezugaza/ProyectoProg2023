@@ -212,11 +212,11 @@ public class VentanaResultados extends JFrame {
         pCategorias.add(new JLabel("Busque por categoria:"), BorderLayout.NORTH);
         pCategorias.setLayout(new BoxLayout(pCategorias, BoxLayout.X_AXIS));
         
-        unaEstrella = new JCheckBox("â˜…");
-        dosEstrellas = new JCheckBox("â˜…â˜…");
-        tresEstrellas = new JCheckBox("â˜…â˜…â˜…");
-        cuatroEstrellas = new JCheckBox("â˜…â˜…â˜…â˜…");
-        cincoEstrellas = new JCheckBox("â˜…â˜…â˜…â˜…â˜…");
+        unaEstrella = new JCheckBox("★");
+        dosEstrellas = new JCheckBox("★★");
+        tresEstrellas = new JCheckBox("★★★");
+        cuatroEstrellas = new JCheckBox("★★★★");
+        cincoEstrellas = new JCheckBox("★★★★★");
         
         pCategorias.add(unaEstrella);
         pCategorias.add(dosEstrellas);
