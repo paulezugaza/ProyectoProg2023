@@ -87,29 +87,17 @@ public abstract class Usuario {
 	}
 
 
-
-
-
 	public String getContrasenya() {
 		return contrasenya;
 	}
-
-
-
-
 
 	public void setContrasenya(String contrasenya) {
 		this.contrasenya = contrasenya;
 	}
 
-
-
-
-
 	@Override
 	public String toString() {
-		return "Usuario [nombreUsuario=" + nombreUsuario + ", correoElectronico=" + correoElectronico + ", contraseña="
-				+ contrasenya + "]";
+		return "Usuario:" + nombreUsuario + ", Apellido: "+ apellido + ", Correo Electronico: " + correoElectronico;
 	}
 }
 

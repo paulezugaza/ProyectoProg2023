@@ -117,7 +117,7 @@ public class VentanaLogin extends JFrame {
                 new VentanaLogin();
             }
         });
-    }
+	}
 
 	private boolean isEmpty() {
 		return (txtEmail.getText().equals("") || (String.valueOf(txtContrasenya.getPassword()).equals(""))

@@ -368,19 +368,25 @@ public class VentanaInicio extends JFrame {
 
 		panelCiudad.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				
-				
-				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-				estanciasDisponibles.forEach( est ->{
-					if (est.getCiudad() == ciudad) {
-						estanciasFiltradas.add(est);
+				 Date inicio;
+				 Date fin;
+				try {
+					inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
+					fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+					List<Estancia> estanciasFiltradas = new ArrayList<>();
+					estanciasFiltradas = BaseDeDatos.buscarEstancia(ciudad.toUpperCase(), inicio.getTime(), fin.getTime());
+					if (e.getClickCount() == 2) {
+						VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+						ventana.setVisible(true);
 					}
-
-				});
-				if (e.getClickCount() == 2) {
-					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
-					ventana.setVisible(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+			       
+				 
+				
+				
 			}
 		});
 

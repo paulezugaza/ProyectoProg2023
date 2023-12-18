@@ -64,7 +64,7 @@ public class Main {
 	           ventana.setVisible(true);
 	           
 	           
-	        };
+	        }
 
 	        public static List<Habitacion> obtenerHabitacionesDeEjemplo() {
 	            List<Habitacion> habitaciones = new ArrayList<>();
