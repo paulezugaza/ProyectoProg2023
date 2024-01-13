@@ -27,7 +27,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 
 public class BaseDeDatos {
 	
-	private static Connection conexion;
+	public static Connection conexion;
 	private static Logger logger = Logger.getLogger( "BaseDeDatos" );
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	public static HashMap<String,Usuario> users = new HashMap<String, Usuario>();
