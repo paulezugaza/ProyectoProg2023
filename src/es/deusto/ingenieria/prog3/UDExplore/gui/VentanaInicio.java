@@ -273,8 +273,8 @@ public class VentanaInicio extends JFrame {
 								"Error", JOptionPane.ERROR_MESSAGE);
 					} else if (inicio.before(hoy)) {
 						JOptionPane.showMessageDialog(VentanaInicio.this,
-								"Error: La fecha de entrada no puede ser anterior a la fecha actual.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+								"Error: La fecha de entrada no puede ser anterior a la fecha actual. La entrada también tiene que ser a partir de mañana.",
+								"Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						jLabelInfo.setText("Realizando busqueda...");
 
@@ -386,6 +386,7 @@ public class VentanaInicio extends JFrame {
 					fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
 							+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
 							+ ((String) jComboAnioSalida.getSelectedItem()));
+
 					List<Estancia> estanciasFiltradas = new ArrayList<>();
 					estanciasFiltradas = BaseDeDatos.buscarEstancia(ciudad.toUpperCase(), inicio.getTime(),
 							fin.getTime());
