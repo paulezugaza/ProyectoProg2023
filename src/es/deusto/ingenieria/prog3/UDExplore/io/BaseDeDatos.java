@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Administrador;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
@@ -243,6 +244,23 @@ public class BaseDeDatos {
 				habitaciones.add(h);
 			}
 			return habitaciones;
+		 } catch (SQLException e) {
+		        logger.log(Level.SEVERE, "Excepcion SQL", e);
+		        return null; 
+		    }
+	}
+	
+	public static List<Apartamento> getApartamento(int id){
+		List<Apartamento> apartamento = new ArrayList<>();
+		try (Statement statement = conexion.createStatement()){
+			String sent = "select * from Habitacion;";
+			logger.log( Level.INFO, "Statement: " + sent );
+			ResultSet rs = statement.executeQuery( sent );
+			while( rs.next() ) { 
+				Apartamento a = new Apartamento(rs.getInt("id"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("foto"), rs.getInt("numHabitacion"), rs.getFloat("tarifaNoche"));
+				apartamento.add(a);
+			}
+			return apartamento;
 		 } catch (SQLException e) {
 		        logger.log(Level.SEVERE, "Excepcion SQL", e);
 		        return null; 
