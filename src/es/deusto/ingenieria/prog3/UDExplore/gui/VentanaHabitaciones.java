@@ -5,7 +5,9 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,9 +16,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaHabitaciones extends JFrame {
     private static final long serialVersionUID = 8210065439199121917L;
@@ -24,14 +32,18 @@ public class VentanaHabitaciones extends JFrame {
     private JTable tablaHabitaciones;
     private JScrollPane scrollPaneHabitaciones;
     private Hotel hotel;
+    
+    private Date inicio;
+    private Date fin;
 
     private VentanaInicio ventanaInicio;
 
     private List<Habitacion> habitaciones = new ArrayList<>();
     
-    public VentanaHabitaciones(Hotel hotel) {
+    public VentanaHabitaciones(Hotel hotel, Date inicio, Date fin) {
         this.setHotel(hotel);
-     
+        this.inicio = inicio;
+        this.fin = fin;
         
         habitaciones = BaseDeDatos.getHabitaciones(hotel.getId());
         
@@ -131,7 +143,14 @@ public class VentanaHabitaciones extends JFrame {
                     if (filaSeleccionada != -1) { 
                         Habitacion habitacionSeleccionada = habitaciones.get(filaSeleccionada);
 
-                        new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
+//                        new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
+                        
+                		if(Logica.usuario != null) {
+                			ReservaHotel reserva = new ReservaHotel(inicio, fin, (Cliente) Logica.usuario);
+							reserva.setHabitacion(habitacionSeleccionada);;
+							BaseDeDatos.anyadirHabitacion(reserva);
+        					
+                		}
                     }
                 }
             }

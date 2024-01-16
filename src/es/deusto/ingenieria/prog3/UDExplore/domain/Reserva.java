@@ -18,6 +18,12 @@ public abstract class Reserva {
         this.cliente = cliente;
     }
 
+    public Reserva(Date fechaInicio, Date fechaFin, Cliente cliente) {
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.cliente = cliente;
+    }
+    
     // Getters
     public int getNumeroReserva() {
         return numeroReserva;

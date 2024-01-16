@@ -27,8 +27,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
@@ -61,6 +64,8 @@ public class VentanaResultados extends JFrame {
 	private JLabel jLabelInfo = new JLabel();
     private VentanaInicio ventanaInicio;
 	private List<Estancia> estanciasDisponibles;
+	
+	private static SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
 
     public VentanaResultados(List<Estancia> estancias) {
     	
@@ -207,6 +212,53 @@ public class VentanaResultados extends JFrame {
 		pSearch.add(bBuscar);
 		pSearch.setLayout(new GridBagLayout());
         
+		JPanel pPorTipoAloj = new JPanel();
+		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
+		pPorTipoAloj.setPreferredSize(new Dimension(200, 200));
+		
+		JPanel ptitulo = new JPanel();
+		JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
+		ltitulo.setFont(new Font("Serif", Font.PLAIN, 20));
+		ptitulo.add(ltitulo);
+		
+
+		
+		
+		JPanel pHotel = new JPanel();
+		pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
+		JLabel lHotel = new JLabel("Hotel");
+		lHotel.setFont(new Font("Serif", Font.PLAIN, 15));
+		JLabel iHotel = new JLabel(ventanaInicio.scaleImage("resources/images/hotel.jpeg", 200, 100));
+		pHotel.add(lHotel);
+		pHotel.add(iHotel);
+		pHotel.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				loadHotelesTabla(filtrarHoteles());
+			}
+		});
+		
+		JPanel pApartamento = new JPanel();
+		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
+		JLabel lApartamento = new JLabel("Apartamento");
+		lApartamento.setFont(new Font("Serif", Font.PLAIN, 15));
+		JLabel iApartamento = new JLabel(ventanaInicio.scaleImage("resources/images/apartamento.jpeg", 200, 100));
+		pApartamento.add(lApartamento);
+		pApartamento.add(iApartamento);
+		pApartamento.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				loadApartamentosTabla(filtrarApartamentos());
+			}
+		});
+		
+
+		JPanel centralTipoAloj = new JPanel();
+		centralTipoAloj.add(pHotel);
+		centralTipoAloj.add(pApartamento);
+
+		pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
+		pPorTipoAloj.add(centralTipoAloj, BorderLayout.CENTER);
       
         JPanel pCategorias  = new JPanel();
         pCategorias.add(new JLabel("Busque por categoria:"), BorderLayout.NORTH);
@@ -303,11 +355,12 @@ public class VentanaResultados extends JFrame {
         panelPrincipal.add(panelBotones);
         panelPrincipal.add(panelBuscador);
         panelPrincipal.add(pSearch);
+        panelPrincipal.add(pPorTipoAloj);
         panelPrincipal.add(pCategorias);
         panelPrincipal.add(pCombo);  
         panelPrincipal.add(scrollPaneEstancias);
         
-       
+        
 
         add(panelPrincipal);
         loadEstancias(estancias);
@@ -320,35 +373,66 @@ public class VentanaResultados extends JFrame {
         modeloDatosResultados.setRowCount(0);
 
         estancias.forEach(estancia -> {
-        	Hotel hotel = (Hotel) estancia;
-            int categoria = hotel.getCategoria();
+        	
+        	Hotel hotel = null;
+        	Apartamento apartamento = null;
+        	
+        	if(estancia instanceof Hotel) {
+            	hotel = (Hotel) estancia;	
+        	} else {
+        		apartamento = (Apartamento) estancia;
+        	}
+        	
             
             //comprobacion de categoria
             boolean categoriaSeleccionada = false;
-            if (unaEstrella.isSelected() && categoria == 1) {
-                categoriaSeleccionada = true;
-            } else if (dosEstrellas.isSelected() && categoria == 2) {
-                categoriaSeleccionada = true;
-            } else if (tresEstrellas.isSelected() && categoria == 3) {
-                categoriaSeleccionada = true;
-            } else if (cuatroEstrellas.isSelected() && categoria == 4) {
-                categoriaSeleccionada = true;
-            } else if (cincoEstrellas.isSelected() && categoria == 5) {
-                categoriaSeleccionada = true;
+            if(!unaEstrella.isSelected() && !dosEstrellas.isSelected() && !tresEstrellas.isSelected() && !cuatroEstrellas.isSelected() && !cincoEstrellas.isSelected()) {
+            	categoriaSeleccionada = true;
+            }else {
+            	if(hotel != null) {
+                int categoria = hotel.getCategoria();
+            	 if (unaEstrella.isSelected() && categoria == 1) {
+                     categoriaSeleccionada = true;
+                 } else if (dosEstrellas.isSelected() && categoria == 2) {
+                     categoriaSeleccionada = true;
+                 } else if (tresEstrellas.isSelected() && categoria == 3) {
+                     categoriaSeleccionada = true;
+                 } else if (cuatroEstrellas.isSelected() && categoria == 4) {
+                     categoriaSeleccionada = true;
+                 } else if (cincoEstrellas.isSelected() && categoria == 5) {
+                     categoriaSeleccionada = true;
+                 }
+            	}
             }
 
             //aÃ±adir estancia a la tabla
             if (categoriaSeleccionada) {
-                modeloDatosResultados.addRow(new Object[]{
-                        estancia.getNombre(),
-                        estancia.getClass().getSimpleName(),
-                        estancia.getCiudad(),
-                        hotel.getCategoria(),
-                        hotel.getNumHabitaciones(),
-                        "",
-                        estancia.getFoto(),
-                        new String("Reservar ") + estancia.getNombre()
-                });
+            	if(estancia instanceof Hotel) {
+            		  modeloDatosResultados.addRow(new Object[]{
+                              estancia.getNombre(),
+                              estancia.getClass().getSimpleName(),
+                              estancia.getCiudad(),
+                              hotel.getCategoria(),
+                              hotel.getNumHabitaciones(),
+                              "",
+                              estancia.getFoto(),
+                              new String("Reservar ") + estancia.getNombre()
+                      });
+            	} else {
+            		  modeloDatosResultados.addRow(new Object[]{
+                              estancia.getNombre(),
+                              estancia.getClass().getSimpleName(),
+                              estancia.getCiudad(),
+                              "",
+                              apartamento.getNumHabitaciones(),
+                              apartamento.getTarifaNoche() + "€",
+                              estancia.getFoto(),
+                              new String("Reservar ") + estancia.getNombre()
+                       
+                             
+                      });
+            	}
+              
             }
         });
     }
@@ -388,17 +472,34 @@ public class VentanaResultados extends JFrame {
                     int row = tablaResultados.getSelectedRow();
                     int col = tablaResultados.getSelectedColumn();
                     
-                    if (col == 7) { 
-                    	if (estancias.get(row) instanceof Hotel) {
-                    		Hotel hotel = (Hotel) estancias.get(row);
-                    		new VentanaHabitaciones(hotel).setVisible(true);
-                    		
-                    	} else {
-                    		Estancia estancia = estancias.get(row);
-                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
-                       
-                    	}
-                    }
+					try {
+						Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
+						Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+						if (col == 7) { 
+	                    	if (estancias.get(row) instanceof Hotel) {
+	                    		Hotel hotel = (Hotel) estancias.get(row);
+	                    		new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
+	                    		
+	                    	} else {
+	                    		Apartamento a = (Apartamento) estancias.get(row);
+	                    		if(Logica.usuario != null) {
+										ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
+		                    			reserva.setApartamento(a);
+		                    			BaseDeDatos.anyadirApartamento(reserva);
+	                    			
+	            					
+	                    		}
+//	                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
+	                       
+	                    	}
+	                    }
+					} catch (ParseException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+        		
+                    
+                    
                 }
             }
         });
@@ -410,17 +511,37 @@ public class VentanaResultados extends JFrame {
         return (table, value, isSelected, hasFocus, row, column) -> {
         	if (column == 7) {
                 JButton button = new JButton("Ver habitaciones");
-
+                if (estancias.get(row) instanceof Hotel) {
+                   button.setText("Ver habitaciones");
+                } else {
+                	button.setText("Reservar");
+                }
                 button.addActionListener(e -> {
-                    if (row >= 0) {
-                        if (estancias.get(row) instanceof Hotel) {
-                            Hotel hotel = (Hotel) estancias.get(row);
-                            new VentanaHabitaciones(hotel).setVisible(true);
-                        } else {
-                            Estancia estancia = estancias.get(row);
-                            new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
-                        }
-                    }
+                    try {
+						Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
+						Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+						if (row >= 0) { 
+	                    	if (estancias.get(row) instanceof Hotel) {
+	                    		Hotel hotel = (Hotel) estancias.get(row);
+	                    		new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
+	                    		
+	                    	} else {
+	                    		Apartamento a = (Apartamento) estancias.get(row);
+	                    		if(Logica.usuario != null) {
+										ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
+		                    			reserva.setApartamento(a);
+		                    			BaseDeDatos.anyadirApartamento(reserva);
+	                    			
+	            					
+	                    		}
+//	                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
+	                       
+	                    	}
+	                    }
+					} catch (ParseException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
                 });
 
                 return button;
@@ -501,7 +622,66 @@ public class VentanaResultados extends JFrame {
         });
     }
     
+    private void loadHotelesTabla(ArrayList<Hotel> estanciasFiltradas) {
+        modeloDatosResultados.setRowCount(0);
+
+		estanciasFiltradas.forEach(e -> {
+ 
+            	Hotel hotel = (Hotel) e;
+            	 modeloDatosResultados.addRow(new Object[]{
+                         e.getNombre(),
+                         e.getClass().getSimpleName(),
+                         e.getCiudad(),
+                         hotel.getCategoria(),
+                         hotel.getNumHabitaciones(),
+                         "",
+                         e.getFoto(),
+                         new String("Ver habitaciones")
+            	 });
+      
+        });
+    }
     
+    private void loadApartamentosTabla(ArrayList<Apartamento> estanciasFiltradas) {
+        modeloDatosResultados.setRowCount(0);
+
+		estanciasFiltradas.forEach(e -> {
+ 
+			Apartamento apar = (Apartamento) e;
+            modeloDatosResultados.addRow(new Object[]{
+                    e.getNombre(),
+                    e.getClass().getSimpleName(),
+                    e.getCiudad(),
+                    "",
+                    apar.getNumHabitaciones(),
+                    apar.getTarifaNoche() + "€",
+                    e.getFoto(),
+                    new String("Reservar ")+e.getNombre()
+             
+                   
+            });
+		});
+    }
+    
+    public ArrayList<Hotel> filtrarHoteles() {
+		ArrayList<Hotel> hoteles = new ArrayList<>();
+		estancias.forEach( est ->{
+			if (est instanceof Hotel) {
+				hoteles.add(((Hotel) est));
+			}
+		});
+		return hoteles;
+	}
+
+	public ArrayList<Apartamento> filtrarApartamentos() {
+		ArrayList<Apartamento> apartamentos = new ArrayList<>();
+		estancias.forEach( est ->{
+			if (est instanceof Apartamento) {
+				apartamentos.add((Apartamento) est);
+			}
+		});
+		return apartamentos;
+	}
   
 }
 

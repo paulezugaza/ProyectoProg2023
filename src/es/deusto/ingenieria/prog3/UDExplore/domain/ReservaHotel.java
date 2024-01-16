@@ -5,19 +5,25 @@ import java.util.List;
 
 public class ReservaHotel extends Reserva{
 
-	private List<Habitacion> habitaciones;
+	private Habitacion habitacion;
 
 	public ReservaHotel(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
 		super(numeroReserva, fechaInicio, fechaFin, cliente);
 	}
 
-	public List<Habitacion> getHabitaciones() {
-		return habitaciones;
+	public ReservaHotel(Date fechaInicio, Date fechaFin, Cliente cliente) {
+		super(fechaInicio, fechaFin, cliente);
+	}
+	
+	public Habitacion getHabitacion() {
+		return habitacion;
 	}
 
-	public void setHabitaciones(List<Habitacion> habitaciones) {
-		this.habitaciones = habitaciones;
+	public void setHabitacion(Habitacion habitacion) {
+		this.habitacion = habitacion;
 	}
+
+	
 	
 	
 }

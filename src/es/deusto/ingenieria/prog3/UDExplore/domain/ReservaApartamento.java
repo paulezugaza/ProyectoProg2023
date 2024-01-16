@@ -1,22 +1,27 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ReservaApartamento extends Reserva{
 
-	private List<Apartamento> apartamentos;
+	private Apartamento apartamento;
 	
 	public ReservaApartamento(int numeroReserva, Date fechaInicio, Date fechaFin, Cliente cliente) {
 		super(numeroReserva, fechaInicio, fechaFin, cliente);
 	}
 
-	public List<Apartamento> getApartamentos() {
-		return apartamentos;
+	public ReservaApartamento(Date fechaInicio, Date fechaFin, Cliente cliente) {
+		super(fechaInicio, fechaFin, cliente);
 	}
 
-	public void setApartamentos(List<Apartamento> apartamentos) {
-		this.apartamentos = apartamentos;
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
 	}
 	
 	

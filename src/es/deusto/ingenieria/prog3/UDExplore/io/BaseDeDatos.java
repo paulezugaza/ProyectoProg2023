@@ -22,6 +22,8 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 
 
@@ -54,7 +56,7 @@ public class BaseDeDatos {
 				logger.log( Level.INFO, "Statement: " + sent );
 				statement.executeUpdate( sent );
 				
-				sent = "CREATE TABLE IF NOT EXISTS Apartamento(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10), ciudad varchar(10), numHabitacion integer, precioPorNoche integer);";
+				sent = "CREATE TABLE IF NOT EXISTS Apartamento(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10), ciudad varchar(10), foto varchar(20), numHabitacion integer, precioPorNoche integer);";
 				logger.log( Level.INFO, "Statement: " + sent );
 				statement.executeUpdate( sent );
 								
@@ -176,7 +178,7 @@ public class BaseDeDatos {
 	public static int anyadirReserva( Date fechaIni, Date fechaFin, int usuarioId) {
 		String sent="";
 		try(Statement statement = conexion.createStatement()) {
-			sent = "insert reserva (fechaIni, fechaFin, usuarioId ) values (" + fechaIni + ",'" + fechaFin + "', " + usuarioId + ");";
+			sent = "insert into Reserva (fechaInicio, fechaFin, idCliente ) values (" + fechaIni + ",'" + fechaFin + "', " + usuarioId + ");";
 			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
 			int val = statement.executeUpdate( sent );
 			logger.log( Level.INFO, "A�adida " + val + " fila a base de datos\t" + sent );
@@ -191,7 +193,33 @@ public class BaseDeDatos {
 		}
 		return 0;
 	}
+	
+	public static int anyadirApartamento(ReservaApartamento ra) {
+		String sent="";
+		try(Statement statement = conexion.createStatement()) {
+			sent = "insert into Reserva (fechaInicio, fechaFin, idCliente, idApartamento) values (" + ra.getFechaInicio().getTime() + ",'" + ra.getFechaFin().getTime() + "', " + ra.getCliente().getCodigoUsuario() + ", " + ra.getApartamento().getId()+ ");";
+			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
+			int val = statement.executeUpdate( sent );
+			logger.log( Level.INFO, "Añadida " + val + " fila a base de datos\t" + sent );
+		} catch (SQLException e) {
+			logger.log( Level.SEVERE, "Error en insercion de base de datos\t" + e );
+		}
+		return 0;
+	}
 
+	public static int anyadirHabitacion(ReservaHotel rh) {
+		String sent="";
+		try(Statement statement = conexion.createStatement()) {
+			sent = "insert into Reserva (fechaInicio, fechaFin, idCliente, idHabitacion) values (" + rh.getFechaInicio().getTime() + ",'" + rh.getFechaFin().getTime() + "', " + rh.getCliente().getCodigoUsuario() + ", " + rh.getHabitacion().getId()+ ");";
+			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
+			int val = statement.executeUpdate( sent );
+			logger.log( Level.INFO, "Añadida " + val + " fila a base de datos\t" + sent );
+		} catch (SQLException e) {
+			logger.log( Level.SEVERE, "Error en insercion de base de datos\t" + e );
+		}
+		return 0;
+	}
+	
 	public static Set<String> getCiudades(){
 		Set<String> ciudades = new HashSet<>();
 		try (Statement statement = conexion.createStatement()){
@@ -216,8 +244,15 @@ public class BaseDeDatos {
 	
 	public static List<Estancia> buscarEstancia(String ciudad, long fechaIni, long fechaFin){
 		List<Estancia> estancias = new ArrayList<>();
+		estancias.addAll(buscarHoteles(ciudad, fechaIni, fechaFin));
+		estancias.addAll(buscarApartamentos(ciudad, fechaIni, fechaFin));
+		return estancias;
+	}
+	
+	public static List<Estancia> buscarHoteles(String ciudad, long fechaIni, long fechaFin){
+		List<Estancia> estancias = new ArrayList<>();
 		try (Statement statement = conexion.createStatement()){
-			String sent = "SELECT Hotel.*, CadenaHotelera.nombre nombreC FROM Hotel, CadenaHotelera WHERE Hotel.idCadenaHotelera = CadenaHotelera.id AND ciudad = '" + ciudad +"' AND Hotel.id IN (SELECT idHotel FROM Habitacion WHERE id NOT IN(SELECT idHabitacion FROM Reserva WHERE fechaInicio >= '" + fechaIni + "' AND fechaFin <= '" + fechaFin + "'));";
+			String sent = "SELECT Hotel.*, CadenaHotelera.nombre nombreC FROM Hotel, CadenaHotelera WHERE Hotel.idCadenaHotelera = CadenaHotelera.id AND ciudad = '" + ciudad +"' AND Hotel.id IN (SELECT idHotel FROM Habitacion WHERE id NOT IN(SELECT ifnull(idHabitacion, -1) FROM Reserva WHERE fechaInicio >= '" + fechaIni + "' AND fechaFin <= '" + fechaFin + "'));";
 			logger.log( Level.INFO, "Statement: " + sent );
 			ResultSet rs = statement.executeQuery( sent );
 			while( rs.next() ) { 
@@ -225,6 +260,23 @@ public class BaseDeDatos {
 				Hotel hotel = new Hotel(rs.getInt("id"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("foto"), rs.getInt("categoria"));
 				hotel.setCadenaHotelera(cd);
 				estancias.add(hotel);
+			}
+			return estancias;
+		 } catch (SQLException e) {
+		        logger.log(Level.SEVERE, "Excepcion SQL", e);
+		        return null; 
+		    }
+	}
+	
+	public static List<Estancia> buscarApartamentos(String ciudad, long fechaIni, long fechaFin){
+		List<Estancia> estancias = new ArrayList<>();
+		try (Statement statement = conexion.createStatement()){
+			String sent = "SELECT Apartamento.* FROM Apartamento WHERE ciudad = '" + ciudad +"' AND Apartamento.id NOT IN(SELECT ifnull(idApartamento, -1) FROM Reserva WHERE fechaInicio >= '" + fechaIni + "' AND fechaFin <= '" + fechaFin + "');";
+			logger.log( Level.INFO, "Statement: " + sent );
+			ResultSet rs = statement.executeQuery( sent );
+			while( rs.next() ) { 
+				Apartamento a = new Apartamento(rs.getInt("id"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("foto"), rs.getInt("numHabitacion"), rs.getFloat("precioPorNoche"));
+				estancias.add(a);
 			}
 			return estancias;
 		 } catch (SQLException e) {
