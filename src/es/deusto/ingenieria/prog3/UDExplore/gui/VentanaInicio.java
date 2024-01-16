@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,9 +47,7 @@ import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 public class VentanaInicio extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-
 	private JTable jTableEstancias = new JTable();
-
 
 	private JComboBox<String> jComboDestino = new JComboBox<>();
 	private JComboBox<String> jComboDiaEntrada = new JComboBox<>();
@@ -57,16 +56,14 @@ public class VentanaInicio extends JFrame {
 	private JComboBox<String> jComboDiaSalida = new JComboBox<>();
 	private JComboBox<String> jComboMesSalida = new JComboBox<>();
 	private JComboBox<String> jComboAnioSalida = new JComboBox<>();
-	
+
 	private JLabel jLabelInfo = new JLabel();
-	
+
 	private List<Estancia> estanciasDisponibles = new ArrayList<>();
-	
+
 	private Estancia estancia;
 
-
-	
-	private static SimpleDateFormat sdf = new SimpleDateFormat( "dd/MM/yyyy" );
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public ArrayList<Object> getEstancias() {
 		ArrayList<Object> listaEnMain = Main.getList();
@@ -77,12 +74,12 @@ public class VentanaInicio extends JFrame {
 	ArrayList<Object> lista = this.getEstancias();
 
 	public VentanaInicio() {
-		
-		
 
 		setTitle("UDExplore");
-		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getWidth();
-		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getHeight();
+		int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
+				.getWidth();
+		int altoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
+				.getHeight();
 		this.setSize(anchoP, altoP);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
@@ -93,7 +90,7 @@ public class VentanaInicio extends JFrame {
 		for (String c : ciudades) {
 			jComboDestino.addItem(c);
 		}
-		
+
 		for (int dia = 1; dia <= 31; dia++) {
 			jComboDiaEntrada.addItem(String.valueOf(dia));
 			jComboDiaSalida.addItem(String.valueOf(dia));
@@ -101,7 +98,7 @@ public class VentanaInicio extends JFrame {
 
 		String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
 				"Octubre", "Noviembre", "Diciembre" };
-		
+
 		for (String mes : meses) {
 			jComboMesEntrada.addItem(mes);
 			jComboMesSalida.addItem(mes);
@@ -128,16 +125,28 @@ public class VentanaInicio extends JFrame {
 
 		bRegistro.addActionListener(e -> {
 			new VentanaRegistro();
-			
+
 		});
 
 		bInicioS.addActionListener(e -> {
 			new VentanaLogin();
-			
 
 		});
-		
-		
+
+		Calendar calendar = Calendar.getInstance();
+		Date fechaActual = calendar.getTime();
+		String diaActual = new SimpleDateFormat("dd").format(fechaActual);
+		String mesActual = new SimpleDateFormat("MM").format(fechaActual);
+		String anioActual = new SimpleDateFormat("yyyy").format(fechaActual);
+
+		jComboDiaEntrada.setSelectedItem(diaActual);
+		jComboMesEntrada.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+		jComboAnioEntrada.setSelectedItem(anioActual);
+
+		jComboDiaSalida.setSelectedItem(diaActual);
+		jComboMesSalida.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+		jComboAnioSalida.setSelectedItem(anioActual);
+
 		JPanel pPersonal = new JPanel();
 		JLabel icono = new JLabel(scaleImage("resources/images/usuario.png", 60, 60));
 		pPersonal.add(icono);
@@ -145,7 +154,7 @@ public class VentanaInicio extends JFrame {
 
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					if(Logica.usuario != null && Logica.usuario instanceof Cliente) {
+					if (Logica.usuario != null && Logica.usuario instanceof Cliente) {
 						new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
 					}
 					if (Logica.usuario == null) {
@@ -153,17 +162,13 @@ public class VentanaInicio extends JFrame {
 
 						JOptionPane.showMessageDialog(null, mensaje, "ERROR", JOptionPane.INFORMATION_MESSAGE);
 
-					
 					}
-					
+
 				}
 
 			}
 		});
-		
 
-		
-		
 		pBotones.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		pBotones.add(bRegistro);
 		pBotones.add(bInicioS);
@@ -210,6 +215,7 @@ public class VentanaInicio extends JFrame {
 		pSearch.add(pFechasS);
 		pSearch.add(bBuscar);
 		pSearch.setLayout(new GridBagLayout());
+
 	
 //		JPanel pPorTipoAloj = new JPanel();
 //		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
@@ -250,48 +256,95 @@ public class VentanaInicio extends JFrame {
 		
 		
 		
-		
+
+
+		JPanel pPorTipoAloj = new JPanel();
+		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
+		pPorTipoAloj.setPreferredSize(new Dimension(200, 200));
+
+		JPanel ptitulo = new JPanel();
+		JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
+		ltitulo.setFont(new Font("Serif", Font.PLAIN, 20));
+		ptitulo.add(ltitulo);
+
+		JPanel pHotel = new JPanel();
+		pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
+		JLabel lHotel = new JLabel("Hotel");
+		lHotel.setFont(new Font("Serif", Font.PLAIN, 15));
+		JLabel iHotel = new JLabel(scaleImage("resources/images/hotel.jpeg", 200, 100));
+		pHotel.add(lHotel);
+		pHotel.add(iHotel);
+		pHotel.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				List<Hotel> hoteles = filtrarHoteles();
+				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+				hoteles.forEach(h -> {
+					estanciasFiltradas.add(h);
+				});
+				if (e.getClickCount() == 2) {
+
+					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+					ventana.setVisible(true);
+					setVisible(false);
+				}
+
+			}
+		});
+
+
 		bBuscar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
-			    try {
-			        Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
-			        Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
-			        System.out.println("Boton Buscar clicado."); 
-			        System.out.println(inicio);
-			        System.out.println(fin);
 
-			        if (fin.before(inicio)) {
-			            jLabelInfo.setText("La fecha de salida no puede ser anterior a la fecha de entrada.");
-			        } else {
-			            jLabelInfo.setText("Realizando busqueda...");
+				try {
+					Date hoy = new Date();
+					Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/"
+							+ (jComboMesEntrada.getSelectedIndex() + 1) + "/"
+							+ ((String) jComboAnioEntrada.getSelectedItem()));
+					Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
+							+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
+							+ ((String) jComboAnioSalida.getSelectedItem()));
+					System.out.println("Boton Buscar clicado.");
+					System.out.println(inicio);
+					System.out.println(fin);
 
-			           estanciasDisponibles = BaseDeDatos.buscarEstancia((String)jComboDestino.getSelectedItem(), inicio.getTime(), fin.getTime());
+					if (fin.before(inicio) || fin.equals(inicio)) {
+						JOptionPane.showMessageDialog(VentanaInicio.this,
+								"Error: La fecha de salida no puede ser anterior o igual a la fecha de entrada.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					} else if (inicio.before(hoy)) {
+						JOptionPane.showMessageDialog(VentanaInicio.this,
+								"Error: La fecha de entrada no puede ser anterior a la fecha actual. La entrada también tiene que ser a partir de mañana.",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					} else {
+						jLabelInfo.setText("Realizando busqueda...");
 
+						estanciasDisponibles = BaseDeDatos.buscarEstancia((String) jComboDestino.getSelectedItem(),
+								inicio.getTime(), fin.getTime());
 
-			            if (estanciasDisponibles == null || estanciasDisponibles.isEmpty()) {
-			                jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
-			               
-			            } else {
-			                jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
-			                
-			               
-			                VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
-			                ventanaResultados.setVisible(true);
-			                dispose();
-			            }
-			        }
-			    } catch (ParseException e1) {
-			        e1.printStackTrace();
-			    }
-			    Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
-			    Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
+						if (estanciasDisponibles == null || estanciasDisponibles.isEmpty()) {
+							jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
+
+						} else {
+							jLabelInfo.setText(
+									"Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
+
+							VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
+							ventanaResultados.setVisible(true);
+							dispose();
+						}
+					}
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+				Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
+				Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
 			}
-		
+
 		});
-		
+
 //		JPanel pApartamento = new JPanel();
 //		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
 //		JLabel lApartamento = new JLabel("Apartamento");
@@ -324,6 +377,40 @@ public class VentanaInicio extends JFrame {
 //
 //		pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
 //		pPorTipoAloj.add(centralTipoAloj, BorderLayout.CENTER);
+
+
+		JPanel pApartamento = new JPanel();
+		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
+		JLabel lApartamento = new JLabel("Apartamento");
+		lApartamento.setFont(new Font("Serif", Font.PLAIN, 15));
+		JLabel iApartamento = new JLabel(scaleImage("resources/images/apartamento.jpeg", 200, 100));
+		pApartamento.add(lApartamento);
+		pApartamento.add(iApartamento);
+		pApartamento.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				List<Apartamento> apartamentos = filtrarApartamentos();
+				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
+				apartamentos.forEach(a -> {
+					estanciasFiltradas.add(a);
+				});
+				if (e.getClickCount() == 2) {
+					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
+					ventana.setVisible(true);
+					dispose();
+				}
+
+			}
+
+		});
+
+		JPanel centralTipoAloj = new JPanel();
+		centralTipoAloj.add(pHotel);
+		centralTipoAloj.add(pApartamento);
+
+		pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
+		pPorTipoAloj.add(centralTipoAloj, BorderLayout.CENTER);
+
 
 		JPanel pDestinosPopulares = new JPanel();
 		JLabel lDestinosPopulares = new JLabel("Nuestros destinos más populares:");
@@ -361,20 +448,26 @@ public class VentanaInicio extends JFrame {
 		}
 		return null;
 	}
-	
+
 	private void agregarDestinoPopular(JPanel panelDestinos, String ciudad, String imageRuta) {
 		JPanel panelCiudad = new JPanel();
 		panelCiudad.setLayout(new BoxLayout(panelCiudad, BoxLayout.Y_AXIS));
 
 		panelCiudad.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				 Date inicio;
-				 Date fin;
+				Date inicio;
+				Date fin;
 				try {
-					inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
-					fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
+					inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/"
+							+ (jComboMesEntrada.getSelectedIndex() + 1) + "/"
+							+ ((String) jComboAnioEntrada.getSelectedItem()));
+					fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
+							+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
+							+ ((String) jComboAnioSalida.getSelectedItem()));
+
 					List<Estancia> estanciasFiltradas = new ArrayList<>();
-					estanciasFiltradas = BaseDeDatos.buscarEstancia(ciudad.toUpperCase(), inicio.getTime(), fin.getTime());
+					estanciasFiltradas = BaseDeDatos.buscarEstancia(ciudad.toUpperCase(), inicio.getTime(),
+							fin.getTime());
 					if (e.getClickCount() == 2) {
 						VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
 						ventana.setVisible(true);
@@ -383,10 +476,7 @@ public class VentanaInicio extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			       
-				 
-				
-				
+
 			}
 		});
 
@@ -399,12 +489,26 @@ public class VentanaInicio extends JFrame {
 		panelDestinos.add(panelCiudad);
 	}
 
-	
-	
 
-	
-	
+	public ArrayList<Hotel> filtrarHoteles() {
+		ArrayList<Hotel> hoteles = new ArrayList<>();
+		estanciasDisponibles.forEach(est -> {
+			if (est instanceof Hotel) {
+				hoteles.add(((Hotel) est));
+			}
+		});
+		return hoteles;
+	}
 
-	
+	public ArrayList<Apartamento> filtrarApartamentos() {
+		ArrayList<Apartamento> apartamentos = new ArrayList<>();
+		estanciasDisponibles.forEach(est -> {
+			if (est instanceof Apartamento) {
+				apartamentos.add((Apartamento) est);
+			}
+		});
+		return apartamentos;
+	}
+
 
 }
