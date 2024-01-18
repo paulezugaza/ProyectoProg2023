@@ -26,7 +26,7 @@ public class VentanaRegistro extends JFrame{
 	
     public VentanaRegistro() {
         frame = new JFrame("Registro de usuario");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600, 300);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout(10, 10));  
