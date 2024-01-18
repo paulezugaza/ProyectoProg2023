@@ -7,10 +7,14 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -136,11 +140,14 @@ public class SeleccionFechas {
         }
 
         @Override
-        public String valueToString(Object value) {
-            if (value != null) {
-                return dateFormatter.format(value);
+        public String valueToString(Object value) throws ParseException {
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (value != null && value instanceof Date) {
+                return dateFormat.format((Date) value);
+            } else {
+                return "";
             }
-            return "";
         }
     }
 }
