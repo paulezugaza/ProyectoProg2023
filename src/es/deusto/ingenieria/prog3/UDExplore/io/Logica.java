@@ -27,8 +27,8 @@ public class Logica implements Serializable{
 		public static List<Hotel>  hotelesHistoricos = new ArrayList<>();
 		private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		public static Usuario usuario=null;
-		public static Date fechaIni;
-		public static Date fechaFin;
+		public static Date fechaIni = null;
+		public static Date fechaFin = null;
 		
 //		public static List<Estancia> getEstanciasHistoricas() {
 //			return estanciasHistoricas;
@@ -220,7 +220,6 @@ public class Logica implements Serializable{
 					});
 				
 				});
-				System.out.println(habitaciones);
 				return habitaciones;
 			}
 		    

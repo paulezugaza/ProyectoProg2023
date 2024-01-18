@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -188,6 +189,39 @@ public class VentanaResultados extends JFrame {
 		pFechasS.add(jComboDiaSalida);
 		pFechasS.add(jComboMesSalida);
 		pFechasS.add(jComboAnioSalida);
+		
+		Calendar calendar = Calendar.getInstance();
+		Date fechaActual = calendar.getTime();
+		String diaActual = new SimpleDateFormat("dd").format(fechaActual);
+		String mesActual = new SimpleDateFormat("MM").format(fechaActual);
+		String anioActual = new SimpleDateFormat("yyyy").format(fechaActual);
+		
+		if (Logica.fechaIni != null && Logica.fechaFin != null) {
+		    Calendar calFechaIni = Calendar.getInstance();
+		    calFechaIni.setTime(Logica.fechaIni);
+		    jComboDiaEntrada.setSelectedItem(String.valueOf(calFechaIni.get(Calendar.DAY_OF_MONTH)));
+		    jComboMesEntrada.setSelectedIndex(calFechaIni.get(Calendar.MONTH)); 
+		    jComboAnioEntrada.setSelectedItem(String.valueOf(calFechaIni.get(Calendar.YEAR)));
+
+		    Calendar calFechaFin = Calendar.getInstance();
+		    calFechaFin.setTime(Logica.fechaFin);
+		    jComboDiaSalida.setSelectedItem(String.valueOf(calFechaFin.get(Calendar.DAY_OF_MONTH)));
+		    jComboMesSalida.setSelectedIndex(calFechaFin.get(Calendar.MONTH)); 
+		    jComboAnioSalida.setSelectedItem(String.valueOf(calFechaFin.get(Calendar.YEAR)));
+		    
+		}else {
+
+		jComboDiaEntrada.setSelectedItem(diaActual);
+		jComboMesEntrada.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+		jComboAnioEntrada.setSelectedItem(anioActual);
+
+		jComboDiaSalida.setSelectedItem(diaActual);
+		jComboMesSalida.setSelectedIndex(Integer.parseInt(mesActual) - 1);
+		jComboAnioSalida.setSelectedItem(anioActual);
+		
+		
+		}
+		
 
 		pSearch.add(pDestino);
 		pSearch.add(pFechasE);
@@ -268,6 +302,9 @@ public class VentanaResultados extends JFrame {
 				Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
 						+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
 						+ ((String) jComboAnioSalida.getSelectedItem()));
+				Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
+				Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
+		
 
 				if (fin.before(inicio)) {
 
@@ -311,8 +348,7 @@ public class VentanaResultados extends JFrame {
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-			Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
-			Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
+		
 		});
 
 		ItemListener checkboxListener = e -> cargarEstanciasPorCategoria();
@@ -506,9 +542,7 @@ public class VentanaResultados extends JFrame {
 							JOptionPane.showMessageDialog(null, "Las fechas son nulas.", "Advertencia",
 									JOptionPane.WARNING_MESSAGE);
 							return;
-						}
-
-						if (row >= 0) {
+						}if (row >= 0) {
 							if (estancias.get(row) instanceof Hotel) {
 								Hotel hotel = (Hotel) estancias.get(row);
 								new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
@@ -526,6 +560,8 @@ public class VentanaResultados extends JFrame {
 									JOptionPane.showMessageDialog(null,
 											"No has iniciado sesión. Por favor, inicia sesión.", "Advertencia",
 											JOptionPane.WARNING_MESSAGE);
+									VentanaLogin vl = new VentanaLogin();
+									vl.setVisible(true);
 								}
 							}
 						}
@@ -578,7 +614,7 @@ public class VentanaResultados extends JFrame {
 				} else {
 					Hotel hotel = (Hotel) e;
 					modeloDatosResultados.addRow(new Object[] { e.getNombre(), e.getClass().getSimpleName(),
-							e.getCiudad(), hotel.getCategoria(), hotel.getNumHabitaciones(), "", e.getFoto(),
+							e.getCiudad(), hotel.getCategoria(), BaseDeDatos.contarHabitacionesHotel(hotel.getId()), "Segun la habitación", e.getFoto(),
 							new String("Ver habitaciones") });
 
 				}
@@ -594,7 +630,7 @@ public class VentanaResultados extends JFrame {
 			Hotel hotel = (Hotel) e;
 			modeloDatosResultados.addRow(
 					new Object[] { e.getNombre(), e.getClass().getSimpleName(), e.getCiudad(), hotel.getCategoria(),
-							hotel.getNumHabitaciones(), "", e.getFoto(), new String("Ver habitaciones") });
+							BaseDeDatos.contarHabitacionesHotel(hotel.getId()), "Segun la habitación", e.getFoto(), new String("Ver habitaciones") });
 
 		});
 	}
