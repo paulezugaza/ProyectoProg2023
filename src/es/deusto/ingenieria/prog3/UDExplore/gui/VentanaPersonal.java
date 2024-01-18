@@ -97,7 +97,7 @@ public class VentanaPersonal extends JFrame {
     private void cargarReservas(int idCliente) {
         tableModel.setRowCount(0);
 
-        List<ReservaConEstancia> reservasConEstancia = BaseDeDatos.cargarReservasPorUsuario(idCliente);
+       List<ReservaConEstancia> reservasConEstancia = BaseDeDatos.cargarReservasPorUsuario(idCliente);
 
         if (reservasConEstancia != null && !reservasConEstancia.isEmpty()) {
             for (ReservaConEstancia reservaConEstancia : reservasConEstancia) {
@@ -134,6 +134,7 @@ public class VentanaPersonal extends JFrame {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+        
 }
 
 

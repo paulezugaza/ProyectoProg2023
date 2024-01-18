@@ -2,7 +2,6 @@ package es.deusto.ingenieria.prog3.UDExplore.io;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,9 +24,9 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 
 
 
@@ -40,15 +39,8 @@ public class BaseDeDatos {
 	
 	public static boolean abrirConexion( String nombreBD, boolean reiniciaBD ) {
 		try {
-			try {
-			    logger.log(Level.INFO, "Carga de libreria org.sqlite.JDBC");
-			    Class.forName("org.sqlite.JDBC");
-			    // ...
-			} catch (ClassNotFoundException e) {
-			    logger.log(Level.SEVERE, "No se pudo cargar la libreria org.sqlite.JDBC", e);
-			    return false;
-			}
-
+			logger.log( Level.INFO, "Carga de libreria org.sqlite.JDBC" );
+			Class.forName("org.sqlite.JDBC");  // Carga la clase de BD para sqlite
 			logger.log( Level.INFO, "Abriendo conexion con " + nombreBD );
 			conexion = DriverManager.getConnection("jdbc:sqlite:" + nombreBD );
 			if (reiniciaBD) {
@@ -120,12 +112,13 @@ public class BaseDeDatos {
 				sent = "select * from CadenaHotelera WHERE id="+"'"+idCadenaHotelera+"'"+";";
 				logger.log( Level.INFO, "Statement: " + sent );
 				ResultSet rs2 = statement.executeQuery( sent );
-				while (rs2.next()) {
-				    int id2 = rs2.getInt("id");
-				    String nombreC = rs2.getString("nombre");
-				    CadenaHotelera ch = new CadenaHotelera(id2, nombreC);
-				    h.setCadenaHotelera(ch);
-				}}
+				while(rs.next()) {
+					int id2 = rs2.getInt("id");
+					nombre = rs.getString("nombre");
+					CadenaHotelera ch = new CadenaHotelera(id2, nombre);
+						h.setCadenaHotelera(ch);
+					}
+			} 
 		} catch (SQLException e) {
 			 logger.log(Level.SEVERE, "Excepcion SQL", e);
 		}
@@ -187,17 +180,16 @@ public class BaseDeDatos {
 			String sent1 = "select * from Administrador;";
 			logger.log( Level.INFO, "Statement: " + sent1 );
 			ResultSet rs1 = statement.executeQuery( sent1 );
-			while (rs1.next()) {
-			    int id = rs1.getInt("id");
-			    String nombreA = rs1.getString("nombre");
-			    String apellidoA = rs1.getString("apellido");
-			    String emailA = rs1.getString("email");
-			    String constrasenyaA = rs1.getString("contrasenya");
-			    float salario = rs1.getFloat("salario");
-			    Administrador a = new Administrador(id, nombreA, apellidoA, emailA, constrasenyaA, salario);
-			    users.put(emailA, a);
+			while( rs.next() ) { // Leer el resultset
+				int id = rs.getInt("id");
+				String nombre = rs1.getString("nombre");
+				String apellido = rs1.getString("apellido");
+				String email = rs1.getString("email");
+				String constrasenya = rs1.getString("contrasenya");
+				float salario = rs1.getFloat("salario");
+				Administrador a = new Administrador(id, nombre, apellido, email, constrasenya, salario) ;
+				users.put(email,a);
 			}
-
 		 } catch (SQLException e) {
 		        logger.log(Level.SEVERE, "Excepcion SQL", e);
 		    }
@@ -225,27 +217,23 @@ public class BaseDeDatos {
 		return 0;
 	}
 	
-	
-		public static int anyadirReserva(Date fechaIni, Date fechaFin, int usuarioId) {
-		    String sent = "INSERT INTO Reserva (fechaInicio, fechaFin, idCliente) VALUES (?, ?, ?);";
-		    try (PreparedStatement preparedStatement = conexion.prepareStatement(sent, Statement.RETURN_GENERATED_KEYS)) {
-		        preparedStatement.setLong(1, fechaIni.getTime());
-		        preparedStatement.setLong(2, fechaFin.getTime());
-		        preparedStatement.setInt(3, usuarioId);
-		        
-		        int val = preparedStatement.executeUpdate();
-
-		        if (val > 0) {
-		            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-		            if (generatedKeys.next()) {
-		                return generatedKeys.getInt(1);
-		            }
-		        }
-		    } catch (SQLException e) {
-		        logger.log(Level.SEVERE, "Error en insercion de base de datos", e);
-		    }
-		    return 0;
-		
+	public static int anyadirReserva( Date fechaIni, Date fechaFin, int usuarioId) {
+		String sent="";
+		try(Statement statement = conexion.createStatement()) {
+			sent = "insert into Reserva (fechaInicio, fechaFin, idCliente ) values (" + fechaIni + ",'" + fechaFin + "', " + usuarioId + ");";
+			logger.log( Level.INFO, "Lanzada actualizacion a base de datos: " + sent );
+			int val = statement.executeUpdate( sent );
+			logger.log( Level.INFO, "A�adida " + val + " fila a base de datos\t" + sent );
+			sent = "select max(numeroReserva) from Reserva;";
+			ResultSet rs = statement.executeQuery(sent);
+			if(rs.next()) {
+				int id = rs.getInt("numeroReserva");
+				return id;
+			}
+		} catch (SQLException e) {
+			logger.log( Level.SEVERE, "Error en insercion de base de datos\t" + e );
+		}
+		return 0;
 	}
 	
 	public static int anyadirApartamento(ReservaApartamento ra) {
@@ -359,7 +347,7 @@ public class BaseDeDatos {
 	public static List<Apartamento> getApartamento(int id){
 		List<Apartamento> apartamento = new ArrayList<>();
 		try (Statement statement = conexion.createStatement()){
-			String sent = "select * from Apartamento WHERE id=" + id + ";";
+			String sent = "select * from Habitacion;";
 			logger.log( Level.INFO, "Statement: " + sent );
 			ResultSet rs = statement.executeQuery( sent );
 			while( rs.next() ) { 
@@ -456,7 +444,6 @@ public class BaseDeDatos {
 
 	    return reservasConEstancia;
 	}
-
 	private static Apartamento obtenerApartamentoPorId(int idApartamento) {
 	    try (Statement statement = conexion.createStatement()) {
 	        String sent = "SELECT * FROM Apartamento WHERE id = " + idApartamento + ";";
@@ -480,6 +467,7 @@ public class BaseDeDatos {
 	        ResultSet rs = statement.executeQuery(sent);
 
 	        if (rs.next()) {
+	            // Crear y devolver el objeto Habitacion con los detalles obtenidos de la base de datos
 	            return new Habitacion(rs.getInt("id"), rs.getInt("numHabitacion"), rs.getInt("capacidad"), rs.getDouble("precioPorNoche"));
 	        }
 	    } catch (SQLException e) {
