@@ -426,12 +426,33 @@ public class VentanaInicio extends JFrame {
 		contenedorPrincipal.add(pBotones, BorderLayout.NORTH);
 		contenedorPrincipal.add(pSearch, BorderLayout.CENTER);
 
-//		contenedorCentral.add(pPorTipoAloj, BorderLayout.NORTH);
-		contenedorCentral.add(pDestinosPopulares, BorderLayout.CENTER);
 
 		add(contenedorPrincipal, BorderLayout.NORTH);
-		add(contenedorCentral, BorderLayout.CENTER);
+		add(contenedorCentral, BorderLayout.CENTER);JPanel contenedorInferior = new JPanel();
+        contenedorInferior.setLayout(new BorderLayout());
 
+        JPanel pPresupuesto = new JPanel();
+        JLabel lPregunta = new JLabel("<html><div style='text-align: center;'>¿Tienes presupuesto? Nosotros te damos todas las opciones.</div></html>");
+        lPregunta.setFont(new Font("Serif", Font.PLAIN, 20));
+        JButton bPresupuesto = new JButton("<html><font color='blue'>Click aquí</font></html>");
+        bPresupuesto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new VentanaPresupuesto();
+                dispose();
+            }
+            
+        });
+
+        pPresupuesto.add(lPregunta, BorderLayout.NORTH);
+        pPresupuesto.add(bPresupuesto, BorderLayout.CENTER);
+
+        contenedorInferior.add(pPresupuesto, BorderLayout.SOUTH);
+        contenedorInferior.add(pDestinosPopulares, BorderLayout.CENTER);
+
+        add(contenedorPrincipal, BorderLayout.NORTH);
+        add(contenedorInferior, BorderLayout.CENTER);
+    
 	}
 
 	// IA generated

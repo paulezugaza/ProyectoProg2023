@@ -25,6 +25,8 @@ public class Main {
 		
 				BaseDeDatos.abrirConexion("BaseDeDatos.db", true);
 				BaseDeDatos.cargarUsuarios();
+							
+				
 		
 //		 		List<Estancia> estancias = new ArrayList<>();
 //		 		

@@ -123,45 +123,52 @@ public class BaseDeDatos {
 			 logger.log(Level.SEVERE, "Excepcion SQL", e);
 		}
 	}
-	 public static List<Hotel> cargarHotelesEnLista() {
-	        List<Hotel> hoteles = new ArrayList<>();
+	public static List<Hotel> cargarHotelesEnLista() {
+	    List<Hotel> hoteles = new ArrayList<>();
 
-	        try (Statement statement = conexion.createStatement()) {
-	            String sent = "select * from Hotel;";
-	            logger.log(Level.INFO, "Statement: " + sent);
-	            ResultSet rs = statement.executeQuery(sent);
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Hotel;";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
 
-	            while (rs.next()) {
-	                int id = rs.getInt("id");
-	                String nombre = rs.getString("nombre");
-	                String ciudad = rs.getString("ciudad");
-	                String foto = rs.getString("foto");
-	                Integer categoria = rs.getInt("categoria");
-	                Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
+	        while (rs.next()) {
+	            int id = rs.getInt("id");
+	            String nombre = rs.getString("nombre");
+	            String ciudad = rs.getString("ciudad");
+	            String foto = rs.getString("foto");
+	            Integer categoria = rs.getInt("categoria");
+	            Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
 
-	                Hotel h = new Hotel();
-	                h.setNombre(nombre);
+	            Hotel h = new Hotel();
+	            h.setId(id);
+	            h.setNombre(nombre);
+	            h.setCiudad(ciudad);
+	            h.setFoto(foto);
+	            h.setCategoria(categoria);
 
-	                sent = "select * from CadenaHotelera WHERE id=" + "'" + idCadenaHotelera + "'" + ";";
-	                logger.log(Level.INFO, "Statement: " + sent);
-
-	                ResultSet rs2 = statement.executeQuery(sent);
-
-	                while (rs2.next()) {
-	                    int id2 = rs2.getInt("id");
-	                    nombre = rs2.getString("nombre");
-	                    CadenaHotelera ch = new CadenaHotelera(id2, nombre);
-	                    h.setCadenaHotelera(ch);
-	                }
-
-	                hoteles.add(h);
+	            // Cargar la cadena hotelera asociada
+	            String sent2 = "SELECT * FROM CadenaHotelera WHERE id = " + idCadenaHotelera + ";";
+	            logger.log(Level.INFO, "Statement: " + sent2);
+	            ResultSet rs2 = statement.executeQuery(sent2);
+	            if (rs2.next()) {
+	                int idCadena = rs2.getInt("id");
+	                String nombreCadena = rs2.getString("nombre");
+	                CadenaHotelera ch = new CadenaHotelera(idCadena, nombreCadena);
+	                h.setCadenaHotelera(ch);
 	            }
-	        } catch (SQLException e) {
-	            logger.log(Level.SEVERE, "Excepcion SQL", e);
-	        }
 
-	        return hoteles;
+	            hoteles.add(h);
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
 	    }
+
+	    return hoteles;
+	}
+
+
+
+	 
 	
 	public static void cargarUsuarios() {
 		try (Statement statement = conexion.createStatement()){
@@ -493,6 +500,31 @@ public class BaseDeDatos {
 	    return null;
 	}
 
+	public static List<Apartamento> cargarApartamentos() {
+	    List<Apartamento> apartamentos = new ArrayList<>();
+
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Apartamento;";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        while (rs.next()) {
+	            int id = rs.getInt("id");
+	            String nombre = rs.getString("nombre");
+	            String ciudad = rs.getString("ciudad");
+	            String foto = rs.getString("foto");
+	            int numHabitacion = rs.getInt("numHabitacion");
+	            float precioPorNoche = rs.getFloat("precioPorNoche");
+
+	            Apartamento apartamento = new Apartamento(id, nombre, ciudad, foto, numHabitacion, precioPorNoche);
+	            apartamentos.add(apartamento);
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return apartamentos;
+	}
 
 
 	

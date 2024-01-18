@@ -6,14 +6,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComboBox;
 
+import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 
@@ -152,6 +156,75 @@ public class Logica implements Serializable{
 		        return (int) TimeUnit.DAYS.convert(diffEnMillis, TimeUnit.MILLISECONDS);
 		    }
 		 
+		 public static Map<Apartamento, Integer> buscarOpcionesApartamentosRecursivo(double presupuesto, List<Apartamento> apartamentos) {
+			    Map<Apartamento, Integer> opciones = new HashMap<>();
+			    buscarOpcionesApartamentosRecursivo(presupuesto, apartamentos, opciones, 0);
+			    return opciones;
+			}
+
+			private static void buscarOpcionesApartamentosRecursivo(double presupuesto, List<Apartamento> apartamentos, Map<Apartamento, Integer> opciones, int index) {
+			    if (index >= apartamentos.size() || presupuesto <= 0) {
+			        return;  // Condición de terminación: índice fuera de la lista o presupuesto agotado
+			    }
+
+			    Apartamento apartamento = apartamentos.get(index);
+			    double tarifaNoche = apartamento.getTarifaNoche();
+
+			    if (presupuesto >= tarifaNoche) {
+			        int nochesEnApartamento = (int) Math.floor(presupuesto / tarifaNoche);
+			        opciones.put(apartamento, nochesEnApartamento);
+
+			        double presupuestoRestante = presupuesto - (nochesEnApartamento * tarifaNoche);
+			        buscarOpcionesApartamentosRecursivo(presupuestoRestante, apartamentos, opciones, index + 1);
+			    }
+
+			    // Llamada recursiva sin seleccionar el apartamento actual
+			    buscarOpcionesApartamentosRecursivo(presupuesto, apartamentos, opciones, index + 1);
+			}
+
+			public static Map<Habitacion, Integer> obtenerOpcionesHabitacionesRecursivo(double presupuesto, List<Habitacion> habitaciones) {
+			    Map<Habitacion, Integer> opciones = new HashMap<>();
+			    buscarOpcionesHabitacionesRecursivo(presupuesto, habitaciones, opciones, 0);
+			    return opciones;
+			}
+
+			private static void buscarOpcionesHabitacionesRecursivo(double presupuesto, List<Habitacion> habitaciones, Map<Habitacion, Integer> opciones, int index) {
+			    if (index >= habitaciones.size() || presupuesto <= 0) {
+			        return;  // Condición de terminación: índice fuera de la lista o presupuesto agotado
+			    }
+
+			    Habitacion habitacion = habitaciones.get(index);
+			    double precioPorNoche = habitacion.getPrecioPorNoche();
+
+			    if (presupuesto >= precioPorNoche) {
+			        int nochesEnHabitacion = (int) Math.floor(presupuesto / precioPorNoche);
+			        opciones.put(habitacion, nochesEnHabitacion);
+
+			        double presupuestoRestante = presupuesto - (nochesEnHabitacion * precioPorNoche);
+			        buscarOpcionesHabitacionesRecursivo(presupuestoRestante, habitaciones, opciones, index + 1);
+			    }
+
+			    // Llamada recursiva sin seleccionar la habitación actual
+			    buscarOpcionesHabitacionesRecursivo(presupuesto, habitaciones, opciones, index + 1);
+			}
+
+
+
+			public static List<Habitacion> getAllHabitaciones() {
+				List<Hotel> hoteles = BaseDeDatos.cargarHotelesEnLista();
+				System.out.println(hoteles);
+				List<Habitacion> habitaciones = new ArrayList<>();
+				hoteles.forEach( h -> {
+					BaseDeDatos.getHabitaciones(h.getId()).forEach( habi -> {
+						habitaciones.add(habi);
+					});
+				
+				});
+				System.out.println(habitaciones);
+				return habitaciones;
+			}
+		    
+		
 		  
 		
 
