@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
-public class VentanaReservaHabitaciones extends VentanaReserva {
+public class VentanaReservaHabitaciones extends JFrame {
 
     private static final long serialVersionUID = 1L;
 	private Habitacion habitacion;
@@ -29,6 +30,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         super();
         this.habitacion = habitacion;
         inicializarVentana();
+        this.setSize(500, 200);
         JPanel pBoton = new JPanel();
 		JButton bCancelar = new JButton("Cancelar");
 		JButton bConfirmarDatos = new JButton("Confirmar operacion");
@@ -49,6 +51,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         pInfo.add(labelPrecioPorNoche);
         
         add(pInfo, BorderLayout.NORTH);
+        add(pBoton, BorderLayout.SOUTH);
       
         List<Hotel> hoteles = BaseDeDatos.cargarHotelesEnLista();
  
@@ -97,7 +100,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
 
     private void inicializarVentana() {
 
-        setTitle("Reserva de apartamento");
+        setTitle("Reserva de habitación");
        
     }
 

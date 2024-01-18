@@ -520,7 +520,6 @@ public class VentanaResultados extends JFrame {
                     try {
                         Date inicio = Logica.fechaIni;
                         Date fin = Logica.fechaFin;
-
                       
                         if (inicio == null || fin == null) {
                             JOptionPane.showMessageDialog(null, "Las fechas son nulas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -537,6 +536,7 @@ public class VentanaResultados extends JFrame {
                                     ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
                                     reserva.setApartamento(a);
                                     BaseDeDatos.anyadirApartamento(reserva);
+                                    System.out.println("reserva hecha");
                                 } else {
                                     JOptionPane.showMessageDialog(null, "No has iniciado sesión. Por favor, inicia sesión.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                                 }
@@ -554,7 +554,6 @@ public class VentanaResultados extends JFrame {
         };
     }
 
-    //
    
     TableCellRenderer imageRenderer = (table, value, isSelected, hasFocus, row, column) -> {
         JLabel result = new JLabel();

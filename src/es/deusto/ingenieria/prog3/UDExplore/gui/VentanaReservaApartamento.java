@@ -7,12 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 
-public class VentanaReservaApartamento extends VentanaReserva {
+public class VentanaReservaApartamento extends JFrame {
 
     private static final long serialVersionUID = 1L;
 	private Apartamento apartamento;

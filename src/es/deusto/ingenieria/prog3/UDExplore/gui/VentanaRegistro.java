@@ -40,7 +40,7 @@ public class VentanaRegistro extends JFrame{
         JTextField txtApellido = new JTextField();
         JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
-        JLabel lblContrasenya = new JLabel("Contrase�a:"); 
+        JLabel lblContrasenya = new JLabel("Contraseña:"); 
         txtContrasenya = new JPasswordField();
         JLabel lblContrasenyaRep = new JLabel("Confrima tu contraseña:");
         txtContrasenyaRep = new JPasswordField();
