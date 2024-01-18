@@ -59,6 +59,7 @@ public class VentanaLogin extends JFrame {
 						if(Logica.usuarioCorrecto(txtEmail.getText(), txtContrasenya.getText())){
 							if(Logica.esUsuarioCliente(txtEmail.getText())){
 								dispose();
+								JOptionPane.showMessageDialog(btnEntrar, "Sesion iniciada correctamente");
 								new VentanaInicio();
 								
 							}else {
