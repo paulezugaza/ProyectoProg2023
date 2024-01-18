@@ -106,9 +106,7 @@ public abstract class VentanaReserva extends JDialog {
 			bConfirmarDatos.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// Agrega lógica para confirmar la operación
 					if (validarCampos()) {
-						// Realiza la operación
 					} else {
 						JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos correctamente.",
 								"Error", JOptionPane.ERROR_MESSAGE);
@@ -134,8 +132,6 @@ public abstract class VentanaReserva extends JDialog {
 		if (nombre.getText().isEmpty() || numTarjeta.getText().isEmpty() || fechaCaducidad.getText().isEmpty()) {
 			return false;
 		}
-
-		// Puedes agregar más validaciones según tus requisitos
 
 		return true;
 	}
