@@ -216,47 +216,6 @@ public class VentanaInicio extends JFrame {
 		pSearch.add(bBuscar);
 		pSearch.setLayout(new GridBagLayout());
 
-	
-//		JPanel pPorTipoAloj = new JPanel();
-//		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
-//		pPorTipoAloj.setPreferredSize(new Dimension(200, 200));
-
-//		JPanel ptitulo = new JPanel();
-//		JLabel ltitulo = new JLabel("Buscar por tipo de alojamiento:");
-//		ltitulo.setFont(new Font("Serif", Font.PLAIN, 20));
-//		ptitulo.add(ltitulo);
-//		
-//
-//		
-//		
-//		JPanel pHotel = new JPanel();
-//		pHotel.setLayout(new BoxLayout(pHotel, BoxLayout.Y_AXIS));
-//		JLabel lHotel = new JLabel("Hotel");
-//		lHotel.setFont(new Font("Serif", Font.PLAIN, 15));
-//		JLabel iHotel = new JLabel(scaleImage("resources/images/hotel.jpeg", 200, 100));
-//		pHotel.add(lHotel);
-//		pHotel.add(iHotel);
-//		pHotel.addMouseListener(new MouseAdapter() {
-//
-//			public void mouseClicked(MouseEvent e) {
-//				List<Hotel> hoteles = filtrarHoteles();
-//				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-//					hoteles.forEach(h -> {
-//						estanciasFiltradas.add(h);
-//					});
-//				if (e.getClickCount() == 2) {
-//					
-//					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
-//					ventana.setVisible(true);
-//					setVisible(false);
-//				}
-//
-//			}
-//		});
-		
-		
-		
-
 
 		JPanel pPorTipoAloj = new JPanel();
 		pPorTipoAloj.setLayout(new BoxLayout(pPorTipoAloj, BoxLayout.X_AXIS));
@@ -343,39 +302,6 @@ public class VentanaInicio extends JFrame {
 
 		});
 
-//		JPanel pApartamento = new JPanel();
-//		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
-//		JLabel lApartamento = new JLabel("Apartamento");
-//		lApartamento.setFont(new Font("Serif", Font.PLAIN, 15));
-//		JLabel iApartamento = new JLabel(scaleImage("resources/images/apartamento.jpeg", 200, 100));
-//		pApartamento.add(lApartamento);
-//		pApartamento.add(iApartamento);
-//		pApartamento.addMouseListener(new MouseAdapter() {
-//
-//			public void mouseClicked(MouseEvent e) {
-//				List<Apartamento> apartamentos = filtrarApartamentos();
-//				ArrayList<Estancia> estanciasFiltradas = new ArrayList<>();
-//					apartamentos.forEach(a -> {
-//						estanciasFiltradas.add(a);
-//					});
-//				if (e.getClickCount() == 2) {
-//					VentanaResultados ventana = new VentanaResultados(estanciasFiltradas);
-//					ventana.setVisible(true);
-//					dispose();
-//				}
-//
-//			}
-//	
-//		});
-//		
-//
-//		JPanel centralTipoAloj = new JPanel();
-//		centralTipoAloj.add(pHotel);
-//		centralTipoAloj.add(pApartamento);
-//
-//		pPorTipoAloj.add(ptitulo, BorderLayout.NORTH);
-//		pPorTipoAloj.add(centralTipoAloj, BorderLayout.CENTER);
-
 
 		JPanel pApartamento = new JPanel();
 		pApartamento.setLayout(new BoxLayout(pApartamento, BoxLayout.Y_AXIS));
@@ -426,6 +352,7 @@ public class VentanaInicio extends JFrame {
 		contenedorPrincipal.add(pBotones, BorderLayout.NORTH);
 		contenedorPrincipal.add(pSearch, BorderLayout.CENTER);
 
+		contenedorCentral.add(pDestinosPopulares, BorderLayout.CENTER);
 
 		add(contenedorPrincipal, BorderLayout.NORTH);
 		add(contenedorCentral, BorderLayout.CENTER);JPanel contenedorInferior = new JPanel();
@@ -492,7 +419,6 @@ public class VentanaInicio extends JFrame {
 						ventana.setVisible(true);
 					}
 				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 

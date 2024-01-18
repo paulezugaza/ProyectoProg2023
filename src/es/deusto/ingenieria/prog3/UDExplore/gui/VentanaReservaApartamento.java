@@ -9,15 +9,20 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public class VentanaReservaApartamento extends JFrame {
 
     private static final long serialVersionUID = 1L;
 	private Apartamento apartamento;
+	
 
     public VentanaReservaApartamento(Apartamento apartamento) {
         super();
@@ -32,9 +37,22 @@ public class VentanaReservaApartamento extends JFrame {
 		pBoton.add(bCancelar);
 		pBoton.add(bConfirmarDatos);
 		
+		JLabel labelHotel = new JLabel("Apartamento: ");
+        JLabel labelCiudad = new JLabel("Ciudad: ");
+        JLabel labelPrecioPorNoche = new JLabel("Precio por Noche: ");
+        
+        pInfo.add(labelHotel);
+        pInfo.add(labelCiudad);
+        pInfo.add(labelPrecioPorNoche);
+		
 		add(pInfo, BorderLayout.NORTH);
 	    add(pBoton, BorderLayout.SOUTH);
-	     
+	 
+    	labelHotel.setText("Apartamento: " + apartamento.getNombre());
+    	labelCiudad.setText("Ciudad: " + apartamento.getCiudad());
+    	labelPrecioPorNoche.setText("Precio total: " + apartamento.getTarifaNoche() + "€");
+
+	    
         bConfirmarDatos.addActionListener(new ActionListener() {
 
     		@Override

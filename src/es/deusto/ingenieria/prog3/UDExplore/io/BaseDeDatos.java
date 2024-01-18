@@ -351,22 +351,6 @@ public class BaseDeDatos {
 		    }
 	}
 	
-	public static List<Apartamento> getApartamento(int id){
-		List<Apartamento> apartamento = new ArrayList<>();
-		try (Statement statement = conexion.createStatement()){
-			String sent = "select * from Habitacion;";
-			logger.log( Level.INFO, "Statement: " + sent );
-			ResultSet rs = statement.executeQuery( sent );
-			while( rs.next() ) { 
-				Apartamento a = new Apartamento(rs.getInt("id"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("foto"), rs.getInt("numHabitacion"), rs.getFloat("tarifaNoche"));
-				apartamento.add(a);
-			}
-			return apartamento;
-		 } catch (SQLException e) {
-		        logger.log(Level.SEVERE, "Excepcion SQL", e);
-		        return null; 
-		    }
-	}
 	public static Hotel getHotelPorHabitacion(int habitacionId) {
 	    try (Statement statement = conexion.createStatement()) {
 	        String sent = "SELECT Hotel.* FROM Hotel, Habitacion WHERE Hotel.id = Habitacion.idHotel AND Habitacion.id = " + habitacionId + ";";
@@ -394,6 +378,7 @@ public class BaseDeDatos {
 
 	    return null;
 	}
+	
 	private static CadenaHotelera obtenerCadenaHoteleraPorId(int cadenaHoteleraId) {
 	    try (Statement statement = conexion.createStatement()) {
 	        String sent = "SELECT * FROM CadenaHotelera WHERE id = " + cadenaHoteleraId + ";";

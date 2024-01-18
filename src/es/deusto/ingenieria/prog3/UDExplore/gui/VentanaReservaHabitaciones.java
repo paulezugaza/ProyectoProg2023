@@ -52,22 +52,14 @@ public class VentanaReservaHabitaciones extends JFrame {
         
         add(pInfo, BorderLayout.NORTH);
         add(pBoton, BorderLayout.SOUTH);
-      
-        List<Hotel> hoteles = BaseDeDatos.cargarHotelesEnLista();
  
     	   			
-        			Hotel esteHotel = BaseDeDatos.getHotelPorHabitacion(habitacion.getId());
-    	   						esteHotel = esteHotel;
-    	   						labelHotel.setText("Hotel: " + esteHotel.getNombre());
-    	   						labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
-    	   						labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
-    	   						labelPrecioPorNoche.setText("Precio total: " + habitacion.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni,Logica.fechaFin)  + "€");
-    	   					
-    
-    	   		          
-    	   
-    
-    	   		
+        Hotel esteHotel = BaseDeDatos.getHotelPorHabitacion(habitacion.getId());
+        esteHotel = esteHotel;
+        labelHotel.setText("Hotel: " + esteHotel.getNombre());
+        labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
+        labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
+        labelPrecioPorNoche.setText("Precio total: " + habitacion.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni,Logica.fechaFin)  + "€");
 
         bConfirmarDatos.addActionListener(new ActionListener() {
             @Override
