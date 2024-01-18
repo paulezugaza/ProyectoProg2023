@@ -488,11 +488,29 @@ public class VentanaResultados extends JFrame {
 		                    			BaseDeDatos.anyadirApartamento(reserva);
 	                    			
 	            					
-	                    		}
-//	                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
+	                    		}		
 	                       
 	                    	}
 	                    }
+						
+						if (row >= 0) {
+                            if (estancias.get(row) instanceof Hotel) {
+                                Hotel hotel = (Hotel) estancias.get(row);
+                                new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
+                            } else {
+                                Apartamento a = (Apartamento) estancias.get(row);
+                                if (Logica.usuario != null) {
+                                    ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
+                                    reserva.setApartamento(a);
+                                    BaseDeDatos.anyadirApartamento(reserva);
+                                    
+                                    new VentanaReservaApartamento(a).setVisible(true);
+
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No has iniciado sesión. Por favor, inicia sesión.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
+                        }
 					} catch (ParseException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
@@ -536,7 +554,9 @@ public class VentanaResultados extends JFrame {
                                     ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
                                     reserva.setApartamento(a);
                                     BaseDeDatos.anyadirApartamento(reserva);
-                                    System.out.println("reserva hecha");
+                                    
+                                    new VentanaReservaApartamento(a).setVisible(true);
+
                                 } else {
                                     JOptionPane.showMessageDialog(null, "No has iniciado sesión. Por favor, inicia sesión.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                                 }

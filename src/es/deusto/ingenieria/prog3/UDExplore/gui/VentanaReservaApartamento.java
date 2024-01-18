@@ -2,6 +2,7 @@ package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 
 
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +23,18 @@ public class VentanaReservaApartamento extends JFrame {
         super();
         this.apartamento = apartamento;
         inicializarVentana();
+        this.setSize(500, 200);
         JPanel pBoton = new JPanel();
+        JPanel pInfo = new JPanel();
 		JButton bCancelar = new JButton("Cancelar");
 		JButton bConfirmarDatos = new JButton("Confirmar operación");
 		pBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pBoton.add(bCancelar);
 		pBoton.add(bConfirmarDatos);
+		
+		add(pInfo, BorderLayout.NORTH);
+	    add(pBoton, BorderLayout.SOUTH);
+	     
         bConfirmarDatos.addActionListener(new ActionListener() {
 
     		@Override
