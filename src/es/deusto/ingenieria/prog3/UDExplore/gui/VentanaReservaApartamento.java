@@ -29,23 +29,29 @@ public class VentanaReservaApartamento extends JFrame {
         this.apartamento = apartamento;
         inicializarVentana();
         this.setSize(500, 200);
+        setLocationRelativeTo(null);
         JPanel pBoton = new JPanel();
         JPanel pInfo = new JPanel();
+        JPanel pPregunta = new JPanel();
 		JButton bCancelar = new JButton("Cancelar");
 		JButton bConfirmarDatos = new JButton("Confirmar operación");
 		pBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pBoton.add(bCancelar);
 		pBoton.add(bConfirmarDatos);
+
 		
 		JLabel labelHotel = new JLabel("Apartamento: ");
         JLabel labelCiudad = new JLabel("Ciudad: ");
         JLabel labelPrecioPorNoche = new JLabel("Precio por Noche: ");
+        JLabel labelPregunta= new JLabel("¿Desea hacer esta reserva? ");
         
         pInfo.add(labelHotel);
         pInfo.add(labelCiudad);
         pInfo.add(labelPrecioPorNoche);
+        pPregunta.add(labelPregunta);
 		
 		add(pInfo, BorderLayout.NORTH);
+		add(pPregunta, BorderLayout.CENTER);
 	    add(pBoton, BorderLayout.SOUTH);
 	 
     	labelHotel.setText("Apartamento: " + apartamento.getNombre());

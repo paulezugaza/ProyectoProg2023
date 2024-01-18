@@ -60,7 +60,17 @@ public class VentanaReservaHabitaciones extends JFrame {
         labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
         labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
         labelPrecioPorNoche.setText("Precio total: " + habitacion.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni,Logica.fechaFin)  + "€");
+        
+        bCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	dispose();
+            }
+            
+            });
 
+        
         bConfirmarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

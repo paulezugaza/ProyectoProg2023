@@ -1,6 +1,8 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import javax.swing.*;
+import java.awt.GridBagConstraints;
+
 import javax.swing.table.DefaultTableModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
@@ -21,6 +23,7 @@ public class VentanaPresupuesto extends JFrame {
     private JCheckBox apartamentoCheckBox;
     private JButton buscarButton;
     private JTable resultadosTable;
+    private VentanaInicio ventanaInicio;
 
     public VentanaPresupuesto() {
         setTitle("Ventana presupuesto");
@@ -31,8 +34,10 @@ public class VentanaPresupuesto extends JFrame {
         this.setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+        
 
-        // Creación de componentes
+   
         JLabel mensajeLabel = new JLabel("Nosotros te encontramos todas las opciones personalizadas a tu presupuesto.");
         JLabel presupuestoLabel = new JLabel("Indique su presupuesto máximo:");
         presupuestoTextField = new JTextField(10);
@@ -41,16 +46,30 @@ public class VentanaPresupuesto extends JFrame {
         apartamentoCheckBox = new JCheckBox("Apartamento");
         buscarButton = new JButton("Buscar");
 
-        // Configuración de diseño
+
         setLayout(new BorderLayout());
 
-        // Panel principal
+
         JPanel panelPrincipal = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.insets = new Insets(5, 5, 5, 5);
+        JButton volverButton = new JButton("Volver");
 
+        
+        panelPrincipal.add(volverButton, gbc);
+
+       
+        ventanaInicio = new VentanaInicio();
+
+		volverButton.addActionListener(e -> {
+			ventanaInicio.setVisible(true);
+			dispose();
+
+		});
+        panelPrincipal.add(volverButton, gbc);
+        gbc.gridy++;
         panelPrincipal.add(mensajeLabel, gbc);
         gbc.gridy++;
         panelPrincipal.add(presupuestoLabel, gbc);
