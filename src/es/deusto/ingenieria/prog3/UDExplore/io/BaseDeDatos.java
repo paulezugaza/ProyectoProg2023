@@ -22,6 +22,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
@@ -402,5 +403,95 @@ public class BaseDeDatos {
 
 	    return null;
 	}
+	public static List<Reserva> cargarReservasPorUsuario(int idUsuario) {
+	    List<Reserva> reservas = new ArrayList<>();
+
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Reserva WHERE idCliente = " + idUsuario + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        while (rs.next()) {
+	            int numeroReserva = rs.getInt("numeroReserva");
+	            long fechaInicio = rs.getLong("fechaInicio");
+	            long fechaFin = rs.getLong("fechaFin");
+	            int idApartamento = rs.getInt("idApartamento");
+	            int idHabitacion = rs.getInt("idHabitacion");
+
+	            Reserva reserva;
+
+	            if (idApartamento != 0) {
+	           
+	                Apartamento apartamento = obtenerApartamentoPorId(idApartamento);
+	                reserva = new ReservaApartamento(numeroReserva, new Date(fechaInicio), new Date(fechaFin), obtenerClientePorId(idUsuario));
+	            } else if (idHabitacion != 0) {
+	                
+	                Habitacion habitacion = obtenerHabitacionPorId(idHabitacion);
+	                reserva = new ReservaHotel(numeroReserva, new Date(fechaInicio), new Date(fechaFin), obtenerClientePorId(idUsuario));
+	            } else {
+	              
+	                reserva = null;
+	            }
+
+	            if (reserva != null) {
+	                reservas.add(reserva);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return reservas;
+	}
+	private static Apartamento obtenerApartamentoPorId(int idApartamento) {
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Apartamento WHERE id = " + idApartamento + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        if (rs.next()) {
+	        	return new Apartamento(rs.getInt("id"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("foto"), rs.getInt("numHabitacion"), rs.getFloat("precioPorNoche"));
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return null;
+	}
+
+	private static Habitacion obtenerHabitacionPorId(int idHabitacion) {
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Habitacion WHERE id = " + idHabitacion + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        if (rs.next()) {
+	            return new Habitacion(rs.getInt("id"), rs.getInt("numHabitacion"), rs.getInt("capacidad"), rs.getDouble("precioPorNoche"));
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return null;
+	}
+	private static Cliente obtenerClientePorId(int idCliente) {
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM Cliente WHERE id = " + idCliente + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        if (rs.next()) {
+	          
+	            return new Cliente(rs.getInt("id"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("email"), rs.getString("contrasenya"));
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return null;
+	}
+
+
+
 	
 }

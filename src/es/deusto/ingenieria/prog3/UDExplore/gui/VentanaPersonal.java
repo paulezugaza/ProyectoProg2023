@@ -6,7 +6,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 
 public class VentanaPersonal extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -29,6 +30,7 @@ public class VentanaPersonal extends JFrame {
 
     public VentanaPersonal(Cliente cliente, HashMap<Cliente, Reserva> hashMap) {
         this.setCliente(cliente);
+        cargarReservas(cliente.getCodigoUsuario());
 
         setTitle("Ventana Personal del Cliente");
         int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
@@ -87,6 +89,27 @@ public class VentanaPersonal extends JFrame {
 
         pack();
         setVisible(true);
+    }
+    private void cargarReservas(int idCliente) {
+       
+        tableModel.setRowCount(0);
+
+       
+        List<Reserva> reservas = BaseDeDatos.cargarReservasPorUsuario(idCliente);
+
+      
+        if (reservas != null && !reservas.isEmpty()) {
+         
+            for (Reserva reserva : reservas) {
+                Object[] rowData = {
+                        reserva.getNumeroReserva(),
+                        reserva.getFechaInicio(),
+                        reserva.getFechaFin(),
+                       
+                };
+                tableModel.addRow(rowData);
+            }
+        }
     }
     
 
