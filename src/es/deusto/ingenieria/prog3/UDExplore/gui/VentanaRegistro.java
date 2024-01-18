@@ -18,10 +18,10 @@ public class VentanaRegistro extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	JFrame frame = new JFrame("Registro de usuario");
 	private JTextField txtNombre;
 	private JPasswordField txtContrasenya;
 	private JPasswordField txtContrasenyaRep;
+	private JFrame frame;
 	
 	
     public VentanaRegistro() {

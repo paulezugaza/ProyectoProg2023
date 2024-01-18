@@ -30,7 +30,7 @@ public class VentanaLogin extends JFrame {
 	Cliente cliente;
 	public VentanaLogin() {
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 200);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10)); 
