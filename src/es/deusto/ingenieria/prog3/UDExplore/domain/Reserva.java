@@ -1,5 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Reserva {
@@ -64,6 +66,23 @@ public abstract class Reserva {
 				+ ", cliente=" + cliente + "]";
 	}
 
-
-   
+//	public static Reserva parseCSV(String csvLine) {
+//		String[] res = csvLine.split(",");
+//		
+//		if (res.length != 4) {
+//			throw new Exception("Linea no válida de CSV");
+//		}
+//		
+//		try {
+//			int numeroReserva = Integer.parseInt(res[0].trim());
+//	        Date fechaInicio = new SimpleDateFormat("dd/MM/yyyy").parse(res[1].trim());
+//	        Date fechaFin = new SimpleDateFormat("dd/MM/yyyy").parse(res[2].trim());
+////	        String cliente = cliente.toString();
+//	        
+//	        return new Reserva(numeroReserva, fechaInicio, fechaFin, cliente);
+//		} catch(NumberFormatException | ParseException e) {
+//			throw new Exception("Error al parserar la linea CSV");
+//		}
+//	}
+//   
 }

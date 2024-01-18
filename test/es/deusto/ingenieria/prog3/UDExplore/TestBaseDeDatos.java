@@ -3,11 +3,13 @@ package es.deusto.ingenieria.prog3.UDExplore;
 import static org.junit.Assert.*;
 
 import java.sql.Statement;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Date;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,31 +22,36 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import es.deusto.ingenieria.prog3.UDExplore.domain.*;
+import es.deusto.ingenieria.prog3.UDExplore.gui.*;
 
 public class TestBaseDeDatos {
 
-	private static final String testBaseDatos = "test.db";
-	private static final Logger logger = Logger.getLogger("TestBaseDatos");
-	private static BaseDeDatos baseDatos = null;
+	private static String testBaseDatos = "test.db";
+//	private static final Logger logger = Logger.getLogger("TestBaseDatos");
+	private static BaseDeDatos baseDatos;
 	
-//	@BeforeClass
-//	public static void setUpBeforeClass() {
-//		
-//	}
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		baseDatos.abrirConexion(testBaseDatos, true);
+		baseDatos.cargarHoteles();
+		baseDatos.cargarUsuarios();
+		
+	}
 
-//	@AfterClass
-//	public static void tearDownAfterClass() throws Exception {
-//	}
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		baseDatos.cerrarConexion();
+	}
 
 	@Before
 	public void setUp() {
-		assertTrue(BaseDeDatos.abrirConexion(testBaseDatos, true));
+		assertTrue(baseDatos.abrirConexion(testBaseDatos, true));
 	}
 
 	@After
 	public void tearDown() {
-		BaseDeDatos.cerrarConexion();
+		baseDatos.cerrarConexion();
 	}
 	
 	public void testAnyadirCliente() {
@@ -57,29 +64,62 @@ public class TestBaseDeDatos {
 	
 	public void testAnyadirReserva() {
 		//reserva de prueba
-		Date fechaInicio = new Date();
-		Date fechaFin = new Date(fechaInicio.getTime() + (3*86400000));
-		int usuarioId = 1;
+		Cliente cliente = new Cliente("Cliene1", "ClienteApellido", "correo@electronico.com", "contrasenya1");
+		int clienteId = baseDatos.anyadirCliente(cliente);
+		ReservaHotel reservaHotel = new ReservaHotel(new java.util.Date(), new java.util.Date(), cliente);
+		int idReservaHotel = baseDatos.anyadirHabitacion(reservaHotel);
+		assertTrue(idReservaHotel>0);
 		
-		int reserva = baseDatos.anyadirReserva(fechaInicio, fechaFin, usuarioId);
-		assertTrue(reserva > 0);
 	}
 	
-//	public static void testCargarHoteles() {
-//		//añadir hotel y cadena de hoteles a la base de datos para recuperarlo
-//		try (Statement stmnt = baseDatos.conexion.createStatement()){
-//			String cadenaPrueba = "INSERT INTRO CadenaHotelera(id, nombre) VALUE (1, 'CadenaPrueba');";
-//			stmnt.executeQuery(cadenaPrueba);
+	public void testCargarReservasPorUsuario() {
+		Cliente cliente = new Cliente("Nombre", "Apellido", "email@email.com", "Password");
+		int idCliente = baseDatos.anyadirCliente(cliente);
+		Date fechaInicio = new Date();
+	    Date fechaFin = new Date(fechaInicio.getTime() + 86400000);
+	        
+		ReservaHotel reserva1 = new ReservaHotel(new java.util.Date(), new java.util.Date(), cliente);
+		ReservaHotel reserva2 = new ReservaHotel(new java.util.Date(), new java.util.Date(), cliente);
+		
+		int idReserva1 = BaseDeDatos.anyadirHabitacion(reserva1);
+        assertTrue(idReserva1 > 0);
+        int idReserva2 = BaseDeDatos.anyadirHabitacion(reserva2);
+        assertTrue(idReserva2 > 0);
+	
+        List<ReservaConEstancia> reservasPorUsuario = BaseDeDatos.cargarReservasPorUsuario(idCliente);
+        assertNotNull(reservasPorUsuario);
+        assertEquals(2, reservasPorUsuario);
+        
+        boolean reserva1Encon = false;
+        boolean reserva2Encon = false;
+        
+        for(ReservaConEstancia reserva : reservasPorUsuario) {
+        	if(reserva.getReserva().getNumeroReserva() == idReserva1) {
+        		reserva1Encon = true;
+        	} else if(reserva.getReserva().getNumeroReserva() == idReserva2) {
+        		reserva2Encon = true;
+        	}
+        }
+        assertTrue(reserva1Encon && reserva2Encon);
+	}
+	
+	//cargar ficheros csv
+//	private static List<Reserva> importarReservas(){
+//		List<Reserva> reservas = new ArrayList<>();
+//		
+//		try(BufferedReader bfr = new BufferedReader(new FileReader("Resources/data/reservas.csv"))){
+//			String line;
+//			bfr.readLine();
+//			while((line = bfr.readLine()) != null) {
+//				reservas.add(Reserva.parseCSV(line));
+//			}
 //			
-//			String hotelPrueba = "INSERT INTO Hotel (nombre, ciudad, foto, categoria, idCadenaHotelera) VALUES ('HotelPrueba', 'CiudadPrueba', 'fotoPrueba.jpg', 3, 1);";
-//			stmnt.executeQuery(hotelPrueba);
-//		} catch (SQLException e) {
-//			logger.log(Level.WARNING, "Error durante la insercion de datos de prueba");
+//		}catch (Exception ex) {
+//			ex.printStackTrace();
 //		}
-//		
-//		assertNotNull(baseDatos.cargarHoteles());
-//		
+//		return reservas;
 //	}
+	
 
 //	@Test
 //	public void test() {
