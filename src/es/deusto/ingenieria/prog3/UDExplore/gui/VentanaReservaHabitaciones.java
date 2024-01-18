@@ -70,11 +70,9 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    
-                    Date fechaIni = Logica.fechaIni;
-                    Date fechaFin = Logica.fechaFin;
-                    int id = BaseDeDatos.anyadirReserva(fechaIni, fechaFin, Logica.usuario.getCodigoUsuario());
-                    habitacion.addReserva(new ReservaHotel(id, fechaIni, fechaFin,(Cliente) Logica.usuario));
+                   
+                    int id = BaseDeDatos.anyadirReserva(Logica.fechaIni, Logica.fechaFin, Logica.usuario.getCodigoUsuario());
+                    habitacion.addReserva(new ReservaHotel(id, Logica.fechaIni, Logica.fechaFin,(Cliente) Logica.usuario));
                    
                     String mensaje = "¡Su reserva ha sido guardada con Exito!\n\n" +
                             "Detalles de la estancia:\n" +
