@@ -136,25 +136,37 @@ public class VentanaHabitaciones extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                 
+                    System.out.println("Boton clickado");
                     int col = tablaHabitaciones.getSelectedColumn();
                     int filaSeleccionada = tablaHabitaciones.getSelectedRow();
 
-                    if (filaSeleccionada != -1) { 
+                    if (filaSeleccionada != -1 && col == 4) { 
                         Habitacion habitacionSeleccionada = habitaciones.get(filaSeleccionada);
+         
+                        if (Logica.usuario != null) {
+                            
+                            if (inicio == null || fin == null) {
+                            
+                                JOptionPane.showMessageDialog(null, "No has seleccionado fechas. Por favor, selecciónalas antes de hacer una reserva.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
-//                        new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
-                        
-                		if(Logica.usuario != null) {
-                			ReservaHotel reserva = new ReservaHotel(inicio, fin, (Cliente) Logica.usuario);
-							reserva.setHabitacion(habitacionSeleccionada);;
-							BaseDeDatos.anyadirHabitacion(reserva);
-        					
-                		}
+
+                            } else {
+                               
+                                ReservaHotel reserva = new ReservaHotel(inicio, fin, (Cliente) Logica.usuario);
+                                reserva.setHabitacion(habitacionSeleccionada);
+                                BaseDeDatos.anyadirHabitacion(reserva);
+
+                                new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
+                            }
+                        } else {
+                        	  JOptionPane.showMessageDialog(null, "No has iniciado sesion. Por favor inicie sesion.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
                     }
                 }
             }
         });
+
+
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
