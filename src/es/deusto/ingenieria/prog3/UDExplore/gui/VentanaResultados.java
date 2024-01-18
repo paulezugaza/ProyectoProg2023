@@ -509,39 +509,42 @@ public class VentanaResultados extends JFrame {
     //IA
     private TableCellRenderer createButtonRenderer() {
         return (table, value, isSelected, hasFocus, row, column) -> {
-        	if (column == 7) {
+            if (column == 7) {
                 JButton button = new JButton("Ver habitaciones");
                 if (estancias.get(row) instanceof Hotel) {
-                   button.setText("Ver habitaciones");
+                    button.setText("Ver habitaciones");
                 } else {
-                	button.setText("Reservar");
+                    button.setText("Reservar");
                 }
                 button.addActionListener(e -> {
                     try {
-						Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/" + (jComboMesEntrada.getSelectedIndex() + 1) + "/" + ((String) jComboAnioEntrada.getSelectedItem()));
-						Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/" + (jComboMesSalida.getSelectedIndex() + 1) + "/" + ((String) jComboAnioSalida.getSelectedItem()));
-						if (row >= 0) { 
-	                    	if (estancias.get(row) instanceof Hotel) {
-	                    		Hotel hotel = (Hotel) estancias.get(row);
-	                    		new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
-	                    		
-	                    	} else {
-	                    		Apartamento a = (Apartamento) estancias.get(row);
-	                    		if(Logica.usuario != null) {
-										ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
-		                    			reserva.setApartamento(a);
-		                    			BaseDeDatos.anyadirApartamento(reserva);
-	                    			
-	            					
-	                    		}
-//	                    		new VentanaReservaApartamento((Apartamento) estancia).setVisible(true);
-	                       
-	                    	}
-	                    }
-					} catch (ParseException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
+                        Date inicio = Logica.fechaIni;
+                        Date fin = Logica.fechaFin;
+
+                      
+                        if (inicio == null || fin == null) {
+                            JOptionPane.showMessageDialog(null, "Las fechas son nulas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            return; 
+                        }
+
+                        if (row >= 0) {
+                            if (estancias.get(row) instanceof Hotel) {
+                                Hotel hotel = (Hotel) estancias.get(row);
+                                new VentanaHabitaciones(hotel, inicio, fin).setVisible(true);
+                            } else {
+                                Apartamento a = (Apartamento) estancias.get(row);
+                                if (Logica.usuario != null) {
+                                    ReservaApartamento reserva = new ReservaApartamento(inicio, fin, (Cliente) Logica.usuario);
+                                    reserva.setApartamento(a);
+                                    BaseDeDatos.anyadirApartamento(reserva);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No has iniciado sesión. Por favor, inicia sesión.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                                }
+                            }
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 });
 
                 return button;
@@ -550,6 +553,7 @@ public class VentanaResultados extends JFrame {
             return null;
         };
     }
+
     //
    
     TableCellRenderer imageRenderer = (table, value, isSelected, hasFocus, row, column) -> {

@@ -24,6 +24,7 @@ import com.sun.tools.javac.Main;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
+import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
 
 public abstract class VentanaReserva extends JDialog {
 	
@@ -35,7 +36,7 @@ public abstract class VentanaReserva extends JDialog {
 
 	public VentanaReserva() {
 		
-		
+		try {
 		setTitle("Reserva de estancia");
 		setSize(800,400);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -44,10 +45,13 @@ public abstract class VentanaReserva extends JDialog {
 		JPanel pHotelInfo = new JPanel(new BorderLayout());
 		Font nuevaFuente = new Font("Arial", Font.ROMAN_BASELINE, 17);
 		JLabel labelReser = new JLabel("Desea reservar esta estancia?", SwingConstants.CENTER);
+		JLabel labelFechas = new JLabel("Sus fechas son:"+ Logica.fechaIni.toString() + "-"+ Logica.fechaFin.toString()+ "", SwingConstants.CENTER);
         JLabel hotelInfoLabel = new JLabel("");
         hotelInfoLabel.setFont(nuevaFuente);
         labelReser.setFont(nuevaFuente);
-        pHotelInfo.add(hotelInfoLabel, BorderLayout.NORTH);
+        pHotelInfo.add(labelReser, BorderLayout.NORTH);
+        pHotelInfo.add(labelFechas, BorderLayout.CENTER);
+        pHotelInfo.add(hotelInfoLabel, BorderLayout.SOUTH);
    
         JPanel pHotelFoto = new JPanel(new BorderLayout());
         ImageIcon hotelImage = new ImageIcon("");
@@ -102,7 +106,11 @@ public abstract class VentanaReserva extends JDialog {
 			
 		});
 		
-		
+		 } catch (Exception ex) {
+	            ex.printStackTrace();
+	            JOptionPane.showMessageDialog(null, "Error en la ventana de reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+	            // You might want to handle the exception in a way appropriate for your application
+	        }
 		
 	}
 	

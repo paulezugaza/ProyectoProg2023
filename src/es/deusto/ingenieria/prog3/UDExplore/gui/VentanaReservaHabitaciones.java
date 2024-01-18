@@ -4,11 +4,12 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
@@ -49,22 +50,22 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         pInfo.add(labelPrecioPorNoche);
         
         add(pInfo, BorderLayout.NORTH);
-//        for (Estancia est : Logica.estanciasHistoricas) {
-//            if (est instanceof Hotel) {
-//                Hotel hotel = (Hotel) est;
-//                for (Habitacion h : hotel.getHabitaciones()) {
-//                    if (h.equals(habitacion)) {
-//                        esteHotel = hotel;
-//                        labelHotel.setText("Hotel: " + esteHotel.getNombre());
-//                        labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
-//                        labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
-//                        labelPrecioPorNoche.setText("Precio por Noche: " + habitacion.getPrecioPorNoche() + "�");
-//                        break; 
-//                    }
-//                }
-//            }
-//        }
+        List<Hotel> hoteles = new ArrayList<>();
+        hoteles = BaseDeDatos.cargarHoteles();
+        for (Hotel hotel : hoteles) {
+    	   			for (Habitacion h : hotel.getHabitaciones()) {
+    	   					if (h.equals(habitacion)) {
+    	   						esteHotel = hotel;
+    	   						labelHotel.setText("Hotel: " + esteHotel.getNombre());
+    	   						labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
+    	   						labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
+    	   						labelPrecioPorNoche.setText("Precio por Noche: " + habitacion.getPrecioPorNoche() + "�");
+    	   					break; 
+                    }
+    	   		}          
+    	   	}
 
+    	   		
 
         bConfirmarDatos.addActionListener(new ActionListener() {
             @Override

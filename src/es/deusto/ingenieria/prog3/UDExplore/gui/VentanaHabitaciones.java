@@ -16,6 +16,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
@@ -136,22 +139,27 @@ public class VentanaHabitaciones extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    System.out.println("Boton clickado");
                     int col = tablaHabitaciones.getSelectedColumn();
                     int filaSeleccionada = tablaHabitaciones.getSelectedRow();
 
-                    if (filaSeleccionada != -1 && col == 4) { 
+                    if (filaSeleccionada != -1 && col == 4) {
                         Habitacion habitacionSeleccionada = habitaciones.get(filaSeleccionada);
-         
-                        if (Logica.usuario != null) {
-                            
-                            if (inicio == null || fin == null) {
-                            
-                                JOptionPane.showMessageDialog(null, "No has seleccionado fechas. Por favor, selecciónalas antes de hacer una reserva.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
+                        if (Logica.usuario != null) {
+                            if (Logica.fechaIni == null || Logica.fechaFin == null) {
+                            	JOptionPane.showMessageDialog(null, "No has seleccionado fechas. Por favor, selecciónalas antes de hacer una reserva.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+                            	// Agregar un WindowListener al JOptionPane para detectar el cierre
+                            	WindowListener windowListener = new WindowAdapter() {
+                            	    @Override
+                            	    public void windowClosed(WindowEvent e) {
+                            	        // Abrir la ventana SeleccionFechas después del cierre del JOptionPane
+                            	        SwingUtilities.invokeLater(() -> new SeleccionFechas());
+                            	    }
+                            	};
+                            	JOptionPane.getRootFrame().addWindowListener(windowListener);
 
                             } else {
-                               
                                 ReservaHotel reserva = new ReservaHotel(inicio, fin, (Cliente) Logica.usuario);
                                 reserva.setHabitacion(habitacionSeleccionada);
                                 BaseDeDatos.anyadirHabitacion(reserva);
@@ -159,11 +167,12 @@ public class VentanaHabitaciones extends JFrame {
                                 new VentanaReservaHabitaciones(habitacionSeleccionada).setVisible(true);
                             }
                         } else {
-                        	  JOptionPane.showMessageDialog(null, "No has iniciado sesion. Por favor inicie sesion.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "No has iniciado sesión. Por favor, inicia sesión.", "Advertencia", JOptionPane.WARNING_MESSAGE);
                         }
                     }
                 }
             }
+
         });
 
 
