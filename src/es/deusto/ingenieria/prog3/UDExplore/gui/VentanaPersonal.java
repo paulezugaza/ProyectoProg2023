@@ -20,7 +20,10 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
+import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 
 public class VentanaPersonal extends JFrame {
@@ -30,8 +33,7 @@ public class VentanaPersonal extends JFrame {
 
     public VentanaPersonal(Cliente cliente, HashMap<Cliente, Reserva> hashMap) {
         this.setCliente(cliente);
-        cargarReservas(cliente.getCodigoUsuario());
-
+      
         setTitle("Ventana Personal del Cliente");
         int anchoP = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode()
 				.getWidth();
@@ -75,7 +77,7 @@ public class VentanaPersonal extends JFrame {
         misReservasLabel.setFont(new Font("Serif", Font.BOLD, 16));
         panelReservas.add(misReservasLabel, BorderLayout.NORTH);
 
-        String[] columnas = {"Número de Reserva", "Fecha de Inicio", "Fecha de Fin", "Nombre Estancia", "Ciudad", "Tarifa Noche", "Categoría"};
+        String[] columnas = {"Número de Reserva", "Fecha de Inicio", "Fecha de Fin", "Nombre Estancia", "Ciudad"};
         tableModel = new DefaultTableModel(columnas, 0);
         JTable reservasTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(reservasTable);
@@ -88,29 +90,37 @@ public class VentanaPersonal extends JFrame {
         add(panelSuperior, BorderLayout.NORTH);
 
         pack();
+        cargarReservas(cliente.getCodigoUsuario());
+
         setVisible(true);
     }
     private void cargarReservas(int idCliente) {
-       
         tableModel.setRowCount(0);
 
-       
-        List<Reserva> reservas = BaseDeDatos.cargarReservasPorUsuario(idCliente);
+        List<ReservaConEstancia> reservasConEstancia = BaseDeDatos.cargarReservasPorUsuario(idCliente);
 
-      
-        if (reservas != null && !reservas.isEmpty()) {
-         
-            for (Reserva reserva : reservas) {
+        if (reservasConEstancia != null && !reservasConEstancia.isEmpty()) {
+            for (ReservaConEstancia reservaConEstancia : reservasConEstancia) {
+                Reserva reserva = reservaConEstancia.getReserva();
+                Estancia estancia = reservaConEstancia.getEstancia();
+                if (estancia instanceof Hotel) {
+                	
+                	
+                }
+
                 Object[] rowData = {
                         reserva.getNumeroReserva(),
                         reserva.getFechaInicio(),
                         reserva.getFechaFin(),
+                        estancia.getNombre(), 
+                        estancia.getCiudad(), 
                        
                 };
                 tableModel.addRow(rowData);
             }
         }
     }
+
     
 
     public static void main(String[] args) {
