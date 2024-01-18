@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+
 import es.deusto.ingenieria.prog3.UDExplore.domain.Administrador;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.CadenaHotelera;
@@ -36,6 +38,8 @@ public class BaseDeDatos {
 	private static Logger logger = Logger.getLogger( "BaseDeDatos" );
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	public static HashMap<String,Usuario> users = new HashMap<String, Usuario>();
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+
 	
 	public static boolean abrirConexion( String nombreBD, boolean reiniciaBD ) {
 		try {
@@ -427,9 +431,11 @@ public class BaseDeDatos {
 	            }
 
 	            if (reserva != null) {
+	                System.out.println(numeroReserva + "\t" + DATE_FORMAT.format(new Date(fechaInicio)) + "\t" + DATE_FORMAT.format(new Date(fechaFin)) + "\t" + estancia.getNombre() + "\t" + estancia.getCiudad());
 	                reservasConEstancia.add(new ReservaConEstancia(reserva, estancia));
 	            }
 	        }
+
 	    } catch (SQLException e) {
 	        logger.log(Level.SEVERE, "Excepcion SQL", e);
 	    }
@@ -510,6 +516,26 @@ public class BaseDeDatos {
 
 	    return apartamentos;
 	}
+	
+	public static int contarHabitacionesHotel(int idHotel) {
+        try (Statement statement = conexion.createStatement()) {
+            String sent = "SELECT COUNT(*) AS total FROM Habitacion WHERE idHotel = " + idHotel + ";";
+            logger.log(Level.INFO, "Statement: " + sent);
+            ResultSet rs = statement.executeQuery(sent);
+
+            if (rs.next()) {
+                int totalHabitaciones = rs.getInt("total");
+                logger.log(Level.INFO, "El hotel con ID " + idHotel + " tiene " + totalHabitaciones + " habitaciones.");
+                return totalHabitaciones;
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Excepcion SQL", e);
+        }
+
+        return 0; 
+
+    }
+
 
 
 	

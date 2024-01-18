@@ -149,11 +149,11 @@ public class VentanaHabitaciones extends JFrame {
                             if (Logica.fechaIni == null || Logica.fechaFin == null) {
                             	JOptionPane.showMessageDialog(null, "No has seleccionado fechas. Por favor, selecciónalas antes de hacer una reserva.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 
-                            	// Agregar un WindowListener al JOptionPane para detectar el cierre
+                           
                             	WindowListener windowListener = new WindowAdapter() {
                             	    @Override
                             	    public void windowClosed(WindowEvent e) {
-                            	        // Abrir la ventana SeleccionFechas después del cierre del JOptionPane
+                            	       
                             	        SwingUtilities.invokeLater(() -> new SeleccionFechas());
                             	    }
                             	};
@@ -198,7 +198,7 @@ public class VentanaHabitaciones extends JFrame {
                     h.getNumero(),
                     h.getCapacidadMaxima(),
                     h.getPrecioPorNoche() + "€",
-                    h.getPrecioPorNoche() + "€", //cambiar al metodo de numero de noches por precio por noche
+                    h.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni, Logica.fechaFin) + "€", 
                     "Reservar"
             });
         });

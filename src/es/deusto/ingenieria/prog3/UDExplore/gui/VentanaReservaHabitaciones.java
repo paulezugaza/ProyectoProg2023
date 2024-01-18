@@ -36,6 +36,7 @@ public class VentanaReservaHabitaciones extends JFrame {
 		JButton bConfirmarDatos = new JButton("Confirmar operacion");
 		JPanel pInfo = new JPanel();
 		pBoton.setLayout(new FlowLayout(FlowLayout.CENTER));
+		setLocationRelativeTo(null);
 		pBoton.add(bCancelar);
 		pBoton.add(bConfirmarDatos);
 		
@@ -55,7 +56,6 @@ public class VentanaReservaHabitaciones extends JFrame {
  
     	   			
         Hotel esteHotel = BaseDeDatos.getHotelPorHabitacion(habitacion.getId());
-        esteHotel = esteHotel;
         labelHotel.setText("Hotel: " + esteHotel.getNombre());
         labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
         labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
@@ -74,27 +74,33 @@ public class VentanaReservaHabitaciones extends JFrame {
         bConfirmarDatos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+            	 if (Logica.fechaIni == null || Logica.fechaFin == null) {
+                     JOptionPane.showMessageDialog(null, "Por favor, seleccione las fechas de inicio y fin.", "Error", JOptionPane.ERROR_MESSAGE);
+                     return; 
+                 }else {
+                	 try {
                    
-                    int id = BaseDeDatos.anyadirReserva(Logica.fechaIni, Logica.fechaFin, Logica.usuario.getCodigoUsuario());
-                    habitacion.addReserva(new ReservaHotel(id, Logica.fechaIni, Logica.fechaFin,(Cliente) Logica.usuario));
-                   
-                    String mensaje = "¡Su reserva ha sido guardada con Exito!\n\n" +
-                            "Detalles de la estancia:\n" +
-                            "Hotel: " + BaseDeDatos.getHotelPorHabitacion(habitacion.getId()).getNombre() + "\n" +
-                            "Precio por noche: " + habitacion.getPrecioPorNoche() + "€\n";
-
-                   
-                    JOptionPane.showMessageDialog(null, mensaje, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
-
-                    
-                    dispose();
+	                    int id = BaseDeDatos.anyadirReserva(Logica.fechaIni, Logica.fechaFin, Logica.usuario.getCodigoUsuario());
+	                    habitacion.addReserva(new ReservaHotel(id, Logica.fechaIni, Logica.fechaFin,(Cliente) Logica.usuario));
+	                   
+	                    String mensaje = "¡Su reserva ha sido guardada con Exito!\n\n" +
+	                            "Detalles de la estancia:\n" +
+	                            "Hotel: " + BaseDeDatos.getHotelPorHabitacion(habitacion.getId()).getNombre() + "\n" +
+	                            "Precio total: " + habitacion.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni, Logica.fechaFin)+ "€\n";
+	                    
+	
+	                   
+	                    JOptionPane.showMessageDialog(null, mensaje, "Reserva Exitosa", JOptionPane.INFORMATION_MESSAGE);
+	
+	                    
+	                    dispose();
 
                 } catch (Exception ex) {
                    
                     ex.printStackTrace(); 
                     JOptionPane.showMessageDialog(null, "Error al realizar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
             }
         });
 

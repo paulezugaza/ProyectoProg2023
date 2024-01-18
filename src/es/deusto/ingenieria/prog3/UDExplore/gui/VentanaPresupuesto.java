@@ -119,11 +119,9 @@ public class VentanaPresupuesto extends JFrame {
 
         
 
-        // Tabla para mostrar resultados
         resultadosTable = new JTable();
+        
         JScrollPane scrollPane = new JScrollPane(resultadosTable);
-
-        // Añadir todo al contenido principal
         add(panelPrincipal, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
@@ -165,18 +163,20 @@ public class VentanaPresupuesto extends JFrame {
 
     
     private void mostrarResultadosEnTablaApartamentos(Map<Apartamento, Integer> opcionesApartamentos) {
-    	 DefaultTableModel model = (DefaultTableModel) resultadosTable.getModel();
-         model.setRowCount(0); 
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Nombre");
+        model.addColumn("Ciudad");
+        model.addColumn("Noches");
 
-         for (Apartamento a : opcionesApartamentos.keySet()) {
-          
-             String[] rowData = {a.getNombre(), a.getCiudad(),opcionesApartamentos.get(a).toString() };
-             model.addRow(rowData);
-         }
+        for (Apartamento a : opcionesApartamentos.keySet()) {
+            String[] rowData = {a.getNombre(), a.getCiudad(), opcionesApartamentos.get(a).toString()};
+            model.addRow(rowData);
+        }
 
-     
+        resultadosTable.setModel(model);
         JOptionPane.showMessageDialog(VentanaPresupuesto.this, "Resultados obtenidos");
     }
+
 
     public static void main(String[] args) {
         new VentanaPresupuesto();

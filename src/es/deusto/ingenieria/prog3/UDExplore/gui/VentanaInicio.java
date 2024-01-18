@@ -155,7 +155,8 @@ public class VentanaInicio extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (Logica.usuario != null && Logica.usuario instanceof Cliente) {
-						new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
+						VentanaPersonal vp = new VentanaPersonal((Cliente) Logica.usuario, new HashMap<Cliente, Reserva>());
+						vp.setVisible(true);
 					}
 					if (Logica.usuario == null) {
 						String mensaje = "Parece que no ha iniciado sesion.";
@@ -265,6 +266,8 @@ public class VentanaInicio extends JFrame {
 					Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
 							+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
 							+ ((String) jComboAnioSalida.getSelectedItem()));
+					Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
+					Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
 			
 
 					if (fin.before(inicio) || fin.equals(inicio)) {
@@ -296,9 +299,9 @@ public class VentanaInicio extends JFrame {
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-				Logica.obtenerFechaSeleccionadaIni(jComboDiaEntrada, jComboMesEntrada, jComboAnioEntrada);
-				Logica.obtenerFechaSeleccionadaFin(jComboDiaSalida, jComboMesSalida, jComboAnioSalida);
+				
 			}
+			
 
 		});
 
@@ -355,30 +358,32 @@ public class VentanaInicio extends JFrame {
 		contenedorCentral.add(pDestinosPopulares, BorderLayout.CENTER);
 
 		add(contenedorPrincipal, BorderLayout.NORTH);
-		add(contenedorCentral, BorderLayout.CENTER);JPanel contenedorInferior = new JPanel();
-        contenedorInferior.setLayout(new BorderLayout());
+		add(contenedorCentral, BorderLayout.CENTER);
+		
+		JPanel contenedorInferior = new JPanel();
+		contenedorInferior.setLayout(new BorderLayout());
 
-        JPanel pPresupuesto = new JPanel();
-        JLabel lPregunta = new JLabel("<html><div style='text-align: center;'>¿Tienes presupuesto? Nosotros te damos todas las opciones.</div></html>");
-        lPregunta.setFont(new Font("Serif", Font.PLAIN, 20));
-        JButton bPresupuesto = new JButton("<html><font color='blue'>Click aquí</font></html>");
-        bPresupuesto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new VentanaPresupuesto();
-                dispose();
-            }
-            
-        });
+		JPanel pPresupuesto = new JPanel();
+		JLabel lPregunta = new JLabel("<html><div style='text-align: center;'>¿Tienes presupuesto? Nosotros te damos todas las opciones.</div></html>");
+		lPregunta.setFont(new Font("Serif", Font.PLAIN, 20));
+		JButton bPresupuesto = new JButton("<html><font color='blue'>Click aquí</font></html>");
+		bPresupuesto.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        new VentanaPresupuesto();
+		        dispose();
+		    }
+		});
 
-        pPresupuesto.add(lPregunta, BorderLayout.NORTH);
-        pPresupuesto.add(bPresupuesto, BorderLayout.CENTER);
+		pPresupuesto.add(lPregunta, BorderLayout.NORTH);
+		pPresupuesto.add(bPresupuesto, BorderLayout.CENTER);
 
-        contenedorInferior.add(pPresupuesto, BorderLayout.SOUTH);
-        contenedorInferior.add(pDestinosPopulares, BorderLayout.CENTER);
+		contenedorInferior.add(pPresupuesto, BorderLayout.SOUTH);
+		contenedorInferior.add(pDestinosPopulares, BorderLayout.CENTER);
 
-        add(contenedorPrincipal, BorderLayout.NORTH);
-        add(contenedorInferior, BorderLayout.CENTER);
+		add(contenedorPrincipal, BorderLayout.NORTH);
+		add(contenedorInferior, BorderLayout.CENTER);
+
     
 	}
 
