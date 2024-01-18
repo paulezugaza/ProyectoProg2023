@@ -121,6 +121,46 @@ public class BaseDeDatos {
 			 logger.log(Level.SEVERE, "Excepcion SQL", e);
 		}
 	}
+	 public static List<Hotel> cargarHotelesEnLista() {
+	        List<Hotel> hoteles = new ArrayList<>();
+
+	        try (Statement statement = conexion.createStatement()) {
+	            String sent = "select * from Hotel;";
+	            logger.log(Level.INFO, "Statement: " + sent);
+	            ResultSet rs = statement.executeQuery(sent);
+
+	            while (rs.next()) {
+	                int id = rs.getInt("id");
+	                String nombre = rs.getString("nombre");
+	                String ciudad = rs.getString("ciudad");
+	                String foto = rs.getString("foto");
+	                Integer categoria = rs.getInt("categoria");
+	                Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
+
+	                Hotel h = new Hotel();
+	                h.setNombre(nombre);
+
+	                sent = "select * from CadenaHotelera WHERE id=" + "'" + idCadenaHotelera + "'" + ";";
+	                logger.log(Level.INFO, "Statement: " + sent);
+
+	                ResultSet rs2 = statement.executeQuery(sent);
+
+	                while (rs2.next()) {
+	                    int id2 = rs2.getInt("id");
+	                    nombre = rs2.getString("nombre");
+	                    CadenaHotelera ch = new CadenaHotelera(id2, nombre);
+	                    h.setCadenaHotelera(ch);
+	                }
+
+	                hoteles.add(h);
+	            }
+	        } catch (SQLException e) {
+	            logger.log(Level.SEVERE, "Excepcion SQL", e);
+	        }
+
+	        return hoteles;
+	    }
+	
 	public static void cargarUsuarios() {
 		try (Statement statement = conexion.createStatement()){
 			String sent = "select * from Cliente;";
@@ -317,6 +357,50 @@ public class BaseDeDatos {
 		        logger.log(Level.SEVERE, "Excepcion SQL", e);
 		        return null; 
 		    }
+	}
+	public static Hotel getHotelPorHabitacion(int habitacionId) {
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT Hotel.* FROM Hotel, Habitacion WHERE Hotel.id = Habitacion.idHotel AND Habitacion.id = " + habitacionId + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        if (rs.next()) {
+	            int id = rs.getInt("id");
+	            String nombre = rs.getString("nombre");
+	            String ciudad = rs.getString("ciudad");
+	            String foto = rs.getString("foto");
+	            Integer categoria = rs.getInt("categoria");
+	            Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
+
+	            CadenaHotelera cadenaHotelera = obtenerCadenaHoteleraPorId(idCadenaHotelera);
+
+	            Hotel hotel = new Hotel(id, nombre, ciudad, foto, categoria);
+	            hotel.setCadenaHotelera(cadenaHotelera);
+
+	            return hotel;
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return null;
+	}
+	private static CadenaHotelera obtenerCadenaHoteleraPorId(int cadenaHoteleraId) {
+	    try (Statement statement = conexion.createStatement()) {
+	        String sent = "SELECT * FROM CadenaHotelera WHERE id = " + cadenaHoteleraId + ";";
+	        logger.log(Level.INFO, "Statement: " + sent);
+	        ResultSet rs = statement.executeQuery(sent);
+
+	        if (rs.next()) {
+	            int id = rs.getInt("id");
+	            String nombre = rs.getString("nombre");
+	            return new CadenaHotelera(id, nombre);
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Excepcion SQL", e);
+	    }
+
+	    return null;
 	}
 	
 }

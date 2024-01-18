@@ -1,10 +1,12 @@
 package es.deusto.ingenieria.prog3.UDExplore.io;
 
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,7 +143,20 @@ public class Logica implements Serializable{
 		        return null;
 		    }
 		}
+
+
 		
+
+		 public static int calcularDiferenciaEnDias(Date fechaInicio, Date fechaFin) {
+		        long diffEnMillis = fechaFin.getTime() - fechaInicio.getTime();
+		        return (int) TimeUnit.DAYS.convert(diffEnMillis, TimeUnit.MILLISECONDS);
+		    }
+		 
+		  
+		
+
+
+
 		
 	
 	}

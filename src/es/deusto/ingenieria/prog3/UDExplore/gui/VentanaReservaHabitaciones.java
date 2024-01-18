@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,10 +13,8 @@ import javax.swing.JPanel;
 
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Cliente;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Habitacion;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
@@ -50,21 +49,21 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
         pInfo.add(labelPrecioPorNoche);
         
         add(pInfo, BorderLayout.NORTH);
-        List<Hotel> hoteles = new ArrayList<>();
-        hoteles = BaseDeDatos.cargarHoteles();
-        for (Hotel hotel : hoteles) {
-    	   			for (Habitacion h : hotel.getHabitaciones()) {
-    	   					if (h.equals(habitacion)) {
-    	   						esteHotel = hotel;
+      
+        List<Hotel> hoteles = BaseDeDatos.cargarHotelesEnLista();
+ 
+    	   			
+        			Hotel esteHotel = BaseDeDatos.getHotelPorHabitacion(habitacion.getId());
+    	   						esteHotel = esteHotel;
     	   						labelHotel.setText("Hotel: " + esteHotel.getNombre());
     	   						labelCiudad.setText("Ciudad: " + esteHotel.getCiudad());
     	   						labelNumeroHabitacion.setText("Numero de Habitacion: " + habitacion.getNumero());
-    	   						labelPrecioPorNoche.setText("Precio por Noche: " + habitacion.getPrecioPorNoche() + "�");
-    	   					break; 
-                    }
-    	   		}          
-    	   	}
-
+    	   						labelPrecioPorNoche.setText("Precio total: " + habitacion.getPrecioPorNoche()* Logica.calcularDiferenciaEnDias(Logica.fechaIni,Logica.fechaFin)  + "€");
+    	   					
+    
+    	   		          
+    	   
+    
     	   		
 
         bConfirmarDatos.addActionListener(new ActionListener() {
@@ -79,7 +78,7 @@ public class VentanaReservaHabitaciones extends VentanaReserva {
                    
                     String mensaje = "¡Su reserva ha sido guardada con Exito!\n\n" +
                             "Detalles de la estancia:\n" +
-                            "Hotel: " + esteHotel.getNombre() + "\n" +
+                            "Hotel: " + BaseDeDatos.getHotelPorHabitacion(habitacion.getId()).getNombre() + "\n" +
                             "Precio por noche: " + habitacion.getPrecioPorNoche() + "€\n";
 
                    
