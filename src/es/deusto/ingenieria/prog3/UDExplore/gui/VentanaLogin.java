@@ -88,14 +88,15 @@ public class VentanaLogin extends JFrame {
         });
         
         JButton btnRegistrarse = new JButton("Registrarse");
-        btnCerrar.addActionListener(new ActionListener() {
+        btnRegistrarse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	VentanaRegistro ventanaRegis = new VentanaRegistro();
+                VentanaRegistro ventanaRegis = new VentanaRegistro();
                 ventanaRegis.setVisible(true);
-                dispose();         
+                dispose();
             }
         });
+
         
         botonera.add(btnRegistrarse);
         botonera.add(btnCerrar);

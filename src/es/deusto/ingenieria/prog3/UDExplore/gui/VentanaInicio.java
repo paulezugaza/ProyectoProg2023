@@ -306,9 +306,7 @@ public class VentanaInicio extends JFrame {
 					Date fin = sdf.parse("" + ((String) jComboDiaSalida.getSelectedItem()) + "/"
 							+ (jComboMesSalida.getSelectedIndex() + 1) + "/"
 							+ ((String) jComboAnioSalida.getSelectedItem()));
-					System.out.println("Boton Buscar clicado.");
-					System.out.println(inicio);
-					System.out.println(fin);
+			
 
 					if (fin.before(inicio) || fin.equals(inicio)) {
 						JOptionPane.showMessageDialog(VentanaInicio.this,

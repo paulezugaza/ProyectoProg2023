@@ -40,7 +40,7 @@ public class VentanaRegistro extends JFrame{
         JTextField txtApellido = new JTextField();
         JLabel lblEmail = new JLabel("Email:");
         JTextField txtEmail = new JTextField();
-        JLabel lblContrasenya = new JLabel("Contraseña:"); 
+        JLabel lblContrasenya = new JLabel("Contraseï¿½a:"); 
         txtContrasenya = new JPasswordField();
         JLabel lblContrasenyaRep = new JLabel("Confrima tu contraseÃ±a:");
         txtContrasenyaRep = new JPasswordField();
@@ -65,22 +65,27 @@ public class VentanaRegistro extends JFrame{
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if(Logica.existeUsuario(txtEmail.getText())) {
-					JOptionPane.showMessageDialog(null, "ERROR: Ya existe una cuenta con ese email. Utilice otro");
-				}
-				if (!txtEmail.getText().equals("")  && !txtContrasenya.getText().equals("") ){
-					String er = "[a-zA-Z]{1,}.{0,}[a-zA-Z]{0,}@[a-zA-Z]{1,}.[a-z]{2,}";
-					String email = txtEmail.getText();
-					if(Pattern.matches(er, email)) {
-						Logica.crearUsuario(txtNombre.getText(), txtApellido.getText(), txtEmail.getText(), txtContrasenya.getText()); 
-						//aqui hay que añdir el codigo tanto arriba como abajo
-						new VentanaLogin();
-					}else
-						JOptionPane.showMessageDialog(null, "ERROR: El formato del email no es correcto");
-				}else JOptionPane.showMessageDialog(null, "ERROR: Rellene todos los campos");
-		
+                if (Logica.existeUsuario(txtEmail.getText())) {
+                    JOptionPane.showMessageDialog(null, "ERROR: Ya existe una cuenta con ese email. Utilice otro");
+                } else if (!txtEmail.getText().equals("") && !txtContrasenya.getText().equals("")) {
+                    String er = "[a-zA-Z]{1,}.{0,}[a-zA-Z]{0,}@[a-zA-Z]{1,}.[a-z]{2,}";
+                    String email = txtEmail.getText();
+                    if (Pattern.matches(er, email)) {
+                        Logica.crearUsuario(txtNombre.getText(), txtApellido.getText(), txtEmail.getText(), txtContrasenya.getText());
+                        // Cerrar la ventana de registro
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
+                        frame.dispose();
+                        // Crear y mostrar la ventana de inicio de sesiÃ³n
+                        new VentanaLogin();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "ERROR: El formato del email no es correcto");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "ERROR: Rellene todos los campos");
+                }
             }
         });
+
 
         JButton btnCerrar = new JButton("Cerrar");
         btnCerrar.addActionListener(new ActionListener() {
