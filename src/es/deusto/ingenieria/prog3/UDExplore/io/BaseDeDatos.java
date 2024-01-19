@@ -27,6 +27,7 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
+import es.deusto.ingenieria.prog3.UDExplore.domain.Reseña;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 
@@ -535,6 +536,25 @@ public class BaseDeDatos {
         return 0; 
 
     }
+	
+	public static void borrarReserva(int numeroReserva) {
+	    String sentencia = "DELETE FROM Reserva WHERE numeroReserva = " + numeroReserva + ";";
+
+	    try (Statement statement = conexion.createStatement()) {
+	        logger.log(Level.INFO, "Lanzada actualización a base de datos: " + sentencia);
+	        int filasAfectadas = statement.executeUpdate(sentencia);
+
+	        if (filasAfectadas > 0) {
+	            logger.log(Level.INFO, "Reserva con número " + numeroReserva + " borrada correctamente.");
+	        } else {
+	            logger.log(Level.WARNING, "No se encontró ninguna reserva con el número " + numeroReserva + ".");
+	        }
+	    } catch (SQLException e) {
+	        logger.log(Level.SEVERE, "Error en la operación de base de datos", e);
+	    }
+	}
+
+
 
 
 
