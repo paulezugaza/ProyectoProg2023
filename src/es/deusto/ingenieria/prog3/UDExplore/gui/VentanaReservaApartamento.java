@@ -76,6 +76,15 @@ public class VentanaReservaApartamento extends JFrame {
     		}
     		
     	});
+        bCancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+        	
+        });
     }
 
     private void inicializarVentana() {

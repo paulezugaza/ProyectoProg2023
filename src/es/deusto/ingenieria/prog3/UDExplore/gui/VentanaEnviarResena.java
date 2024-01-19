@@ -1,7 +1,12 @@
 package es.deusto.ingenieria.prog3.UDExplore.gui;
 
 import javax.swing.*;
-import java.awt.*;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -14,7 +19,8 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 
 public class VentanaEnviarResena extends JFrame {
-    private Cliente cliente;
+    private static final long serialVersionUID = 1L;
+	private Cliente cliente;
     private JComboBox<String> comboEstancias;
     private JTextField txtResena;
     private JButton enviarResenaButton;
@@ -23,16 +29,16 @@ public class VentanaEnviarResena extends JFrame {
     public VentanaEnviarResena(Cliente cliente) {
         this.cliente = cliente;
         setTitle("Envío de Reseñas");
-        setSize(800, 600);  // Ajusta el tamaño según tus preferencias
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panelPrincipal = new JPanel(new BorderLayout());
+        JPanel panelPrincipal = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        JPanel panelSuperior = new JPanel(new GridLayout(5, 2, 10, 10));
-        panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // Botón Volver en la esquina superior izquierda
         volverButton = new JButton("Volver");
         volverButton.addActionListener(new ActionListener() {
             @Override
@@ -40,27 +46,28 @@ public class VentanaEnviarResena extends JFrame {
                 dispose();
             }
         });
-        panelSuperior.add(volverButton, BorderLayout.NORTH);
+        panelPrincipal.add(volverButton, gbc);
 
-        panelSuperior.add(new JLabel("Enviar Reseña:", SwingConstants.LEFT));
+        gbc.gridy++;
+        panelPrincipal.add(new JLabel("Enviar Reseña:"), gbc);
 
-        panelSuperior.add(new JLabel()); // Espacio en blanco para separar el botón "Enviar" y "Estancia"
-
-        panelSuperior.add(new JLabel("Estancia:", SwingConstants.LEFT));
+        gbc.gridy++;
         comboEstancias = new JComboBox<>();
-        panelSuperior.add(comboEstancias);
+        panelPrincipal.add(comboEstancias, gbc);
 
-        panelSuperior.add(new JLabel("Reseña:", SwingConstants.LEFT));
+        gbc.gridy++;
+        panelPrincipal.add(new JLabel("Reseña:"), gbc);
 
+        gbc.gridy++;
         JPanel panelTextoResena = new JPanel(new BorderLayout());
         txtResena = new JTextField();
+        txtResena.setPreferredSize(new Dimension(300, 150)); 
         panelTextoResena.add(txtResena, BorderLayout.CENTER);
-        panelSuperior.add(panelTextoResena);
+        panelPrincipal.add(panelTextoResena, gbc);
 
-        JPanel panelEnviarResena = new JPanel(new BorderLayout());
+        gbc.gridy++;
         enviarResenaButton = new JButton("Enviar");
-        panelEnviarResena.add(enviarResenaButton, BorderLayout.EAST); // Botón Enviar a la derecha
-        panelSuperior.add(panelEnviarResena);
+        panelPrincipal.add(enviarResenaButton, gbc);
 
         enviarResenaButton.addActionListener(new ActionListener() {
             @Override
@@ -69,16 +76,9 @@ public class VentanaEnviarResena extends JFrame {
             }
         });
 
-       
-
-
-
-        panelPrincipal.add(panelSuperior, BorderLayout.CENTER);
-
-
         cargarEstancias();
 
-        add(panelPrincipal, BorderLayout.CENTER);
+        add(panelPrincipal);
 
         setVisible(true);
     }
@@ -95,7 +95,6 @@ public class VentanaEnviarResena extends JFrame {
         String reseña = txtResena.getText();
 
         if (nombreEstancia != null && !nombreEstancia.isEmpty()) {
-           
             guardarResenaEnFichero(nombreEstancia, reseña);
 
             txtResena.setText("");
@@ -107,10 +106,18 @@ public class VentanaEnviarResena extends JFrame {
     }
 
     private void guardarResenaEnFichero(String nombreEstancia, String reseña) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Resources/data/resenas.txt", true))) {
-            writer.write("Estancia: " + nombreEstancia + "\n" + "Reseña: " + reseña + "\n\n");
+        String rutaArchivo = "Resources/data/resenas.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaArchivo, true))) {
+            writer.write(cliente.getNombreUsuario() + "," + nombreEstancia + "," + reseña + "\n");
+            System.out.println("Reseña guardada en: " + rutaArchivo);
         } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
             e.printStackTrace();
         }
-    }
+    
+
+ 
+}
+
+
 }
