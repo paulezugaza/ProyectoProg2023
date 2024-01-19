@@ -1,7 +1,6 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class ReservaConEstancia {
     private Reserva reserva;

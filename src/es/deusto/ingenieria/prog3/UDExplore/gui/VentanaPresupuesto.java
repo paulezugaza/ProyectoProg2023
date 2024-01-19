@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.Map; 
 
 public class VentanaPresupuesto extends JFrame {
-    private JTextField presupuestoTextField;
+    private static final long serialVersionUID = 2615414650016869428L;
+	private JTextField presupuestoTextField;
     private JCheckBox hotelCheckBox;
     private JCheckBox apartamentoCheckBox;
     private JButton buscarButton;

@@ -1,7 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class Reserva {

@@ -1,7 +1,7 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.util.Date;
-import java.util.List;
+
 
 public class ReservaHotel extends Reserva{
 

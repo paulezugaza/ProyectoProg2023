@@ -1,8 +1,5 @@
 package es.deusto.ingenieria.prog3.UDExplore.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CadenaHotelera {
 	
 	private int id;

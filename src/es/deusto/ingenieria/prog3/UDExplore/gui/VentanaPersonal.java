@@ -10,11 +10,8 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,9 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,14 +29,13 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Estancia;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reseña;
 import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
 
 public class VentanaPersonal extends JFrame {
     private static final long serialVersionUID = 1L;
     private Cliente cliente;
     private DefaultTableModel tableModel;
-    private DefaultTableModel resenasTableModel;
+ 
 
     public VentanaPersonal(Cliente cliente, HashMap<Cliente, Reserva> hashMap) {
         this.setCliente(cliente);
@@ -101,7 +95,6 @@ public class VentanaPersonal extends JFrame {
         panelSuperior.add(panelReservas, BorderLayout.SOUTH);
 
         add(panelSuperior, BorderLayout.NORTH);
-        JComboBox<String> comboEstancias = new JComboBox<>();
         JButton enviarResenaButton = new JButton("Enviar Reseña");
 
         JPanel panelResenas = new JPanel(new BorderLayout());
@@ -210,7 +203,7 @@ public class VentanaPersonal extends JFrame {
        List<ReservaConEstancia> reservasConEstancia = BaseDeDatos.cargarReservasPorUsuario(idCliente);
        
        if (reservasConEstancia != null && !reservasConEstancia.isEmpty()) {
-           SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+           
            
 
         if (reservasConEstancia != null && !reservasConEstancia.isEmpty()) {

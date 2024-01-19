@@ -61,8 +61,6 @@ public class VentanaInicio extends JFrame {
 
 	private List<Estancia> estanciasDisponibles = new ArrayList<>();
 
-	private Estancia estancia;
-
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public ArrayList<Object> getEstancias() {

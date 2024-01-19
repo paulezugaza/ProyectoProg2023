@@ -14,9 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import es.deusto.ingenieria.prog3.UDExplore.domain.Apartamento;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
-import es.deusto.ingenieria.prog3.UDExplore.io.BaseDeDatos;
-import es.deusto.ingenieria.prog3.UDExplore.io.Logica;
+
 
 public class VentanaReservaApartamento extends JFrame {
 
@@ -26,7 +24,7 @@ public class VentanaReservaApartamento extends JFrame {
 
     public VentanaReservaApartamento(Apartamento apartamento) {
         super();
-        this.apartamento = apartamento;
+        this.setApartamento(apartamento);
         inicializarVentana();
         this.setSize(500, 200);
         setLocationRelativeTo(null);
@@ -92,6 +90,14 @@ public class VentanaReservaApartamento extends JFrame {
         setTitle("Reserva de apartamento");
        
     }
+
+	public Apartamento getApartamento() {
+		return apartamento;
+	}
+
+	public void setApartamento(Apartamento apartamento) {
+		this.apartamento = apartamento;
+	}
 
 }
 

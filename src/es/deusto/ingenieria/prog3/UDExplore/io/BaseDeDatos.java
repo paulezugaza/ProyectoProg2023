@@ -27,7 +27,6 @@ import es.deusto.ingenieria.prog3.UDExplore.domain.Hotel;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Reserva;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaApartamento;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaHotel;
-import es.deusto.ingenieria.prog3.UDExplore.domain.Reseña;
 import es.deusto.ingenieria.prog3.UDExplore.domain.Usuario;
 import es.deusto.ingenieria.prog3.UDExplore.domain.ReservaConEstancia;
 
@@ -111,7 +110,7 @@ public class BaseDeDatos {
 				Integer categoria = rs.getInt("categoria");
 				Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
 
-				Hotel h = new Hotel() ;
+				Hotel h = new Hotel(id, nombre, ciudad, foto, categoria);
 				h.setNombre(nombre);
 				//CadenaHotelera(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre varchar(10)
 				sent = "select * from CadenaHotelera WHERE id="+"'"+idCadenaHotelera+"'"+";";
@@ -474,22 +473,6 @@ public class BaseDeDatos {
 	    return null;
 	}
 
-	private static Habitacion obtenerHabitacionPorId(int idHabitacion) {
-	    try (Statement statement = conexion.createStatement()) {
-	        String sent = "SELECT * FROM Habitacion WHERE id = " + idHabitacion + ";";
-	        logger.log(Level.INFO, "Statement: " + sent);
-	        ResultSet rs = statement.executeQuery(sent);
-
-	        if (rs.next()) {
-	            // Crear y devolver el objeto Habitacion con los detalles obtenidos de la base de datos
-	            return new Habitacion(rs.getInt("id"), rs.getInt("numHabitacion"), rs.getInt("capacidad"), rs.getDouble("precioPorNoche"));
-	        }
-	    } catch (SQLException e) {
-	        logger.log(Level.SEVERE, "Excepcion SQL", e);
-	    }
-
-	    return null;
-	}
 	private static Cliente obtenerClientePorId(int idCliente) {
 	    try (Statement statement = conexion.createStatement()) {
 	        String sent = "SELECT * FROM Cliente WHERE id = " + idCliente + ";";

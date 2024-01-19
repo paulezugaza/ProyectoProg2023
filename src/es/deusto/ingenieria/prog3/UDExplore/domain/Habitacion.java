@@ -2,7 +2,6 @@ package es.deusto.ingenieria.prog3.UDExplore.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Habitacion implements Serializable{

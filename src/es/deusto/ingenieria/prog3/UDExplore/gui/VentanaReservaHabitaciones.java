@@ -3,9 +3,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,7 +25,7 @@ public class VentanaReservaHabitaciones extends JFrame {
 
     public VentanaReservaHabitaciones(Habitacion habitacion) {
         super();
-        this.habitacion = habitacion;
+        this.setHabitacion(habitacion);
         inicializarVentana();
         this.setSize(500, 200);
         JPanel pBoton = new JPanel();
@@ -111,5 +108,21 @@ public class VentanaReservaHabitaciones extends JFrame {
         setTitle("Reserva de habitación");
        
     }
+
+	public Hotel getEsteHotel() {
+		return esteHotel;
+	}
+
+	public void setEsteHotel(Hotel esteHotel) {
+		this.esteHotel = esteHotel;
+	}
+
+	public Habitacion getHabitacion() {
+		return habitacion;
+	}
+
+	public void setHabitacion(Habitacion habitacion) {
+		this.habitacion = habitacion;
+	}
 
 }

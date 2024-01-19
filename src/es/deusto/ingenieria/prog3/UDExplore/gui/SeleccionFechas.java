@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -127,7 +126,8 @@ public class SeleccionFechas {
 
     private static class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
 
-        private final String datePattern = "yyyy-MM-dd";
+        private static final long serialVersionUID = 1L;
+		private final String datePattern = "yyyy-MM-dd";
         private final SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
         @Override
