@@ -288,8 +288,7 @@ public class VentanaInicio extends JFrame {
 							jLabelInfo.setText("No hay estancias disponibles para estas fechas en este destino.");
 
 						} else {
-							jLabelInfo.setText(
-									"Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
+							jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
 
 							VentanaResultados ventanaResultados = new VentanaResultados(estanciasDisponibles);
 							ventanaResultados.setVisible(true);

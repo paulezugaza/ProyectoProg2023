@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -107,12 +109,12 @@ public class VentanaResultados extends JFrame {
 
 		});
 
-		JPanel pCombo = new JPanel();
-		JComboBox<String> comboBoxOrden = new JComboBox<>();
-		comboBoxOrden.addItem("Ordenar por:");
-		comboBoxOrden.addItem("De menor precio a mayor");
-		comboBoxOrden.addItem("De mayor precio a menor");
-		comboBoxOrden.addItem("De mejor puntuacion a peor");
+//		JPanel pCombo = new JPanel();
+//		JComboBox<String> comboBoxOrden = new JComboBox<>();
+//		comboBoxOrden.addItem("Ordenar por:");
+//		comboBoxOrden.addItem("De menor precio a mayor");
+//		comboBoxOrden.addItem("De mayor precio a menor");
+//		comboBoxOrden.addItem("De mejor puntuacion a peor");
 
 //        comboBoxOrden.addActionListener( e -> {
 //        	String seleccionado = comboBoxOrden.getSelectedItem().toString();
@@ -128,7 +130,8 @@ public class VentanaResultados extends JFrame {
 //        
 //
 //        });
-		pCombo.add(comboBoxOrden);
+		
+//		pCombo.add(comboBoxOrden);
 
 		JPanel panelBotones = new JPanel();
 		panelBotones.add(btnVolverInicio);
@@ -292,10 +295,14 @@ public class VentanaResultados extends JFrame {
 		boolean alMenosUnaEstrellaSeleccionada = unaEstrella.isSelected() || dosEstrellas.isSelected()
 				|| tresEstrellas.isSelected() || cuatroEstrellas.isSelected() || cincoEstrellas.isSelected();
 
-		bBuscar.addActionListener(e -> {
+		bBuscar.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			
 			try {
-
+				Date hoy = new Date();
 				Date inicio = sdf.parse("" + ((String) jComboDiaEntrada.getSelectedItem()) + "/"
 						+ (jComboMesEntrada.getSelectedIndex() + 1) + "/"
 						+ ((String) jComboAnioEntrada.getSelectedItem()));
@@ -307,7 +314,13 @@ public class VentanaResultados extends JFrame {
 		
 
 				if (fin.before(inicio)) {
-
+					JOptionPane.showMessageDialog(VentanaResultados.this,
+							"Error: La fecha de salida no puede ser anterior o igual a la fecha de entrada.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				} else if (inicio.before(hoy)) {
+					JOptionPane.showMessageDialog(VentanaResultados.this,
+							"Error: La fecha de entrada no puede ser anterior a la fecha actual. La entrada también tiene que ser a partir de mañana.",
+							"Error", JOptionPane.ERROR_MESSAGE);
 				} else {
 
 //                    List<Estancia> estanciasDisponibles = BaseDeDatos.buscarEstancia((String) jComboDestino.getSelectedItem(), inicio.getTime(), fin.getTime());
@@ -332,10 +345,14 @@ public class VentanaResultados extends JFrame {
 						}
 
 					});
+					
+					jLabelInfo.setText("Realizando busqueda...");
 
-					if (estanciasDisponibles.isEmpty()) {
-						jLabelInfo.setText(
-								"No hay estancias disponibles para estas fechas y categorias en este destino.");
+					estanciasDisponibles = BaseDeDatos.buscarEstancia((String) jComboDestino.getSelectedItem(),
+							inicio.getTime(), fin.getTime());
+
+					if (estanciasDisponibles == null || estanciasDisponibles.isEmpty()) {
+						jLabelInfo.setText("No hay estancias disponibles para estas fechas y categorias en este destino.");
 						modeloDatosResultados.setRowCount(0);
 					} else {
 						jLabelInfo.setText("Se encontraron " + estanciasDisponibles.size() + " estancias disponibles.");
@@ -348,7 +365,7 @@ public class VentanaResultados extends JFrame {
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
-		
+			}
 		});
 
 		ItemListener checkboxListener = e -> cargarEstanciasPorCategoria();
@@ -369,7 +386,7 @@ public class VentanaResultados extends JFrame {
 		panelPrincipal.add(pSearch);
 		panelPrincipal.add(pPorTipoAloj);
 		panelPrincipal.add(pCategorias);
-		panelPrincipal.add(pCombo);
+//		panelPrincipal.add(pCombo);
 		panelPrincipal.add(scrollPaneEstancias);
 
 		add(panelPrincipal);
