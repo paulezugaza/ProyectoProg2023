@@ -128,48 +128,63 @@ public class BaseDeDatos {
 			 logger.log(Level.SEVERE, "Excepcion SQL", e);
 		}
 	}
-	public static List<Hotel> cargarHotelesEnLista() {
-	    List<Hotel> hoteles = new ArrayList<>();
 
-	    try (Statement statement = conexion.createStatement()) {
-	        String sent = "SELECT * FROM Hotel;";
-	        logger.log(Level.INFO, "Statement: " + sent);
-	        ResultSet rs = statement.executeQuery(sent);
+		public static List<Hotel> cargarHotelesEnLista() {
+		    List<Hotel> hoteles = new ArrayList<>();
 
-	        while (rs.next()) {
-	            int id = rs.getInt("id");
-	            String nombre = rs.getString("nombre");
-	            String ciudad = rs.getString("ciudad");
-	            String foto = rs.getString("foto");
-	            Integer categoria = rs.getInt("categoria");
-	            Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
+		    try (Statement statement = conexion.createStatement()) {
+		        String sent = "SELECT * FROM Hotel;";
+		        logger.log(Level.INFO, "Statement: " + sent);
+		        ResultSet rs = statement.executeQuery(sent);
 
-	            Hotel h = new Hotel();
-	            h.setId(id);
-	            h.setNombre(nombre);
-	            h.setCiudad(ciudad);
-	            h.setFoto(foto);
-	            h.setCategoria(categoria);
+		        while (rs.next()) {
+		            int id = rs.getInt("id");
+		            String nombre = rs.getString("nombre");
+		            String ciudad = rs.getString("ciudad");
+		            String foto = rs.getString("foto");
+		            Integer categoria = rs.getInt("categoria");
+		            Integer idCadenaHotelera = rs.getInt("idCadenaHotelera");
 
-	            // Cargar la cadena hotelera asociada
-	            String sent2 = "SELECT * FROM CadenaHotelera WHERE id = " + idCadenaHotelera + ";";
-	            logger.log(Level.INFO, "Statement: " + sent2);
-	            ResultSet rs2 = statement.executeQuery(sent2);
-	            if (rs2.next()) {
-	                int idCadena = rs2.getInt("id");
-	                String nombreCadena = rs2.getString("nombre");
-	                CadenaHotelera ch = new CadenaHotelera(idCadena, nombreCadena);
-	                h.setCadenaHotelera(ch);
-	            }
+		            CadenaHotelera cadenaHotelera = obtenerCadenaHoteleraPorId(idCadenaHotelera);
 
-	            hoteles.add(h);
-	        }
-	    } catch (SQLException e) {
-	        logger.log(Level.SEVERE, "Excepcion SQL", e);
-	    }
+		            // Buscar si ya existe un hotel con el mismo ID en la lista
+		            Hotel existingHotel = buscarHotelPorId(hoteles, id);
 
-	    return hoteles;
-	}
+		            // Si existe, actualizar sus datos; si no, crear uno nuevo y agregarlo a la lista
+		            if (existingHotel != null) {
+		                existingHotel.setNombre(nombre);
+		                existingHotel.setCiudad(ciudad);
+		                existingHotel.setFoto(foto);
+		                existingHotel.setCategoria(categoria);
+		                existingHotel.setCadenaHotelera(cadenaHotelera);
+		            } else {
+		                Hotel hotel = new Hotel();
+		                hotel.setId(id);
+		                hotel.setNombre(nombre);
+		                hotel.setCiudad(ciudad);
+		                hotel.setFoto(foto);
+		                hotel.setCategoria(categoria);
+		                hotel.setCadenaHotelera(cadenaHotelera);
+
+		                hoteles.add(hotel);
+		            }
+		        }
+		    } catch (SQLException e) {
+		        logger.log(Level.SEVERE, "Excepcion SQL", e);
+		    }
+
+		    return hoteles;
+		}
+
+		private static Hotel buscarHotelPorId(List<Hotel> hoteles, int id) {
+		    for (Hotel hotel : hoteles) {
+		        if (hotel.getId() == id) {
+		            return hotel;
+		        }
+		    }
+		    return null;
+		}
+
 
 
 
